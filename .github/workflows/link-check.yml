@@ -17,16 +17,20 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Cache npm
+      - name: Cache npm and node_modules
         uses: actions/cache@v4
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-
 
-      - name: Install markdown-link-check
-        run: npm install -g markdown-link-check@3.10.3
+      - name: Install dependencies (local)
+        run: |
+          # install dev deps locally; prefer offline to leverage cache
+          npm install --prefer-offline --no-audit --progress=false
 
       - name: Run markdown link check
         run: |
@@ -39,7 +43,7 @@ jobs:
           else
             for f in "${files[@]}"; do
               echo "Checking $f"
-              markdown-link-check -q -c .mlc.json "$f" || (echo "Broken link(s) found in $f" && exit 1)
+              npx markdown-link-check -q -c .mlc.json "$f" || (echo "Broken link(s) found in $f" && exit 1)
             done
           fi
           echo "::endgroup::"

@@ -1,0 +1,11 @@
+{
+  "name": "see_pdfeditor-docs-ci",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "markdown-link-check": "3.10.3"
+  },
+  "scripts": {
+    "link-check": "markdown-link-check -c .mlc.json"
+  }
+}
