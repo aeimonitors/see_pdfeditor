@@ -39,6 +39,16 @@ jobs:
             echo "Cache not found — this run will populate the npm cache."
           fi
 
+      - name: Show Node / npm / npx / markdown-link-check versions
+        run: |
+          echo "--- Tool versions ---"
+          node --version || true
+          npm --version || true
+          npx --version || true
+          echo "--- markdown-link-check version (via npx) ---"
+          # Try to print the installed markdown-link-check version; tolerate failure
+          npx markdown-link-check --version || true
+
       - name: Install dependencies (local, deterministic)
         run: |
           # Use npm ci for deterministic installs (requires package-lock.json)
