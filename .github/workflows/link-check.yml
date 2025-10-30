@@ -23,14 +23,16 @@ jobs:
           path: |
             ~/.npm
             node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package.json') }}
+          # Key on package-lock.json for deterministic installs
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
+            ${{ runner.os }}-node-20-
             ${{ runner.os }}-node-
 
-      - name: Install dependencies (local)
+      - name: Install dependencies (local, deterministic)
         run: |
-          # install dev deps locally; prefer offline to leverage cache
-          npm install --prefer-offline --no-audit --progress=false
+          # Use npm ci for deterministic installs (requires package-lock.json)
+          npm ci --prefer-offline --no-audit --progress=false
 
       - name: Run markdown link check
         run: |
