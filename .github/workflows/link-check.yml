@@ -18,6 +18,7 @@ jobs:
           node-version: '20'
 
       - name: Cache npm and node_modules
+        id: cache-npm
         uses: actions/cache@v4
         with:
           path: |
@@ -28,6 +29,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-20-
             ${{ runner.os }}-node-
+
+      - name: Show npm cache status
+        run: |
+          echo "NPM cache hit: ${{ steps.cache-npm.outputs.cache-hit }}"
+          if [ "${{ steps.cache-npm.outputs.cache-hit }}" = 'true' ]; then
+            echo "Cache restored — node_modules / npm cache available."
+          else
+            echo "Cache not found — this run will populate the npm cache."
+          fi
 
       - name: Install dependencies (local, deterministic)
         run: |
