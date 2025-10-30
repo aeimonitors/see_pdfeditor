@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="160" height="40" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="see pdf editor logo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="40" rx="6" fill="#0f172a" />
+  <g transform="translate(8,6)">
+    <rect x="0" y="0" width="28" height="28" rx="4" fill="url(#g)" />
+    <g transform="translate(6,4)" fill="#fff" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="10">
+      <text x="0" y="7">PDF</text>
+    </g>
+    <text x="40" y="19" fill="#fff" font-family="Segoe UI, Roboto, Arial, sans-serif" font-weight="600" font-size="14">see_pdfeditor</text>
+  </g>
+</svg>
