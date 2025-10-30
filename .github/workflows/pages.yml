@@ -20,6 +20,17 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          # Cache pip's cache directory (wheels, downloaded packages)
+          path: ~/.cache/pip
+          # Key on requirements.txt and runner OS; include python version from setup-python via runner.tool_cache if needed
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-3-
+            ${{ runner.os }}-pip-
+
       - name: Install MkDocs and pinned dependencies
         run: |
           python -m pip install --upgrade pip
