@@ -1,0 +1,11 @@
+:root{font-family:Segoe UI, Roboto, Arial, sans-serif}
+body{margin:20px;color:#111}
+header h1{margin:0 0 6px}
+.controls{margin:12px 0}
+.layout{display:flex;gap:12px}
+.thumbnails{width:200px;border:1px solid #ddd;padding:8px;height:80vh;overflow:auto;background:#fafafa}
+.thumb{border:1px solid #ccc;margin:6px;padding:4px;background:#fff;cursor:grab}
+.thumb.dragging{opacity:0.5}
+.viewer{flex:1;border:1px solid #ddd;padding:8px;height:80vh;overflow:auto;background:#fff}
+.page-canvas{display:block;margin:12px auto;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.controls input{margin-right:8px}
