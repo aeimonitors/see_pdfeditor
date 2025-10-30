@@ -1,0 +1,24 @@
+name: Spellcheck (cspell)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  cspell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run cspell (Code Spell Checker)
+        uses: streetsidesoftware/cspell-action@v2
+        with:
+          # cspell will automatically find files, but limit scope to docs and markdown files
+          # `--config` is passed internally by the action when `config` is provided
+          config: .cspell.json
+          # Provide patterns to include only our docs and top-level markdown
+          files: "docs/**/*.md,*.md"
+          # Fail the job on any errors
+          wordsOnly: false

@@ -1,0 +1,11 @@
+{
+  "ignorePatterns": [
+    "http://localhost*",
+    "https://127.0.0.1*",
+    "https://example.com*"
+  ],
+  "retryOptions": {
+    "retries": 1,
+    "retryTimeout": 2000
+  }
+}

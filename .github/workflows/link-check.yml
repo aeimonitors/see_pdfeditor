@@ -1,0 +1,37 @@
+name: Link Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check@3.10.3
+
+      - name: Run markdown link check
+        run: |
+          set -e
+          echo "::group::Checking links in Markdown files"
+          # Find markdown files to check (docs/ and top-level README)
+          mapfile -t files < <(git ls-files "docs/**/*.md" "*.md" | tr '\r' '\n')
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No markdown files found to check"
+          else
+            for f in "${files[@]}"; do
+              echo "Checking $f"
+              markdown-link-check -q -c .mlc.json "$f" || (echo "Broken link(s) found in $f" && exit 1)
+            done
+          fi
+          echo "::endgroup::"

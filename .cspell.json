@@ -1,0 +1,21 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    "site/**",
+    "node_modules/**",
+    "prototype/**"
+  ],
+  "words": [
+    "see_pdfeditor",
+    "aeimonitors",
+    "mkdocs",
+    "gh-pages",
+    "mkdocs-material",
+    "prebuild_index",
+    "pdfjs",
+    "pdf-lib",
+    "cspell",
+    "mkdocs.yml"
+  ]
+}
