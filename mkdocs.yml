@@ -1,0 +1,22 @@
+site_name: see_pdfeditor Docs
+site_description: Documentation for the PDF Editor MVP and prototype
+site_dir: site
+docs_dir: docs
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  features:
+    - navigation.instant
+
+plugins:
+  - search:
+      lang: [en]
+      prebuild_index: true
+nav:
+  - Home: index.md
+  - Setup: setup.md
+  - Phases: phases.md
+  - Tasks: tasks.md
+  - Acceptance Tests: acceptance-tests.md
+  - Checklists: checklists.md
