@@ -41,6 +41,12 @@ jobs:
             echo "Cache not found — this run will populate the pip cache."
           fi
 
+      - name: Show Python and pip versions
+        run: |
+          echo "--- Python & pip versions ---"
+          python --version || true
+          python -m pip --version || true
+
       - name: Install MkDocs and pinned dependencies
         run: |
           python -m pip install --upgrade pip
