@@ -21,6 +21,7 @@ jobs:
           python-version: '3.x'
 
       - name: Cache pip
+        id: cache-pip
         uses: actions/cache@v4
         with:
           # Cache pip's cache directory (wheels, downloaded packages)
@@ -30,6 +31,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-3-
             ${{ runner.os }}-pip-
+
+      - name: Show pip cache status
+        run: |
+          echo "PIP cache hit: ${{ steps.cache-pip.outputs.cache-hit }}"
+          if [ "${{ steps.cache-pip.outputs.cache-hit }}" = 'true' ]; then
+            echo "Cache restored — future pip installs will be faster."
+          else
+            echo "Cache not found — this run will populate the pip cache."
+          fi
 
       - name: Install MkDocs and pinned dependencies
         run: |
