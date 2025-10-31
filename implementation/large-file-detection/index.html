@@ -1,0 +1,1560 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../cve-scanning/">
+      
+      
+        <link rel="next" href="../secure-build-sri/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Large File Detection - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#large-file-detection-user-warnings-p0-task" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Large File Detection
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Large File Detection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Large File Detection
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-state-prototype" class="md-nav__link">
+    Current State (Prototype)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-behavior" class="md-nav__link">
+    Target Behavior
+  </a>
+  
+    <nav class="md-nav" aria-label="Target Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-size-thresholds" class="md-nav__link">
+    File Size Thresholds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-ui-design" class="md-nav__link">
+    Warning UI Design
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    Implementation Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-add-file-size-detection" class="md-nav__link">
+    Step 1: Add File Size Detection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-implement-warning-dialog" class="md-nav__link">
+    Step 2: Implement Warning Dialog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-add-thumbnail-only-rendering-mode" class="md-nav__link">
+    Step 3: Add Thumbnail-Only Rendering Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-update-ui-for-thumbnail-only-mode" class="md-nav__link">
+    Step 4: Update UI for Thumbnail-Only Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-add-progressive-rendering-future-enhancement" class="md-nav__link">
+    Step 5: Add Progressive Rendering (Future Enhancement)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#large-file-detection-checklist" class="md-nav__link">
+    Large File Detection Checklist
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-scenarios" class="md-nav__link">
+    Testing Scenarios
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner" class="md-nav__link">
+    Owner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-state-prototype" class="md-nav__link">
+    Current State (Prototype)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-behavior" class="md-nav__link">
+    Target Behavior
+  </a>
+  
+    <nav class="md-nav" aria-label="Target Behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-size-thresholds" class="md-nav__link">
+    File Size Thresholds
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warning-ui-design" class="md-nav__link">
+    Warning UI Design
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    Implementation Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-add-file-size-detection" class="md-nav__link">
+    Step 1: Add File Size Detection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-implement-warning-dialog" class="md-nav__link">
+    Step 2: Implement Warning Dialog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-add-thumbnail-only-rendering-mode" class="md-nav__link">
+    Step 3: Add Thumbnail-Only Rendering Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-update-ui-for-thumbnail-only-mode" class="md-nav__link">
+    Step 4: Update UI for Thumbnail-Only Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-add-progressive-rendering-future-enhancement" class="md-nav__link">
+    Step 5: Add Progressive Rendering (Future Enhancement)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#large-file-detection-checklist" class="md-nav__link">
+    Large File Detection Checklist
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-scenarios" class="md-nav__link">
+    Testing Scenarios
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner" class="md-nav__link">
+    Owner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="large-file-detection-user-warnings-p0-task">Large File Detection &amp; User Warnings — P0 Task</h1>
+<p>This document outlines the implementation of large-file detection and user-facing warnings to prevent memory exhaustion and poor UX.</p>
+<h2 id="objectives">Objectives</h2>
+<ul>
+<li>Detect PDFs &gt;= 50 MB before rendering begins</li>
+<li>Warn users about potential performance issues</li>
+<li>Provide graceful degradation options (thumbnail-only mode, chunked rendering)</li>
+<li>Prevent browser crashes from memory exhaustion</li>
+</ul>
+<h2 id="current-state-prototype">Current State (Prototype)</h2>
+<ul>
+<li>No file size detection</li>
+<li>All PDFs rendered immediately regardless of size</li>
+<li>Potential for browser hang or crash with very large files</li>
+</ul>
+<h2 id="target-behavior">Target Behavior</h2>
+<h3 id="file-size-thresholds">File Size Thresholds</h3>
+<ul>
+<li><strong>&lt; 10 MB:</strong> No warning, render normally</li>
+<li><strong>10-50 MB:</strong> Show info message: "Large file detected. Rendering may take a moment."</li>
+<li><strong>50-200 MB:</strong> Show warning with option to proceed or cancel</li>
+<li><strong>&gt; 200 MB:</strong> Block rendering, suggest alternative workflow (e.g., split PDF first)</li>
+</ul>
+<h3 id="warning-ui-design">Warning UI Design</h3>
+<p><strong>Warning Dialog (50-200 MB):</strong></p>
+<pre><code>⚠️ Large PDF Detected
+
+This PDF is [SIZE] MB with [PAGE_COUNT] pages.
+Rendering may take significant time and memory.
+
+Options:
+[ ] Render thumbnails only (faster)
+[ ] Render all pages (may be slow)
+[Cancel] [Proceed]
+</code></pre>
+<p><strong>Error Message (&gt; 200 MB):</strong></p>
+<pre><code>🚫 PDF Too Large
+
+This PDF ([SIZE] MB) exceeds the maximum supported size (200 MB).
+
+Recommendations:
+- Use a PDF splitting tool to reduce file size
+- Process the PDF in smaller chunks
+- Consider using a desktop PDF editor for large files
+
+[OK]
+</code></pre>
+<h2 id="implementation-steps">Implementation Steps</h2>
+<h3 id="step-1-add-file-size-detection">Step 1: Add File Size Detection</h3>
+<p><strong>File:</strong> <code>prototype/app.js</code></p>
+<p>Add to <code>fileInput</code> event handler:</p>
+<pre><code class="language-javascript">fileInput.addEventListener('change', async (ev) =&gt; {
+  const file = ev.target.files &amp;&amp; ev.target.files[0];
+  if (!file) return;
+
+  // Check file size before processing
+  const fileSizeMB = file.size / (1024 * 1024);
+
+  if (fileSizeMB &gt; 200) {
+    showError('PDF Too Large',
+      `This PDF (${fileSizeMB.toFixed(1)} MB) exceeds the maximum supported size (200 MB).\\n\\nRecommendations:\\n- Split the PDF into smaller files\\n- Use a desktop PDF editor for large files`);
+    return;
+  }
+
+  if (fileSizeMB &gt;= 50) {
+    const proceed = await showLargeFileWarning(fileSizeMB);
+    if (!proceed) return;
+  } else if (fileSizeMB &gt;= 10) {
+    showInfoBanner(`Large file detected (${fileSizeMB.toFixed(1)} MB). Rendering may take a moment...`);
+  }
+
+  // ... existing load logic
+});
+</code></pre>
+<h3 id="step-2-implement-warning-dialog">Step 2: Implement Warning Dialog</h3>
+<p><strong>File:</strong> <code>prototype/app.js</code></p>
+<pre><code class="language-javascript">function showLargeFileWarning(sizeMB) {
+  return new Promise((resolve) =&gt; {
+    const message = `This PDF is ${sizeMB.toFixed(1)} MB. Rendering may take significant time and memory.\\n\\nDo you want to proceed?`;
+    const proceed = window.confirm(message);
+    resolve(proceed);
+  });
+}
+
+function showInfoBanner(message) {
+  const statusEl = document.getElementById('vendor-status');
+  if (statusEl) {
+    statusEl.textContent = message;
+    statusEl.style.background = '#fffef0';
+    statusEl.style.borderColor = '#ffe066';
+  }
+}
+
+function showError(title, message) {
+  alert(`${title}\\n\\n${message}`);
+}
+</code></pre>
+<h3 id="step-3-add-thumbnail-only-rendering-mode">Step 3: Add Thumbnail-Only Rendering Mode</h3>
+<p><strong>File:</strong> <code>prototype/app.js</code></p>
+<pre><code class="language-javascript">let renderMode = 'full'; // 'full' or 'thumbnails-only'
+
+async function renderAll() {
+  clearContainers();
+
+  // Always render thumbnails
+  for (let i = 0; i &lt; pageOrder.length; i++) {
+    const pageNumber = pageOrder[i];
+    await renderThumbnail(pageNumber, i);
+  }
+  perfMetrics.thumbnailsComplete = performance.now();
+
+  // Render full pages only if not in thumbnails-only mode
+  if (renderMode === 'full') {
+    for (let i = 0; i &lt; pageOrder.length; i++) {
+      const pageNumber = pageOrder[i];
+      await renderPage(pageNumber, i);
+    }
+    perfMetrics.pagesComplete = performance.now();
+  } else {
+    // Show message in viewer
+    viewer.innerHTML = '&lt;div style=&quot;padding:20px;text-align:center;color:#666;&quot;&gt;Thumbnail-only mode active. Click a thumbnail to view that page.&lt;/div&gt;';
+  }
+}
+</code></pre>
+<h3 id="step-4-update-ui-for-thumbnail-only-mode">Step 4: Update UI for Thumbnail-Only Mode</h3>
+<p><strong>File:</strong> <code>prototype/index.html</code></p>
+<p>Add toggle button:</p>
+<pre><code class="language-html">&lt;button id=&quot;toggleRenderMode&quot;&gt;Switch to Thumbnail-Only Mode&lt;/button&gt;
+</code></pre>
+<p><strong>File:</strong> <code>prototype/app.js</code></p>
+<pre><code class="language-javascript">const toggleRenderModeBtn = document.getElementById('toggleRenderMode');
+
+toggleRenderModeBtn.addEventListener('click', () =&gt; {
+  renderMode = (renderMode === 'full') ? 'thumbnails-only' : 'full';
+  toggleRenderModeBtn.textContent = (renderMode === 'full')
+    ? 'Switch to Thumbnail-Only Mode'
+    : 'Switch to Full Render Mode';
+  renderAll();
+});
+</code></pre>
+<h3 id="step-5-add-progressive-rendering-future-enhancement">Step 5: Add Progressive Rendering (Future Enhancement)</h3>
+<p><strong>Concept:</strong> Render pages lazily as they scroll into view</p>
+<pre><code class="language-javascript">// Use Intersection Observer to render pages on-demand
+const observer = new IntersectionObserver((entries) =&gt; {
+  entries.forEach(entry =&gt; {
+    if (entry.isIntersecting &amp;&amp; !entry.target.dataset.rendered) {
+      const pageNumber = parseInt(entry.target.dataset.page);
+      renderPageLazy(pageNumber, entry.target);
+    }
+  });
+}, { rootMargin: '100px' });
+
+// Observe placeholder divs instead of rendering all pages upfront
+</code></pre>
+<h2 id="large-file-detection-checklist">Large File Detection Checklist</h2>
+<ul>
+<li>[ ] File size detection added to file input handler</li>
+<li>[ ] Warning dialog implemented for 50-200 MB files</li>
+<li>[ ] Error blocking implemented for &gt; 200 MB files</li>
+<li>[ ] Info banner for 10-50 MB files</li>
+<li>[ ] Thumbnail-only rendering mode implemented</li>
+<li>[ ] UI toggle for render mode added</li>
+<li>[ ] User-facing documentation updated</li>
+<li>[ ] Performance tested with 100 MB+ files</li>
+<li>[ ] Memory monitoring added to detect near-OOM conditions</li>
+</ul>
+<h2 id="testing-scenarios">Testing Scenarios</h2>
+<ol>
+<li><strong>Small file (&lt; 10 MB):</strong> No warnings, renders normally</li>
+<li><strong>Medium file (25 MB):</strong> Info banner, renders normally</li>
+<li><strong>Large file (100 MB):</strong> Warning dialog, user can proceed or cancel</li>
+<li><strong>Huge file (250 MB):</strong> Error message, rendering blocked</li>
+</ol>
+<p>Generate test file:</p>
+<pre><code class="language-powershell">python prototype/generate_test_pdf.py --pages 5000 --output test-huge.pdf
+</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/File">MDN: File API</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">MDN: Intersection Observer</a></li>
+</ul>
+<h2 id="owner">Owner</h2>
+<p><strong>Engineering</strong> — Target Completion: Phase 1, Week 2</p>
+<h2 id="status">Status</h2>
+<p><strong>Planned</strong> — Implementation design complete; awaiting sprint assignment.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

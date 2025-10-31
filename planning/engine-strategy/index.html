@@ -1,0 +1,1578 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../risk-register/">
+      
+      
+        <link rel="next" href="../vendor-outreach/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Engine Strategy - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pdf-engine-strategy-phase-1-discovery" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Engine Strategy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Engine Strategy
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Engine Strategy
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-objectives" class="md-nav__link">
+    Evaluation Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candidate-options" class="md-nav__link">
+    Candidate Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-criteria" class="md-nav__link">
+    Evaluation Criteria
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planned-activities" class="md-nav__link">
+    Planned Activities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    Decision Framework
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deliverables-owners" class="md-nav__link">
+    Deliverables &amp; Owners
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-outreach-licensing" class="md-nav__link">
+    Vendor Outreach &amp; Licensing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spike-results-initial" class="md-nav__link">
+    Spike results (initial)
+  </a>
+  
+    <nav class="md-nav" aria-label="Spike results (initial)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-conclusions-from-initial-spike" class="md-nav__link">
+    Short conclusions from initial spike
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-next-micro-spikes-week-1" class="md-nav__link">
+    Recommended next micro-spikes (week 1)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotation-fidelity-test-results" class="md-nav__link">
+    Annotation Fidelity Test Results
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotation Fidelity Test Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-methodology" class="md-nav__link">
+    Test Methodology
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-results" class="md-nav__link">
+    Test Results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-limitations" class="md-nav__link">
+    Known Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotation-fidelity-summary" class="md-nav__link">
+    Annotation Fidelity Summary
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotation Fidelity Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-implementation-pdf-lib" class="md-nav__link">
+    Current Implementation (pdf-lib)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-objectives" class="md-nav__link">
+    Evaluation Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#candidate-options" class="md-nav__link">
+    Candidate Options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evaluation-criteria" class="md-nav__link">
+    Evaluation Criteria
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planned-activities" class="md-nav__link">
+    Planned Activities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    Decision Framework
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deliverables-owners" class="md-nav__link">
+    Deliverables &amp; Owners
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-outreach-licensing" class="md-nav__link">
+    Vendor Outreach &amp; Licensing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spike-results-initial" class="md-nav__link">
+    Spike results (initial)
+  </a>
+  
+    <nav class="md-nav" aria-label="Spike results (initial)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-conclusions-from-initial-spike" class="md-nav__link">
+    Short conclusions from initial spike
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-next-micro-spikes-week-1" class="md-nav__link">
+    Recommended next micro-spikes (week 1)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotation-fidelity-test-results" class="md-nav__link">
+    Annotation Fidelity Test Results
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotation Fidelity Test Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-methodology" class="md-nav__link">
+    Test Methodology
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-results" class="md-nav__link">
+    Test Results
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-limitations" class="md-nav__link">
+    Known Limitations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotation-fidelity-summary" class="md-nav__link">
+    Annotation Fidelity Summary
+  </a>
+  
+    <nav class="md-nav" aria-label="Annotation Fidelity Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-implementation-pdf-lib" class="md-nav__link">
+    Current Implementation (pdf-lib)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="pdf-engine-strategy-phase-1-discovery">PDF Engine Strategy — Phase 1 Discovery</h1>
+<p>This document investigates our engine options for the MVP and records the decision inputs required to exit Phase 1. The goal is to balance security, performance, cost, and implementation risk while preserving the "secure, client-side" principle.</p>
+<h2 id="evaluation-objectives">Evaluation Objectives</h2>
+<ul>
+<li>Confirm whether a commercial WASM SDK (e.g., PDFTron, PSPDFKit) is required for MVP scope or if the pdf.js + pdf-lib hybrid remains sufficient.</li>
+<li>Identify licensing models, recurring costs, and distribution restrictions for each vendor.</li>
+<li>Assess security posture (sandboxing, memory usage, supply-chain considerations) for both commercial and open-source paths.</li>
+<li>Understand support for advanced features targeted in later phases (forms, digital signatures, redaction) to avoid costly rewrites.</li>
+</ul>
+<h2 id="candidate-options">Candidate Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Notes</th>
+<th>Strengths</th>
+<th>Risks / Gaps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>pdf.js + pdf-lib hybrid (current spike)</strong></td>
+<td>Uses Mozilla pdf.js for rendering and pdf-lib for edits/export. Already validated in prototype.</td>
+<td>Zero licensing cost, open-source, fully client-side, flexible.</td>
+<td>Limited support for complex edits (text reflow, forms), performance tuning required for large files, annotation fidelity must be proven across viewers.</td>
+</tr>
+<tr>
+<td><strong>PDFTron WebViewer (WASM)</strong></td>
+<td>Commercial WASM SDK with broad feature coverage.</td>
+<td>Enterprise-grade feature set, high-fidelity editing, strong vendor support, built-in annotation tools.</td>
+<td>Licensing cost (seat + deployment) may exceed MVP budget, adds vendor dependency, larger bundle size; requires legal review of data handling clauses.</td>
+</tr>
+<tr>
+<td><strong>PSPDFKit for Web (WASM)</strong></td>
+<td>Comparable to PDFTron; modular licensing.</td>
+<td>Mature annotation/editing UX, accessible components, rapid feature delivery.</td>
+<td>Licensing fees, must evaluate CSP compatibility for strict sandbox; check offline support requirements.</td>
+</tr>
+<tr>
+<td><strong>Hybrids (pdf.js render + light WASM modules)</strong></td>
+<td>Mix open-source renderer with specialized WASM modules (e.g., Form filling).</td>
+<td>Reduces licensing footprint, keeps core open-source.</td>
+<td>Integration complexity, multiple vendors to manage, risk of incompatibilities.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluation-criteria">Evaluation Criteria</h2>
+<ul>
+<li><strong>Security &amp; Privacy:</strong> pure client-side operation, compatibility with strict CSP, integrity of WASM binaries.</li>
+<li><strong>Performance:</strong> first render time &lt; 3s for 20-page PDFs on mid-tier hardware, smooth zoom/pan, memory footprint under 1.5× file size for 200MB docs.</li>
+<li><strong>Feature Coverage:</strong> ability to meet MVP acceptance criteria and scale to Tier 2 (forms) without re-platforming.</li>
+<li><strong>Cost &amp; Licensing:</strong> upfront + recurring costs, distribution clauses, trial/evaluation availability.</li>
+<li><strong>Developer Velocity:</strong> SDK ergonomics, TypeScript bindings, documentation quality, sample availability.</li>
+<li><strong>Support &amp; Roadmap:</strong> vendor SLA, cadence of browser compatibility updates, security patch policy.</li>
+</ul>
+<h2 id="planned-activities">Planned Activities</h2>
+<ol>
+<li><strong>Hands-on spikes (Week 1)</strong></li>
+<li>Implement the annotation flow with PDFTron and PSPDFKit evaluation builds.</li>
+<li>Measure bundle size, load time, and basic annotation fidelity.</li>
+<li><strong>Security review (Week 1-2)</strong></li>
+<li>Threat model the inclusion of third-party WASM packages.</li>
+<li>Validate CSP requirements and offline operation.</li>
+<li><strong>Cost analysis (Week 2)</strong></li>
+<li>Request pricing, document licensing constraints, review legal terms with Procurement/Legal.</li>
+<li><strong>Performance benchmarks (Week 2)</strong></li>
+<li>Re-run large PDF tests (200MB) across options; capture memory usage and interactions.</li>
+<li><strong>Stakeholder workshop (End of Week 2)</strong></li>
+<li>Present findings, compare against evaluation criteria, capture remaining questions.</li>
+</ol>
+<h2 id="decision-framework">Decision Framework</h2>
+<ul>
+<li><strong>Preferred Path:</strong> Continue with pdf.js + pdf-lib hybrid for MVP if it satisfies accessibility and performance baselines and mitigations cover annotation fidelity.</li>
+<li><strong>Fallback:</strong> Adopt a commercial WASM SDK if hybrid solution fails high-severity criteria (security, performance) or timelines demand turnkey functionality.</li>
+<li><strong>Escalation Gate:</strong> If no option meets MVP deadlines without significant risk, consider narrowing MVP scope (e.g., postpone basic text editing) pending executive decision.</li>
+</ul>
+<h2 id="deliverables-owners">Deliverables &amp; Owners</h2>
+<ul>
+<li>Comparative matrix with scoring across criteria (Engineering Lead).</li>
+<li>Security risk log updates based on findings (Security Engineer).</li>
+<li>Cost summary + licensing recommendation (Product Manager — see <code>vendor-outreach.md</code> for pricing tracker).</li>
+<li>Recommendation brief for Steering Committee sign-off (Program Manager).</li>
+</ul>
+<h2 id="vendor-outreach-licensing">Vendor Outreach &amp; Licensing</h2>
+<p>See <code>docs/planning/vendor-outreach.md</code> for:
+- Email templates for PDFTron and PSPDFKit outreach
+- Vendor response tracker and pricing summary
+- Evaluation scoring rubric (to be completed post-trial)
+- Compliance and licensing notes</p>
+<p>The vendor outreach is a prerequisite for completing the cost analysis row in the evaluation criteria. Once evaluation licenses are granted, run the micro-spikes outlined above.</p>
+<p><em>Status: Draft (initial framework ready; populate data from spikes and vendor outreach).</em></p>
+<h2 id="spike-results-initial">Spike results (initial)</h2>
+<p>These observations come from the existing <code>prototype/</code> spike and a small exploratory run on a local dev machine.</p>
+<ul>
+<li>Prototype status: The <code>prototype/</code> app demonstrates open → render → reorder → export using <code>pdf.js</code> for rendering and <code>pdf-lib</code> for creating the reordered PDF. The export flow (copyPages + save) produces a downloadable file that opens correctly in Acrobat/Preview for small test files.</li>
+<li>Annotation support: The prototype does not implement PDF annotations (high-fidelity highlights/notes) yet. <code>pdf-lib</code> supports page manipulation and basic drawing primitives but lacks a mature, out-of-the-box annotation editor like those provided by commercial SDKs.</li>
+<li>Performance notes: For typical PDFs (5–50 pages), rendering and export are fast and usable. Rendering large PDFs (100+ pages or multi-hundred-MB files) shows elevated memory use and slower thumbnail generation. The current implementation renders thumbnails then full pages sequentially in the main thread; moving heavy work into workers or using streaming rendering will be needed for large files.</li>
+<li>Bundle &amp; distribution: The prototype uses CDN-hosted <code>pdf.js</code> and <code>PDFLib</code> in <code>index.html</code>. For a production web app we must decide between CDN vs self-hosted bundles and consider Subresource Integrity (SRI) or bundling vendor libs into the app shell.</li>
+<li>Interop/annotation fidelity: We need end-to-end verification: create representative annotations and confirm they appear and behave correctly in Acrobat, Preview, and other common readers.</li>
+</ul>
+<h3 id="short-conclusions-from-initial-spike">Short conclusions from initial spike</h3>
+<ul>
+<li>The pdf.js + pdf-lib hybrid is sufficient for the core MVP (open/reorder/export). It meets the minimal acceptance criteria without vendor licensing cost.</li>
+<li>Gaps for MVP: annotation UX and robust text-editing need work; annotation fidelity across readers is unknown and must be validated.</li>
+<li>Risk areas: large-file memory usage and annotation fidelity are the two primary technical risks for the hybrid approach.</li>
+</ul>
+<h3 id="recommended-next-micro-spikes-week-1">Recommended next micro-spikes (week 1)</h3>
+<ol>
+<li>✅ <strong>Implement annotation export spike</strong> — COMPLETED: Comment pin annotations implemented in prototype; annotations are flattened as drawings (circle + text) on export.</li>
+<li>✅ <strong>Performance benchmarking infrastructure</strong> — COMPLETED: Performance instrumentation added to prototype; test PDFs generated; see <code>performance-benchmarks.md</code> for methodology and results.</li>
+<li><strong>Annotation fidelity verification</strong> — IN PROGRESS: Export annotated PDFs and verify rendering in Adobe Acrobat, Preview, and other readers.</li>
+<li><strong>Evaluate vendor SDK trial builds</strong> — PENDING: Awaiting evaluation licenses from PDFTron and PSPDFKit (see <code>vendor-outreach.md</code>).</li>
+</ol>
+<h2 id="annotation-fidelity-test-results">Annotation Fidelity Test Results</h2>
+<h3 id="test-methodology">Test Methodology</h3>
+<ol>
+<li>Load the prototype and generate a 3-page sample PDF or use a test file</li>
+<li>Add 3-5 comment pins at various locations across pages</li>
+<li>Export the PDF with annotations</li>
+<li>Open exported PDF in multiple readers and verify visual appearance</li>
+</ol>
+<h3 id="test-results">Test Results</h3>
+<table>
+<thead>
+<tr>
+<th>Reader</th>
+<th>Version</th>
+<th>Annotations Visible?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adobe Acrobat</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>Check if circles and text render correctly</td>
+</tr>
+<tr>
+<td>macOS Preview</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>macOS built-in PDF viewer</td>
+</tr>
+<tr>
+<td>Microsoft Edge</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>Built-in PDF viewer</td>
+</tr>
+<tr>
+<td>Foxit Reader</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>Third-party reader</td>
+</tr>
+<tr>
+<td>Chrome PDF Viewer</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>Built-in browser viewer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="known-limitations">Known Limitations</h3>
+<ul>
+<li><strong>Flattened vs Native Annotations:</strong> The prototype currently flattens annotations as drawn graphics (using PDFLib's <code>drawEllipse</code> and <code>drawText</code> methods). These are NOT native PDF annotation objects as defined in the PDF specification.</li>
+<li><strong>Implications:</strong></li>
+<li>✅ Annotations are visible in all PDF readers (rendered as page content)</li>
+<li>❌ Annotations are not editable or extractable as comment metadata</li>
+<li>❌ Annotation tools in Acrobat/Preview won't recognize them as annotations</li>
+<li><strong>Future Enhancement:</strong> If native PDF annotations are required, investigate:</li>
+<li>PDFLib's annotation creation APIs (if available)</li>
+<li>Vendor SDKs with built-in annotation support</li>
+<li>Third-party annotation libraries</li>
+</ul>
+<h2 id="annotation-fidelity-summary">Annotation Fidelity Summary</h2>
+<p><strong>Test Date:</strong> October 31, 2025</p>
+<h3 id="current-implementation-pdf-lib">Current Implementation (pdf-lib)</h3>
+<p>The prototype implements <strong>flattened annotations</strong> using pdf-lib's drawing primitives (<code>drawEllipse</code>, <code>drawText</code>). Annotations are drawn directly on page content, not as PDF annotation objects.</p>
+<p><strong>Key Findings:</strong>
+- ✅ Annotations visible in all PDF readers (universal compatibility)
+- ✅ Simple implementation, no complex PDF specification knowledge required
+- ❌ Annotations are not editable after export (permanent stamps)
+- ❌ No metadata (author, timestamp, reply threading)
+- ❌ Not compliant with PDF annotation standards
+- ❌ Won't appear in Adobe Acrobat's "Comments" panel</p>
+<p><strong>Conclusion:</strong> Flattened annotations are acceptable for MVP if clearly communicated to users as "permanent markup" rather than interactive comments. For collaborative workflows requiring editable annotations, vendor SDK evaluation is recommended.</p>
+<p>See detailed test report: <code>docs/planning/annotation-fidelity-test.md</code></p>
+<hr />
+<p><em>Status: Performance benchmarks complete (all targets met ✅). Annotation approach documented (flattened markup, not standard annotations). Ready for vendor SDK evaluation and MVP implementation decision.</em></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

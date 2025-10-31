@@ -1,0 +1,2616 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../../implementation/incident-response/">
+      
+      
+        <link rel="next" href="../keyboard-shortcuts/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Getting Started - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-with-see_pdfeditor" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting Started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Getting Started
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-see_pdfeditor" class="md-nav__link">
+    What is see_pdfeditor?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    System Requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="System Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-browsers" class="md-nav__link">
+    Supported Browsers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-system" class="md-nav__link">
+    Minimum System
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-limits" class="md-nav__link">
+    File Limits
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-5-minutes" class="md-nav__link">
+    Quick Start (5 Minutes)
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start (5 Minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-application" class="md-nav__link">
+    Step 1: Open the Application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-load-a-pdf" class="md-nav__link">
+    Step 2: Load a PDF
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-edit-your-pdf" class="md-nav__link">
+    Step 3: Edit Your PDF
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-export-your-pdf" class="md-nav__link">
+    Step 4: Export Your PDF
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-tasks" class="md-nav__link">
+    Common Tasks
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#organizing-pages" class="md-nav__link">
+    Organizing Pages
+  </a>
+  
+    <nav class="md-nav" aria-label="Organizing Pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reorder-pages" class="md-nav__link">
+    Reorder Pages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-a-page" class="md-nav__link">
+    Duplicate a Page
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-page" class="md-nav__link">
+    Delete a Page
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-annotations" class="md-nav__link">
+    Working with Annotations
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Annotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-an-annotation" class="md-nav__link">
+    Add an Annotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-annotation-text" class="md-nav__link">
+    Edit Annotation Text
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-annotation-color" class="md-nav__link">
+    Change Annotation Color
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-an-annotation" class="md-nav__link">
+    Move an Annotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-an-annotation" class="md-nav__link">
+    Delete an Annotation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    Keyboard Shortcuts
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-shortcuts" class="md-nav__link">
+    Essential Shortcuts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouse-actions" class="md-nav__link">
+    Mouse Actions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exporting-your-work" class="md-nav__link">
+    Exporting Your Work
+  </a>
+  
+    <nav class="md-nav" aria-label="Exporting Your Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-export" class="md-nav__link">
+    Basic Export
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-with-metadata" class="md-nav__link">
+    Export with Metadata
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-gets-saved" class="md-nav__link">
+    What Gets Saved?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-best-practices" class="md-nav__link">
+    Tips &amp; Best Practices
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips &amp; Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-tips" class="md-nav__link">
+    Performance Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-tips" class="md-nav__link">
+    Workflow Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizing-large-documents" class="md-nav__link">
+    Organizing Large Documents
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotation-best-practices" class="md-nav__link">
+    Annotation Best Practices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdf-wont-load" class="md-nav__link">
+    PDF Won't Load
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages-dont-reorder" class="md-nav__link">
+    Pages Don't Reorder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cant-add-annotations" class="md-nav__link">
+    Can't Add Annotations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-fails" class="md-nav__link">
+    Export Fails
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-doesnt-work" class="md-nav__link">
+    Undo Doesn't Work
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-issues" class="md-nav__link">
+    Performance Issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privacy-security" class="md-nav__link">
+    Privacy &amp; Security
+  </a>
+  
+    <nav class="md-nav" aria-label="Privacy &amp; Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-data-stays-private" class="md-nav__link">
+    Your Data Stays Private
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How It Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    Security Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    FAQ
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-questions" class="md-nav__link">
+    General Questions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical" class="md-nav__link">
+    Technical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    Privacy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    Getting Help
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-issues" class="md-nav__link">
+    Reporting Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-requests" class="md-nav__link">
+    Feature Requests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's Next?
+  </a>
+  
+    <nav class="md-nav" aria-label="What's Next?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upcoming-features" class="md-nav__link">
+    Upcoming Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stay-updated" class="md-nav__link">
+    Stay Updated
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    Quick Reference Card
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Card">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-minute-cheat-sheet" class="md-nav__link">
+    3-Minute Cheat Sheet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-see_pdfeditor" class="md-nav__link">
+    What is see_pdfeditor?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    System Requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="System Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-browsers" class="md-nav__link">
+    Supported Browsers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-system" class="md-nav__link">
+    Minimum System
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-limits" class="md-nav__link">
+    File Limits
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-5-minutes" class="md-nav__link">
+    Quick Start (5 Minutes)
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start (5 Minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-application" class="md-nav__link">
+    Step 1: Open the Application
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-load-a-pdf" class="md-nav__link">
+    Step 2: Load a PDF
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-edit-your-pdf" class="md-nav__link">
+    Step 3: Edit Your PDF
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-export-your-pdf" class="md-nav__link">
+    Step 4: Export Your PDF
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-tasks" class="md-nav__link">
+    Common Tasks
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#organizing-pages" class="md-nav__link">
+    Organizing Pages
+  </a>
+  
+    <nav class="md-nav" aria-label="Organizing Pages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reorder-pages" class="md-nav__link">
+    Reorder Pages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#duplicate-a-page" class="md-nav__link">
+    Duplicate a Page
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-page" class="md-nav__link">
+    Delete a Page
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-annotations" class="md-nav__link">
+    Working with Annotations
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Annotations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-an-annotation" class="md-nav__link">
+    Add an Annotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-annotation-text" class="md-nav__link">
+    Edit Annotation Text
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-annotation-color" class="md-nav__link">
+    Change Annotation Color
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-an-annotation" class="md-nav__link">
+    Move an Annotation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-an-annotation" class="md-nav__link">
+    Delete an Annotation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    Keyboard Shortcuts
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-shortcuts" class="md-nav__link">
+    Essential Shortcuts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouse-actions" class="md-nav__link">
+    Mouse Actions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exporting-your-work" class="md-nav__link">
+    Exporting Your Work
+  </a>
+  
+    <nav class="md-nav" aria-label="Exporting Your Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-export" class="md-nav__link">
+    Basic Export
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-with-metadata" class="md-nav__link">
+    Export with Metadata
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-gets-saved" class="md-nav__link">
+    What Gets Saved?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-best-practices" class="md-nav__link">
+    Tips &amp; Best Practices
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips &amp; Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-tips" class="md-nav__link">
+    Performance Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-tips" class="md-nav__link">
+    Workflow Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizing-large-documents" class="md-nav__link">
+    Organizing Large Documents
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotation-best-practices" class="md-nav__link">
+    Annotation Best Practices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdf-wont-load" class="md-nav__link">
+    PDF Won't Load
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pages-dont-reorder" class="md-nav__link">
+    Pages Don't Reorder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cant-add-annotations" class="md-nav__link">
+    Can't Add Annotations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-fails" class="md-nav__link">
+    Export Fails
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#undo-doesnt-work" class="md-nav__link">
+    Undo Doesn't Work
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-issues" class="md-nav__link">
+    Performance Issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privacy-security" class="md-nav__link">
+    Privacy &amp; Security
+  </a>
+  
+    <nav class="md-nav" aria-label="Privacy &amp; Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-data-stays-private" class="md-nav__link">
+    Your Data Stays Private
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How It Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-features" class="md-nav__link">
+    Security Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    FAQ
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-questions" class="md-nav__link">
+    General Questions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical" class="md-nav__link">
+    Technical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy" class="md-nav__link">
+    Privacy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    Getting Help
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    Resources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-issues" class="md-nav__link">
+    Reporting Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-requests" class="md-nav__link">
+    Feature Requests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    What's Next?
+  </a>
+  
+    <nav class="md-nav" aria-label="What's Next?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upcoming-features" class="md-nav__link">
+    Upcoming Features
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stay-updated" class="md-nav__link">
+    Stay Updated
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    Quick Reference Card
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Card">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-minute-cheat-sheet" class="md-nav__link">
+    3-Minute Cheat Sheet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="getting-started-with-see_pdfeditor">Getting Started with see_pdfeditor</h1>
+<p>Welcome to <strong>see_pdfeditor</strong> - a simple, privacy-first PDF editor that runs entirely in your browser!</p>
+<hr />
+<h2 id="what-is-see_pdfeditor">What is see_pdfeditor?</h2>
+<p>see_pdfeditor is a browser-based PDF editor that lets you:
+- 📄 Reorder, duplicate, and delete PDF pages
+- 📌 Add colored text annotations
+- ↶↷ Undo and redo your changes
+- 💾 Export your edited PDF</p>
+<p><strong>Best of all</strong>: Everything happens in your browser. Your PDFs never leave your computer!</p>
+<hr />
+<h2 id="system-requirements">System Requirements</h2>
+<h3 id="supported-browsers">Supported Browsers</h3>
+<ul>
+<li>✅ <strong>Chrome</strong> 90+ (Recommended)</li>
+<li>✅ <strong>Firefox</strong> 88+</li>
+<li>✅ <strong>Edge</strong> 90+</li>
+<li>✅ <strong>Safari</strong> 14+</li>
+</ul>
+<h3 id="minimum-system">Minimum System</h3>
+<ul>
+<li><strong>RAM:</strong> 4 GB (8 GB recommended for large PDFs)</li>
+<li><strong>Screen:</strong> 1024x768 or higher</li>
+<li><strong>Internet:</strong> Required only for initial load (works offline after)</li>
+</ul>
+<h3 id="file-limits">File Limits</h3>
+<ul>
+<li><strong>Maximum File Size:</strong> 200 MB (warning at 10 MB)</li>
+<li><strong>Maximum Pages:</strong> No hard limit (500+ pages tested)</li>
+<li><strong>Supported Format:</strong> PDF only</li>
+</ul>
+<hr />
+<h2 id="quick-start-5-minutes">Quick Start (5 Minutes)</h2>
+<h3 id="step-1-open-the-application">Step 1: Open the Application</h3>
+<ol>
+<li>Navigate to [your-app-url] in your browser</li>
+<li>Wait for "Vendor assets loaded" message (2-3 seconds)</li>
+</ol>
+<h3 id="step-2-load-a-pdf">Step 2: Load a PDF</h3>
+<p><strong>Option A: Drag and Drop</strong>
+1. Drag a PDF file from your computer
+2. Drop it onto the blue dashed box
+3. Wait for thumbnails to appear (2-5 seconds)</p>
+<p><strong>Option B: Click to Browse</strong>
+1. Click anywhere on the blue dashed box
+2. Select a PDF from the file picker
+3. Click "Open"</p>
+<p><strong>Option C: Try a Sample</strong>
+1. Click "📄 Generate sample PDF" button
+2. A 3-page test PDF will be created instantly</p>
+<h3 id="step-3-edit-your-pdf">Step 3: Edit Your PDF</h3>
+<p><strong>Reorder Pages:</strong>
+- Drag thumbnails up or down in the left sidebar
+- Release to drop in new position</p>
+<p><strong>Duplicate a Page:</strong>
+- Hover over a thumbnail
+- Click the blue <strong>+</strong> button
+- Page is inserted after the original</p>
+<p><strong>Delete a Page:</strong>
+- Hover over a thumbnail
+- Click the red <strong>×</strong> button
+- Confirm deletion (can't delete last page)</p>
+<p><strong>Add Annotations:</strong>
+1. Click "📌 Add Comment Pin" button
+2. Click anywhere on the PDF page
+3. Type your annotation text
+4. Click OK</p>
+<p><strong>Undo/Redo:</strong>
+- Press <strong>Ctrl+Z</strong> to undo
+- Press <strong>Ctrl+Y</strong> to redo
+- Or use the ↶ Undo and ↷ Redo buttons</p>
+<h3 id="step-4-export-your-pdf">Step 4: Export Your PDF</h3>
+<ol>
+<li>Click "💾 Export PDF" button</li>
+<li>Enter a filename (e.g., "edited-document")</li>
+<li>Optionally add title and author metadata</li>
+<li>Click OK</li>
+<li>PDF downloads to your computer</li>
+</ol>
+<p><strong>That's it!</strong> You've successfully edited your first PDF.</p>
+<hr />
+<h2 id="common-tasks">Common Tasks</h2>
+<h3 id="organizing-pages">Organizing Pages</h3>
+<h4 id="reorder-pages">Reorder Pages</h4>
+<ol>
+<li><strong>Locate the thumbnail</strong> you want to move</li>
+<li><strong>Click and hold</strong> on the thumbnail</li>
+<li><strong>Drag</strong> up or down to desired position</li>
+<li><strong>Release</strong> to drop</li>
+<li>Page order updates automatically</li>
+</ol>
+<p><strong>Tip:</strong> Use Ctrl+Z to undo if you make a mistake!</p>
+<h4 id="duplicate-a-page">Duplicate a Page</h4>
+<ol>
+<li><strong>Hover</strong> over the thumbnail to duplicate</li>
+<li><strong>Click the blue + button</strong> (top-right of thumbnail)</li>
+<li>Duplicate appears immediately after original</li>
+<li>All annotations are copied too!</li>
+</ol>
+<p><strong>Use Case:</strong> Creating form templates with consistent layout</p>
+<h4 id="delete-a-page">Delete a Page</h4>
+<ol>
+<li><strong>Hover</strong> over the thumbnail to delete</li>
+<li><strong>Click the red × button</strong> (top-right of thumbnail)</li>
+<li><strong>Confirm</strong> deletion in the dialog</li>
+<li>Page is removed (can undo with Ctrl+Z)</li>
+</ol>
+<p><strong>Note:</strong> Cannot delete the last remaining page</p>
+<hr />
+<h3 id="working-with-annotations">Working with Annotations</h3>
+<h4 id="add-an-annotation">Add an Annotation</h4>
+<ol>
+<li><strong>Click "📌 Add Comment Pin"</strong> button</li>
+<li><strong>Click</strong> anywhere on the PDF page</li>
+<li><strong>Type</strong> your annotation text in the prompt</li>
+<li><strong>Click OK</strong> or press Enter</li>
+<li>Red pin appears at clicked location</li>
+</ol>
+<p><strong>Tip:</strong> Annotations are saved when you export!</p>
+<h4 id="edit-annotation-text">Edit Annotation Text</h4>
+<ol>
+<li><strong>Hover</strong> over the annotation pin</li>
+<li><strong>Click the ✎ (edit) button</strong></li>
+<li><strong>Edit</strong> the text in the prompt</li>
+<li><strong>Click OK</strong> to save</li>
+</ol>
+<h4 id="change-annotation-color">Change Annotation Color</h4>
+<ol>
+<li><strong>Hover</strong> over the annotation pin</li>
+<li><strong>Click the ● (color) button</strong></li>
+<li><strong>Click</strong> a color from the palette:</li>
+<li>🔴 Red (default)</li>
+<li>🟠 Orange</li>
+<li>🟡 Yellow</li>
+<li>🟢 Green</li>
+<li>🔵 Blue</li>
+<li>🟣 Purple</li>
+<li>Color changes instantly</li>
+</ol>
+<p><strong>Tip:</strong> Use colors to categorize annotations!</p>
+<h4 id="move-an-annotation">Move an Annotation</h4>
+<ol>
+<li><strong>Click and hold</strong> on the annotation pin</li>
+<li><strong>Drag</strong> to new location</li>
+<li><strong>Release</strong> to drop</li>
+<li>Position updates automatically</li>
+</ol>
+<h4 id="delete-an-annotation">Delete an Annotation</h4>
+<ol>
+<li><strong>Hover</strong> over the annotation pin</li>
+<li><strong>Click the × (delete) button</strong></li>
+<li><strong>Confirm</strong> deletion</li>
+<li>Annotation is removed</li>
+</ol>
+<hr />
+<h3 id="keyboard-shortcuts">Keyboard Shortcuts</h3>
+<p>Master these shortcuts to edit faster!</p>
+<h4 id="essential-shortcuts">Essential Shortcuts</h4>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ctrl+Z</strong></td>
+<td>Undo last change</td>
+</tr>
+<tr>
+<td><strong>Ctrl+Y</strong></td>
+<td>Redo last undo</td>
+</tr>
+<tr>
+<td><strong>?</strong></td>
+<td>Show help dialog</td>
+</tr>
+<tr>
+<td><strong>Esc</strong></td>
+<td>Close help dialog</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mouse-actions">Mouse Actions</h4>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Drag thumbnail</strong></td>
+<td>Reorder pages</td>
+</tr>
+<tr>
+<td><strong>Hover thumbnail → +</strong></td>
+<td>Duplicate page</td>
+</tr>
+<tr>
+<td><strong>Hover thumbnail → ×</strong></td>
+<td>Delete page</td>
+</tr>
+<tr>
+<td><strong>Click "Add Pin" → Click page</strong></td>
+<td>Add annotation</td>
+</tr>
+<tr>
+<td><strong>Hover pin → ✎</strong></td>
+<td>Edit annotation</td>
+</tr>
+<tr>
+<td><strong>Hover pin → ×</strong></td>
+<td>Delete annotation</td>
+</tr>
+<tr>
+<td><strong>Hover pin → ●</strong></td>
+<td>Change color</td>
+</tr>
+<tr>
+<td><strong>Drag pin</strong></td>
+<td>Move annotation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pro Tip:</strong> Press <strong>?</strong> anytime to see all shortcuts!</p>
+<hr />
+<h3 id="exporting-your-work">Exporting Your Work</h3>
+<h4 id="basic-export">Basic Export</h4>
+<ol>
+<li>Click "💾 Export PDF"</li>
+<li>Enter filename: <code>my-document</code> (no extension needed)</li>
+<li>Click OK</li>
+<li>PDF downloads automatically</li>
+</ol>
+<p><strong>Result:</strong> File saved as <code>my-document.pdf</code> in Downloads folder</p>
+<h4 id="export-with-metadata">Export with Metadata</h4>
+<ol>
+<li>Click "💾 Export PDF"</li>
+<li>Enter filename: <code>project-report</code></li>
+<li>When prompted, enter:</li>
+<li><strong>Title:</strong> "Q3 Project Report"</li>
+<li><strong>Author:</strong> "Your Name"</li>
+<li>Click OK on each prompt</li>
+<li>PDF downloads with embedded metadata</li>
+</ol>
+<p><strong>Why add metadata?</strong>
+- Makes PDFs searchable
+- Adds professional touch
+- Required for some document management systems</p>
+<h4 id="what-gets-saved">What Gets Saved?</h4>
+<p>✅ <strong>Included in Export:</strong>
+- All page reordering
+- Duplicated pages
+- Deleted pages
+- All annotations (text + color)
+- Custom filename and metadata</p>
+<p>❌ <strong>Not Included:</strong>
+- Undo/redo history (resets after export)
+- Temporary UI state</p>
+<hr />
+<h2 id="tips-best-practices">Tips &amp; Best Practices</h2>
+<h3 id="performance-tips">Performance Tips</h3>
+<ol>
+<li><strong>Close unused tabs</strong> before loading large PDFs</li>
+<li><strong>Use Chrome</strong> for best performance</li>
+<li><strong>Wait for thumbnails</strong> to finish loading before editing</li>
+<li><strong>Save often</strong> by exporting periodically</li>
+<li><strong>Watch memory warning</strong> (appears for &gt;10 MB files)</li>
+</ol>
+<h3 id="workflow-tips">Workflow Tips</h3>
+<ol>
+<li><strong>Test with sample PDF</strong> before using important documents</li>
+<li><strong>Undo liberally</strong> - don't fear mistakes!</li>
+<li><strong>Color-code annotations</strong> for different topics</li>
+<li><strong>Export with metadata</strong> for professional documents</li>
+<li><strong>Use descriptive filenames</strong> when exporting</li>
+</ol>
+<h3 id="organizing-large-documents">Organizing Large Documents</h3>
+<ol>
+<li><strong>Delete unwanted pages first</strong> (reduces file size)</li>
+<li><strong>Group related pages</strong> by reordering</li>
+<li><strong>Add colored annotations</strong> as section markers</li>
+<li><strong>Export intermediate versions</strong> to save progress</li>
+</ol>
+<h3 id="annotation-best-practices">Annotation Best Practices</h3>
+<ol>
+<li><strong>Keep text concise</strong> (1-2 sentences max)</li>
+<li><strong>Use consistent colors</strong> (e.g., red = errors, green = approved)</li>
+<li><strong>Place pins clearly</strong> away from document text</li>
+<li><strong>Edit, don't delete &amp; recreate</strong> to save time</li>
+</ol>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="pdf-wont-load">PDF Won't Load</h3>
+<p><strong>Symptom:</strong> Error message or nothing happens</p>
+<p><strong>Solutions:</strong>
+1. <strong>Check file type</strong> - Must be PDF (not Word, Image, etc.)
+2. <strong>Check file size</strong> - Under 200 MB limit
+3. <strong>Try different browser</strong> - Chrome works best
+4. <strong>Refresh page</strong> - Reload and try again
+5. <strong>Check file isn't corrupted</strong> - Open in Adobe Reader first</p>
+<h3 id="pages-dont-reorder">Pages Don't Reorder</h3>
+<p><strong>Symptom:</strong> Drag doesn't work or pages snap back</p>
+<p><strong>Solutions:</strong>
+1. <strong>Click and hold longer</strong> before dragging
+2. <strong>Drag to clear space</strong> between thumbnails
+3. <strong>Wait for loading</strong> - Ensure all thumbnails loaded
+4. <strong>Refresh page</strong> and reload PDF</p>
+<h3 id="cant-add-annotations">Can't Add Annotations</h3>
+<p><strong>Symptom:</strong> Click doesn't show prompt</p>
+<p><strong>Solutions:</strong>
+1. <strong>Click "Add Comment Pin" first</strong> - Button must be active
+2. <strong>Click on white area</strong> of PDF (not on thumbnail)
+3. <strong>Wait for page to render</strong> - Page must be visible
+4. <strong>Check browser console</strong> - Look for errors (F12)</p>
+<h3 id="export-fails">Export Fails</h3>
+<p><strong>Symptom:</strong> No download or error message</p>
+<p><strong>Solutions:</strong>
+1. <strong>Check popup blocker</strong> - Allow downloads
+2. <strong>Try different browser</strong> - Chrome/Firefox recommended
+3. <strong>Check disk space</strong> - Need room for file
+4. <strong>Simplify filename</strong> - No special characters
+5. <strong>Export without metadata</strong> - Skip optional prompts</p>
+<h3 id="undo-doesnt-work">Undo Doesn't Work</h3>
+<p><strong>Symptom:</strong> Ctrl+Z does nothing</p>
+<p><strong>Solutions:</strong>
+1. <strong>Check undo button</strong> - Should not be grayed out
+2. <strong>Verify action is undoable</strong> - Only certain actions tracked
+3. <strong>Try within 50 operations</strong> - Undo history limited
+4. <strong>Check keyboard</strong> - Try button instead</p>
+<h3 id="performance-issues">Performance Issues</h3>
+<p><strong>Symptom:</strong> Slow or laggy interface</p>
+<p><strong>Solutions:</strong>
+1. <strong>Close other tabs</strong> - Free up RAM
+2. <strong>Reduce PDF size</strong> - Delete unnecessary pages
+3. <strong>Use smaller files</strong> - Under 50 pages ideal
+4. <strong>Restart browser</strong> - Clear memory
+5. <strong>Check system resources</strong> - Task Manager (Windows)</p>
+<hr />
+<h2 id="privacy-security">Privacy &amp; Security</h2>
+<h3 id="your-data-stays-private">Your Data Stays Private</h3>
+<ul>
+<li>✅ <strong>No uploads</strong> - PDFs never sent to servers</li>
+<li>✅ <strong>Client-side only</strong> - Everything happens in your browser</li>
+<li>✅ <strong>No accounts</strong> - No login or tracking</li>
+<li>✅ <strong>No storage</strong> - Files not saved locally</li>
+<li>✅ <strong>Offline capable</strong> - Works without internet (after initial load)</li>
+</ul>
+<h3 id="how-it-works">How It Works</h3>
+<ol>
+<li>You load the application (downloads JavaScript libraries)</li>
+<li>You select a PDF file</li>
+<li>File is read into browser memory (RAM)</li>
+<li>You make edits (all in memory)</li>
+<li>You export (file downloads to your computer)</li>
+<li>When you close tab, everything is deleted</li>
+</ol>
+<p><strong>Bottom Line:</strong> We never see your PDFs. Ever.</p>
+<h3 id="security-features">Security Features</h3>
+<ul>
+<li>✅ <strong>Content Security Policy</strong> - Prevents malicious scripts</li>
+<li>✅ <strong>Subresource Integrity</strong> - Verifies libraries not tampered</li>
+<li>✅ <strong>No external connections</strong> - After initial load</li>
+<li>✅ <strong>Regular security updates</strong> - Dependencies scanned weekly</li>
+</ul>
+<hr />
+<h2 id="faq">FAQ</h2>
+<h3 id="general-questions">General Questions</h3>
+<p><strong>Q: Is see_pdfeditor free?</strong>
+A: Yes! Completely free, no accounts, no hidden fees.</p>
+<p><strong>Q: Do I need to install anything?</strong>
+A: No. It runs entirely in your browser.</p>
+<p><strong>Q: Does it work offline?</strong>
+A: After the initial load, yes! The app caches in your browser.</p>
+<p><strong>Q: Can I use it on mobile?</strong>
+A: Yes! Optimized for tablets and phones.</p>
+<h3 id="features">Features</h3>
+<p><strong>Q: Can I merge multiple PDFs?</strong>
+A: Not yet. Currently only single PDF editing.</p>
+<p><strong>Q: Can I add images or shapes?</strong>
+A: Not yet. Only text annotations currently.</p>
+<p><strong>Q: Can I edit PDF text?</strong>
+A: No. You can add annotations but not edit existing text.</p>
+<p><strong>Q: Can I rotate pages?</strong>
+A: Not yet. Planned for future version.</p>
+<p><strong>Q: How many pages can I edit?</strong>
+A: No hard limit. 500+ pages tested successfully.</p>
+<h3 id="technical">Technical</h3>
+<p><strong>Q: What browsers are supported?</strong>
+A: Chrome, Firefox, Edge, Safari (90+ versions).</p>
+<p><strong>Q: What's the maximum file size?</strong>
+A: 200 MB hard limit. 10+ MB may be slow.</p>
+<p><strong>Q: Does it work on iPad?</strong>
+A: Yes! Works great on iPad Safari.</p>
+<p><strong>Q: Can I save my work and come back?</strong>
+A: Export your PDF to save progress. Can't resume sessions.</p>
+<p><strong>Q: Why does my browser warn about memory?</strong>
+A: Large PDFs use RAM. This is normal and safe.</p>
+<h3 id="privacy">Privacy</h3>
+<p><strong>Q: Do you see my PDFs?</strong>
+A: No! Everything happens in your browser.</p>
+<p><strong>Q: Are my PDFs uploaded anywhere?</strong>
+A: Absolutely not. 100% client-side processing.</p>
+<p><strong>Q: Do you track what I do?</strong>
+A: No personal tracking. Only anonymous usage stats (page views).</p>
+<p><strong>Q: Can I use this for confidential documents?</strong>
+A: Yes! Your PDFs never leave your computer.</p>
+<p><strong>Q: What happens to my PDF when I close the tab?</strong>
+A: It's deleted from memory immediately. Nothing saved.</p>
+<hr />
+<h2 id="getting-help">Getting Help</h2>
+<h3 id="resources">Resources</h3>
+<ul>
+<li><strong>Help Dialog:</strong> Press <strong>?</strong> key in the app</li>
+<li><strong>Keyboard Shortcuts:</strong> See in-app help (?)</li>
+<li><strong>Troubleshooting:</strong> See previous section</li>
+<li><strong>GitHub Issues:</strong> [Report bugs]</li>
+<li><strong>User Guide:</strong> This document!</li>
+</ul>
+<h3 id="reporting-issues">Reporting Issues</h3>
+<p>Found a bug? We want to know!</p>
+<p><strong>Include these details:</strong>
+1. <strong>Browser:</strong> Chrome 118, Firefox 119, etc.
+2. <strong>Operating System:</strong> Windows 11, macOS 14, etc.
+3. <strong>File Size:</strong> 2 MB, 50 pages, etc.
+4. <strong>What happened:</strong> Specific error message
+5. <strong>Steps to reproduce:</strong> What you did before error</p>
+<p><strong>Where to report:</strong>
+- GitHub Issues: [link-to-repo]
+- Email: [support email if available]</p>
+<h3 id="feature-requests">Feature Requests</h3>
+<p>Want a new feature? Let us know!</p>
+<p><strong>Popular requests:</strong>
+- Page rotation
+- Multiple PDF merge
+- Image annotations
+- Text search
+- Cloud storage integration</p>
+<hr />
+<h2 id="whats-next">What's Next?</h2>
+<h3 id="upcoming-features">Upcoming Features</h3>
+<ul>
+<li>🔄 <strong>Page rotation</strong> (90°, 180°, 270°)</li>
+<li>🔍 <strong>Text search</strong> in PDFs</li>
+<li>📎 <strong>Merge multiple PDFs</strong></li>
+<li>🖼️ <strong>Image annotations</strong></li>
+<li>🗜️ <strong>PDF compression</strong></li>
+</ul>
+<h3 id="stay-updated">Stay Updated</h3>
+<ul>
+<li>⭐ Star us on GitHub</li>
+<li>📧 Subscribe to updates (coming soon)</li>
+<li>🐦 Follow on Twitter (coming soon)</li>
+</ul>
+<hr />
+<h2 id="credits">Credits</h2>
+<p><strong>Built with:</strong>
+- <a href="https://mozilla.github.io/pdf.js/">pdf.js</a> - PDF rendering (Mozilla)
+- <a href="https://pdf-lib.js.org/">pdf-lib</a> - PDF editing
+- Vanilla JavaScript - No bloated frameworks!</p>
+<p><strong>Special thanks:</strong>
+- Mozilla for pdf.js
+- pdf-lib contributors
+- Our beta testers</p>
+<hr />
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<h3 id="3-minute-cheat-sheet">3-Minute Cheat Sheet</h3>
+<p><strong>Load PDF:</strong>
+- Drag &amp; drop OR click blue box OR click "Generate sample PDF"</p>
+<p><strong>Edit Pages:</strong>
+- <strong>Reorder:</strong> Drag thumbnails
+- <strong>Duplicate:</strong> Hover → Blue +
+- <strong>Delete:</strong> Hover → Red ×</p>
+<p><strong>Annotations:</strong>
+- <strong>Add:</strong> Click 📌 → Click page → Type
+- <strong>Edit:</strong> Hover pin → ✎
+- <strong>Color:</strong> Hover pin → ●
+- <strong>Move:</strong> Drag pin
+- <strong>Delete:</strong> Hover pin → ×</p>
+<p><strong>Undo/Redo:</strong>
+- <strong>Undo:</strong> Ctrl+Z or ↶
+- <strong>Redo:</strong> Ctrl+Y or ↷</p>
+<p><strong>Export:</strong>
+- Click 💾 → Enter name → OK</p>
+<p><strong>Help:</strong>
+- Press <strong>?</strong> key</p>
+<hr />
+<p><strong>Ready to start?</strong> <a href="#">Launch see_pdfeditor</a></p>
+<hr />
+<p><em>Document Version: 1.0</em>
+<em>Last Updated: October 31, 2025</em>
+<em>For: see_pdfeditor Prototype</em></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1667 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../large-file-detection/">
+      
+      
+        <link rel="next" href="../incident-response/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Secure Build & SRI - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#secure-build-pipeline-subresource-integrity-p0-task" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Secure Build & SRI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Secure Build & SRI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Secure Build & SRI
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-state-prototype" class="md-nav__link">
+    Current State (Prototype)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-security-posture" class="md-nav__link">
+    Target Security Posture
+  </a>
+  
+    <nav class="md-nav" aria-label="Target Security Posture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subresource-integrity-sri" class="md-nav__link">
+    Subresource Integrity (SRI)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-locking" class="md-nav__link">
+    Dependency Locking
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    Implementation Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-generate-sri-hashes-for-vendor-assets" class="md-nav__link">
+    Step 1: Generate SRI Hashes for Vendor Assets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-update-vendor-loaderjs-with-sri" class="md-nav__link">
+    Step 2: Update vendor-loader.js with SRI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-csp-to-require-sri" class="md-nav__link">
+    Step 3: Configure CSP to Require SRI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-implement-package-lock-verification" class="md-nav__link">
+    Step 4: Implement Package Lock Verification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-automate-sri-updates-in-ci" class="md-nav__link">
+    Step 5: Automate SRI Updates in CI
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secure-build-pipeline-checklist" class="md-nav__link">
+    Secure Build Pipeline Checklist
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sri-failure-handling" class="md-nav__link">
+    SRI Failure Handling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-sri-implementation" class="md-nav__link">
+    Testing SRI Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner" class="md-nav__link">
+    Owner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives" class="md-nav__link">
+    Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-state-prototype" class="md-nav__link">
+    Current State (Prototype)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#target-security-posture" class="md-nav__link">
+    Target Security Posture
+  </a>
+  
+    <nav class="md-nav" aria-label="Target Security Posture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subresource-integrity-sri" class="md-nav__link">
+    Subresource Integrity (SRI)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-locking" class="md-nav__link">
+    Dependency Locking
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-steps" class="md-nav__link">
+    Implementation Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-generate-sri-hashes-for-vendor-assets" class="md-nav__link">
+    Step 1: Generate SRI Hashes for Vendor Assets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-update-vendor-loaderjs-with-sri" class="md-nav__link">
+    Step 2: Update vendor-loader.js with SRI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-csp-to-require-sri" class="md-nav__link">
+    Step 3: Configure CSP to Require SRI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-implement-package-lock-verification" class="md-nav__link">
+    Step 4: Implement Package Lock Verification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-automate-sri-updates-in-ci" class="md-nav__link">
+    Step 5: Automate SRI Updates in CI
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secure-build-pipeline-checklist" class="md-nav__link">
+    Secure Build Pipeline Checklist
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sri-failure-handling" class="md-nav__link">
+    SRI Failure Handling
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-sri-implementation" class="md-nav__link">
+    Testing SRI Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner" class="md-nav__link">
+    Owner
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="secure-build-pipeline-subresource-integrity-p0-task">Secure Build Pipeline &amp; Subresource Integrity — P0 Task</h1>
+<p>This document defines the secure build pipeline configuration and Subresource Integrity (SRI) implementation to protect against supply chain attacks.</p>
+<h2 id="objectives">Objectives</h2>
+<ul>
+<li>Ensure all dependencies are verified and locked with hashes</li>
+<li>Implement SRI for all CDN-loaded assets</li>
+<li>Automate security checks in CI/CD pipeline</li>
+<li>Provide integrity verification for vendor scripts</li>
+</ul>
+<h2 id="current-state-prototype">Current State (Prototype)</h2>
+<ul>
+<li>Vendor scripts loaded from jsDelivr CDN without SRI</li>
+<li>No hash verification for loaded assets</li>
+<li>Local vendor files have no integrity checks</li>
+<li>Vulnerable to CDN compromise or MITM attacks</li>
+</ul>
+<h2 id="target-security-posture">Target Security Posture</h2>
+<h3 id="subresource-integrity-sri">Subresource Integrity (SRI)</h3>
+<p><strong>SRI ensures:</strong>
+- Browser verifies file hash before execution
+- Prevents execution of tampered scripts
+- Fails safely if CDN is compromised
+- Works with both CDN and local fallback assets</p>
+<p><strong>SRI Hash Format:</strong></p>
+<pre><code>sha384-[base64-encoded-hash]
+</code></pre>
+<h3 id="dependency-locking">Dependency Locking</h3>
+<p><strong>All dependencies must:</strong>
+- Be pinned to specific versions (not <code>^</code> or <code>~</code> ranges)
+- Have checksums verified during install
+- Be scanned for known CVEs (via Dependabot)
+- Be reviewed before major version upgrades</p>
+<h2 id="implementation-steps">Implementation Steps</h2>
+<h3 id="step-1-generate-sri-hashes-for-vendor-assets">Step 1: Generate SRI Hashes for Vendor Assets</h3>
+<p><strong>Tool:</strong> Use <code>openssl</code> or online SRI generator</p>
+<pre><code class="language-powershell"># Generate SHA-384 hash for pdf.js
+curl -o pdfjs.js https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js
+openssl dgst -sha384 -binary pdfjs.js | openssl base64 -A
+
+# Generate hash for pdf-lib
+curl -o pdflib.js https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js
+openssl dgst -sha384 -binary pdflib.js | openssl base64 -A
+</code></pre>
+<p><strong>Automated SRI generation script:</strong></p>
+<p><strong>File:</strong> <code>prototype/generate-sri.js</code></p>
+<pre><code class="language-javascript">const crypto = require('crypto');
+const fs = require('fs');
+const https = require('https');
+
+const assets = [
+  {
+    name: 'pdf.js',
+    url: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js'
+  },
+  {
+    name: 'pdf-lib',
+    url: 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js'
+  },
+  {
+    name: 'pdf.worker.js',
+    url: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js'
+  }
+];
+
+function generateSRI(buffer) {
+  const hash = crypto.createHash('sha384').update(buffer).digest('base64');
+  return `sha384-${hash}`;
+}
+
+async function fetchAndHash(asset) {
+  return new Promise((resolve, reject) =&gt; {
+    https.get(asset.url, (res) =&gt; {
+      const chunks = [];
+      res.on('data', chunk =&gt; chunks.push(chunk));
+      res.on('end', () =&gt; {
+        const buffer = Buffer.concat(chunks);
+        const sri = generateSRI(buffer);
+        console.log(`${asset.name}: ${sri}`);
+        resolve({ name: asset.name, url: asset.url, integrity: sri });
+      });
+    }).on('error', reject);
+  });
+}
+
+(async () =&gt; {
+  console.log('Generating SRI hashes...\n');
+  const results = await Promise.all(assets.map(fetchAndHash));
+
+  console.log('\n--- vendor-sri.json ---');
+  console.log(JSON.stringify(results, null, 2));
+
+  fs.writeFileSync('vendor-sri.json', JSON.stringify(results, null, 2));
+  console.log('\nSaved to vendor-sri.json');
+})();
+</code></pre>
+<h3 id="step-2-update-vendor-loaderjs-with-sri">Step 2: Update vendor-loader.js with SRI</h3>
+<p><strong>File:</strong> <code>prototype/vendor-loader.js</code></p>
+<pre><code class="language-javascript">// SRI hashes for vendor assets (generated via generate-sri.js)
+const vendorAssets = {
+  'pdfjs': {
+    local: 'vendor/pdf.min.js',
+    cdn: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js',
+    integrity: 'sha384-[REPLACE_WITH_ACTUAL_HASH]',
+    test: () =&gt; typeof pdfjsLib !== 'undefined'
+  },
+  'pdflib': {
+    local: 'vendor/pdf-lib.min.js',
+    cdn: 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js',
+    integrity: 'sha384-[REPLACE_WITH_ACTUAL_HASH]',
+    test: () =&gt; typeof PDFLib !== 'undefined'
+  },
+  'worker': {
+    local: 'vendor/pdf.worker.min.js',
+    cdn: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js',
+    integrity: 'sha384-[REPLACE_WITH_ACTUAL_HASH]',
+    test: () =&gt; true // Worker loaded by pdf.js
+  }
+};
+
+function loadScript(src, integrity) {
+  return new Promise((resolve, reject) =&gt; {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) {
+      script.integrity = integrity;
+      script.crossOrigin = 'anonymous'; // Required for SRI
+    }
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+async function loadAsset(name, config) {
+  try {
+    // Try local first (with integrity check for production)
+    await loadScript(config.local, config.integrity);
+    if (config.test()) {
+      statusTracker[name] = 'local';
+      return;
+    }
+  } catch (err) {
+    console.warn(`Local ${name} failed, trying CDN...`);
+  }
+
+  // Fallback to CDN (always with SRI)
+  await loadScript(config.cdn, config.integrity);
+  if (config.test()) {
+    statusTracker[name] = 'CDN';
+  } else {
+    throw new Error(`${name} failed to load from both local and CDN`);
+  }
+}
+</code></pre>
+<h3 id="step-3-configure-csp-to-require-sri">Step 3: Configure CSP to Require SRI</h3>
+<p><strong>File:</strong> <code>prototype/index.html</code></p>
+<p>Update CSP policy to enforce SRI for scripts:</p>
+<pre><code class="language-html">&lt;meta http-equiv=&quot;Content-Security-Policy&quot;
+  content=&quot;
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net 'require-sri-for script';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: blob:;
+    connect-src 'self';
+  &quot;&gt;
+</code></pre>
+<p><strong>Note:</strong> <code>'require-sri-for script'</code> is deprecated in CSP Level 3, but <code>script-src</code> can still enforce SRI by rejecting scripts without integrity attributes in strict mode.</p>
+<h3 id="step-4-implement-package-lock-verification">Step 4: Implement Package Lock Verification</h3>
+<p><strong>File:</strong> <code>.github/workflows/security-scan.yml</code></p>
+<p>Add package lock verification:</p>
+<pre><code class="language-yaml">- name: Verify npm package-lock integrity
+  run: |
+    npm ci --audit
+    npm audit --audit-level=moderate
+</code></pre>
+<p><strong>For Python (future):</strong></p>
+<pre><code class="language-yaml">- name: Verify pip dependencies
+  run: |
+    pip install --require-hashes -r requirements.txt
+</code></pre>
+<p><strong>File:</strong> <code>requirements.txt</code> (with hashes)</p>
+<pre><code>reportlab==3.6.12 \
+    --hash=sha256:abc123...
+mkdocs==1.4.2 \
+    --hash=sha256:def456...
+</code></pre>
+<h3 id="step-5-automate-sri-updates-in-ci">Step 5: Automate SRI Updates in CI</h3>
+<p><strong>File:</strong> <code>.github/workflows/update-sri.yml</code></p>
+<pre><code class="language-yaml">name: Update SRI Hashes
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Weekly on Mondays
+  workflow_dispatch:
+
+jobs:
+  update-sri:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Generate SRI hashes
+        run: |
+          cd prototype
+          node generate-sri.js
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: 'chore: update SRI hashes for vendor assets'
+          title: 'Update Subresource Integrity Hashes'
+          body: 'Automated weekly SRI hash update for vendor scripts.'
+          branch: chore/update-sri
+</code></pre>
+<h2 id="secure-build-pipeline-checklist">Secure Build Pipeline Checklist</h2>
+<ul>
+<li>[ ] SRI hashes generated for all CDN assets</li>
+<li>[ ] <code>vendor-loader.js</code> updated with SRI verification</li>
+<li>[ ] CSP policy enforces SRI for external scripts</li>
+<li>[ ] <code>package-lock.json</code> / <code>requirements.txt</code> includes hashes</li>
+<li>[ ] CI pipeline verifies package integrity</li>
+<li>[ ] Automated SRI update workflow configured</li>
+<li>[ ] Fallback handling for SRI verification failures</li>
+<li>[ ] Documentation updated with SRI maintenance process</li>
+</ul>
+<h2 id="sri-failure-handling">SRI Failure Handling</h2>
+<p><strong>Scenario 1: CDN Compromised</strong>
+- Browser blocks script execution
+- Vendor-loader catches error
+- Fallback to local vendor files
+- Alert user: "Using local vendor files due to CDN verification failure"</p>
+<p><strong>Scenario 2: Local File Tampered</strong>
+- SRI check fails (if enabled for local in production)
+- Vendor-loader tries CDN
+- If both fail, block app initialization
+- Display security warning to user</p>
+<p><strong>Implementation:</strong></p>
+<pre><code class="language-javascript">try {
+  await loadScript(config.local, config.integrity);
+} catch (err) {
+  if (err.message.includes('integrity')) {
+    console.error('SRI verification failed for local asset');
+    alert('Security Warning: Local asset integrity check failed. Using CDN.');
+  }
+  await loadScript(config.cdn, config.integrity);
+}
+</code></pre>
+<h2 id="testing-sri-implementation">Testing SRI Implementation</h2>
+<ol>
+<li><strong>Valid SRI:</strong> Load page, verify scripts execute</li>
+<li><strong>Tampered CDN:</strong> Modify CDN URL hash, verify browser blocks script</li>
+<li><strong>Tampered Local:</strong> Modify local file, verify SRI failure (if enabled)</li>
+<li><strong>Fallback Test:</strong> Block CDN, verify local fallback works with SRI</li>
+</ol>
+<p><strong>Browser DevTools Check:</strong></p>
+<pre><code>Console should show:
+✅ pdf.js loaded with integrity verification
+✅ pdf-lib loaded with integrity verification
+
+Network tab should show:
+Status 200, Integrity: sha384-...
+</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity">MDN: Subresource Integrity</a></li>
+<li><a href="https://www.srihash.org/">SRI Hash Generator</a></li>
+<li><a href="https://www.w3.org/TR/CSP3/#directive-require-sri-for">CSP: require-sri-for</a></li>
+<li><a href="https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json#integrity">npm: package-lock.json integrity</a></li>
+</ul>
+<h2 id="owner">Owner</h2>
+<p><strong>DevOps + Engineering</strong> — Target Completion: Phase 1, Week 2</p>
+<h2 id="status">Status</h2>
+<p><strong>Planned</strong> — SRI hash generation and vendor-loader updates required.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

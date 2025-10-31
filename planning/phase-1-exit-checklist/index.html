@@ -1,0 +1,1677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../phase-1-summary/">
+      
+      
+        <link rel="next" href="../phase-1-readiness/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Phase 1 Exit Checklist - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-1-exit-checklist" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phase 1 Exit Checklist
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Phase 1 Exit Checklist
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Phase 1 Exit Checklist
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-deliverables" class="md-nav__link">
+    Phase 1 Deliverables ✅
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 Deliverables ✅">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-complete" class="md-nav__link">
+    Documentation Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-guides-complete" class="md-nav__link">
+    Implementation Guides Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype-benchmarking" class="md-nav__link">
+    Prototype &amp; Benchmarking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mkdocs-site" class="md-nav__link">
+    MkDocs Site
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-exit-criteria" class="md-nav__link">
+    Phase 1 Exit Criteria
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 Exit Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have-blockers" class="md-nav__link">
+    Must-Have (Blockers)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-have-can-address-in-phase-2" class="md-nav__link">
+    Should-Have (Can Address in Phase 2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nice-to-have-deferrable" class="md-nav__link">
+    Nice-to-Have (Deferrable)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stakeholder-review-checklist" class="md-nav__link">
+    Stakeholder Review Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Stakeholder Review Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engine-decision-review" class="md-nav__link">
+    Engine Decision Review
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-review" class="md-nav__link">
+    Security Review
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#budget-timeline-review" class="md-nav__link">
+    Budget &amp; Timeline Review
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-preparation" class="md-nav__link">
+    Phase 2 Preparation
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2 Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    Development Environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype-mvp-transition" class="md-nav__link">
+    Prototype → MVP Transition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-updates" class="md-nav__link">
+    Documentation Updates
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-vendor-evaluation-path" class="md-nav__link">
+    Optional: Vendor Evaluation Path
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional: Vendor Evaluation Path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#week-1-nov-1-7-2025" class="md-nav__link">
+    Week 1 (Nov 1-7, 2025)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-2-nov-8-15-2025" class="md-nav__link">
+    Week 2 (Nov 8-15, 2025)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-3-nov-16-20-2025" class="md-nav__link">
+    Week 3 (Nov 16-20, 2025)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sign-off" class="md-nav__link">
+    Sign-Off
+  </a>
+  
+    <nav class="md-nav" aria-label="Sign-Off">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-complete" class="md-nav__link">
+    Phase 1 Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-authorized" class="md-nav__link">
+    Phase 2 Authorized
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-deliverables" class="md-nav__link">
+    Phase 1 Deliverables ✅
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 Deliverables ✅">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation-complete" class="md-nav__link">
+    Documentation Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-guides-complete" class="md-nav__link">
+    Implementation Guides Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype-benchmarking" class="md-nav__link">
+    Prototype &amp; Benchmarking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mkdocs-site" class="md-nav__link">
+    MkDocs Site
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-exit-criteria" class="md-nav__link">
+    Phase 1 Exit Criteria
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 Exit Criteria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-have-blockers" class="md-nav__link">
+    Must-Have (Blockers)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-have-can-address-in-phase-2" class="md-nav__link">
+    Should-Have (Can Address in Phase 2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nice-to-have-deferrable" class="md-nav__link">
+    Nice-to-Have (Deferrable)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stakeholder-review-checklist" class="md-nav__link">
+    Stakeholder Review Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Stakeholder Review Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engine-decision-review" class="md-nav__link">
+    Engine Decision Review
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-review" class="md-nav__link">
+    Security Review
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#budget-timeline-review" class="md-nav__link">
+    Budget &amp; Timeline Review
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-preparation" class="md-nav__link">
+    Phase 2 Preparation
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2 Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-environment" class="md-nav__link">
+    Development Environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prototype-mvp-transition" class="md-nav__link">
+    Prototype → MVP Transition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-updates" class="md-nav__link">
+    Documentation Updates
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-vendor-evaluation-path" class="md-nav__link">
+    Optional: Vendor Evaluation Path
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional: Vendor Evaluation Path">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#week-1-nov-1-7-2025" class="md-nav__link">
+    Week 1 (Nov 1-7, 2025)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-2-nov-8-15-2025" class="md-nav__link">
+    Week 2 (Nov 8-15, 2025)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#week-3-nov-16-20-2025" class="md-nav__link">
+    Week 3 (Nov 16-20, 2025)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sign-off" class="md-nav__link">
+    Sign-Off
+  </a>
+  
+    <nav class="md-nav" aria-label="Sign-Off">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-complete" class="md-nav__link">
+    Phase 1 Complete
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-authorized" class="md-nav__link">
+    Phase 2 Authorized
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="phase-1-exit-checklist">Phase 1 Exit Checklist</h1>
+<p>Use this checklist to verify Phase 1 completion and prepare for Phase 2 transition.</p>
+<h2 id="phase-1-deliverables">Phase 1 Deliverables ✅</h2>
+<h3 id="documentation-complete">Documentation Complete</h3>
+<ul>
+<li>[x] Phase 1 Summary (<code>docs/planning/phase-1-summary.md</code>)</li>
+<li>[x] Phase 1 Readiness (<code>docs/planning/phase-1-readiness.md</code>)</li>
+<li>[x] Phase 1 Backlog with status updates (<code>docs/planning/backlog.md</code>)</li>
+<li>[x] Risk Register (<code>docs/planning/risk-register.md</code>)</li>
+<li>[x] Engine Strategy with recommendation (<code>docs/planning/engine-strategy.md</code>)</li>
+<li>[x] Vendor Outreach templates (<code>docs/planning/vendor-outreach.md</code>)</li>
+<li>[x] Performance Benchmarks with results (<code>docs/planning/performance-benchmarks.md</code>)</li>
+<li>[x] Annotation Fidelity Test (<code>docs/planning/annotation-fidelity-test.md</code>)</li>
+<li>[x] Security Threat Model (<code>docs/planning/security-threat-model.md</code>)</li>
+</ul>
+<h3 id="implementation-guides-complete">Implementation Guides Complete</h3>
+<ul>
+<li>[x] CSP Configuration (<code>docs/implementation/csp-configuration.md</code>)</li>
+<li>[x] CVE Scanning Automation (<code>docs/implementation/cve-scanning.md</code>)</li>
+<li>[x] Large File Detection UX (<code>docs/implementation/large-file-detection.md</code>)</li>
+<li>[x] Secure Build &amp; SRI (<code>docs/implementation/secure-build-sri.md</code>)</li>
+<li>[x] Incident Response Playbook (<code>docs/implementation/incident-response.md</code>)</li>
+</ul>
+<h3 id="prototype-benchmarking">Prototype &amp; Benchmarking</h3>
+<ul>
+<li>[x] Prototype enhanced with annotations and performance tracking</li>
+<li>[x] Vendor loader with CDN fallback implemented</li>
+<li>[x] Test PDFs generated (150 pages, 500 pages)</li>
+<li>[x] Performance benchmarks executed and documented</li>
+<li>[x] All performance targets met (load time, render time, memory usage)</li>
+</ul>
+<h3 id="mkdocs-site">MkDocs Site</h3>
+<ul>
+<li>[x] All documentation linked in navigation</li>
+<li>[x] Site builds without errors</li>
+<li>[x] GitHub Pages deployment configured</li>
+</ul>
+<h2 id="phase-1-exit-criteria">Phase 1 Exit Criteria</h2>
+<h3 id="must-have-blockers">Must-Have (Blockers)</h3>
+<ul>
+<li>[x] <strong>Engine decision made:</strong> pdf.js + pdf-lib recommended ✅</li>
+<li>[x] <strong>Performance validated:</strong> All benchmarks pass ✅</li>
+<li>[x] <strong>Security baseline:</strong> Threat model + P0 security docs complete ✅</li>
+<li>[x] <strong>Backlog prioritized:</strong> P0/P1/P2/P3 tasks identified ✅</li>
+</ul>
+<h3 id="should-have-can-address-in-phase-2">Should-Have (Can Address in Phase 2)</h3>
+<ul>
+<li>[ ] <strong>MVP scope locked:</strong> User stories validated with stakeholders</li>
+<li>[ ] <strong>Vendor evaluation:</strong> Optional (defer to Phase 2 if not critical)</li>
+<li>[ ] <strong>Team staffing:</strong> Real names assigned to backlog tasks</li>
+</ul>
+<h3 id="nice-to-have-deferrable">Nice-to-Have (Deferrable)</h3>
+<ul>
+<li>[ ] <strong>User research:</strong> Interviews with target users</li>
+<li>[ ] <strong>Compliance mapping:</strong> SOC2/GDPR checklist alignment</li>
+<li>[ ] <strong>Roadmap draft:</strong> 4-quarter feature roadmap</li>
+</ul>
+<h2 id="stakeholder-review-checklist">Stakeholder Review Checklist</h2>
+<h3 id="engine-decision-review">Engine Decision Review</h3>
+<ul>
+<li>[ ] Present pdf.js + pdf-lib recommendation</li>
+<li>[ ] Discuss annotation limitation (flattened vs. standard)</li>
+<li>[ ] Decide: Proceed with vendor evaluation? (optional)</li>
+<li>[ ] Get stakeholder sign-off on engine choice</li>
+</ul>
+<h3 id="security-review">Security Review</h3>
+<ul>
+<li>[ ] Review threat model and mitigation strategies</li>
+<li>[ ] Present P0 security implementation guides</li>
+<li>[ ] Discuss incident response process</li>
+<li>[ ] Assign security task owners</li>
+</ul>
+<h3 id="budget-timeline-review">Budget &amp; Timeline Review</h3>
+<ul>
+<li>[ ] Confirm Phase 2 timeline (implementation start date)</li>
+<li>[ ] Review vendor evaluation budget (if applicable)</li>
+<li>[ ] Discuss licensing cost avoidance (pdf.js = $0)</li>
+</ul>
+<h2 id="phase-2-preparation">Phase 2 Preparation</h2>
+<h3 id="development-environment">Development Environment</h3>
+<ul>
+<li>[ ] Implement CSP policies in prototype</li>
+<li>[ ] Set up Dependabot for CVE scanning</li>
+<li>[ ] Configure CI/CD pipeline with security checks</li>
+<li>[ ] Generate and integrate SRI hashes for vendor assets</li>
+</ul>
+<h3 id="prototype-mvp-transition">Prototype → MVP Transition</h3>
+<ul>
+<li>[ ] Refactor prototype code for production</li>
+<li>[ ] Implement large-file detection UX</li>
+<li>[ ] Add error handling and user feedback</li>
+<li>[ ] Write unit tests for core functionality</li>
+</ul>
+<h3 id="documentation-updates">Documentation Updates</h3>
+<ul>
+<li>[ ] Update <code>setup.md</code> with production environment setup</li>
+<li>[ ] Expand <code>acceptance-tests.md</code> with test scenarios</li>
+<li>[ ] Document deployment process</li>
+<li>[ ] Create user-facing documentation (help guides)</li>
+</ul>
+<h2 id="optional-vendor-evaluation-path">Optional: Vendor Evaluation Path</h2>
+<p>If stakeholders choose to evaluate vendor SDKs:</p>
+<h3 id="week-1-nov-1-7-2025">Week 1 (Nov 1-7, 2025)</h3>
+<ul>
+<li>[ ] Send outreach emails to PDFTron and PSPDFKit</li>
+<li>[ ] Schedule vendor calls</li>
+<li>[ ] Request evaluation licenses</li>
+</ul>
+<h3 id="week-2-nov-8-15-2025">Week 2 (Nov 8-15, 2025)</h3>
+<ul>
+<li>[ ] Obtain evaluation licenses</li>
+<li>[ ] Run micro-spikes (performance, annotations, integration)</li>
+<li>[ ] Populate vendor comparison tables</li>
+</ul>
+<h3 id="week-3-nov-16-20-2025">Week 3 (Nov 16-20, 2025)</h3>
+<ul>
+<li>[ ] Complete scoring rubric</li>
+<li>[ ] Update engine-strategy.md with findings</li>
+<li>[ ] Make final decision (Nov 20 deadline)</li>
+</ul>
+<h2 id="sign-off">Sign-Off</h2>
+<h3 id="phase-1-complete">Phase 1 Complete</h3>
+<ul>
+<li>[ ] <strong>Engineering Lead:</strong> Engine decision approved</li>
+<li>[ ] <strong>Security Engineer:</strong> Threat model and mitigations reviewed</li>
+<li>[ ] <strong>Product Manager:</strong> MVP scope and backlog approved</li>
+<li>[ ] <strong>Project Sponsor:</strong> Phase 1 deliverables accepted</li>
+</ul>
+<h3 id="phase-2-authorized">Phase 2 Authorized</h3>
+<ul>
+<li>[ ] <strong>Funding approved:</strong> Budget allocated for Phase 2 implementation</li>
+<li>[ ] <strong>Timeline confirmed:</strong> Phase 2 start date and milestones set</li>
+<li>[ ] <strong>Team assigned:</strong> Developers, QA, DevOps resources allocated</li>
+</ul>
+<hr />
+<p><strong>Current Status:</strong> Phase 1 deliverables complete ✅
+<strong>Awaiting:</strong> Stakeholder review and Phase 2 authorization
+<strong>Next Milestone:</strong> Phase 2 kickoff (target: November 1, 2025)</p>
+<hr />
+<p><strong>Checklist Version:</strong> 1.0
+<strong>Last Updated:</strong> October 31, 2025
+<strong>Prepared By:</strong> GitHub Copilot</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

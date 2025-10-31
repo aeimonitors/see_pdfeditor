@@ -1,0 +1,2607 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../../user-guide/faq/">
+      
+      
+        <link rel="next" href="../../testing/cross-browser-testing-checklist/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Deployment Guide - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deployment-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deployment Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-tasks/" class="md-nav__link">
+        Sprint 1 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deployment Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Deployment Guide
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required" class="md-nav__link">
+    Required
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional" class="md-nav__link">
+    Optional
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-options" class="md-nav__link">
+    Deployment Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-netlify-recommended" class="md-nav__link">
+    Option 1: Netlify (Recommended)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-github-pages" class="md-nav__link">
+    Option 2: GitHub Pages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-vercel" class="md-nav__link">
+    Option 3: Vercel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-4-cloudflare-pages" class="md-nav__link">
+    Option 4: Cloudflare Pages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netlify-deployment-steps" class="md-nav__link">
+    Netlify Deployment Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Netlify Deployment Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prepare-repository" class="md-nav__link">
+    Step 1: Prepare Repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-netlify-account" class="md-nav__link">
+    Step 2: Create Netlify Account
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-new-site" class="md-nav__link">
+    Step 3: Create New Site
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-deployment" class="md-nav__link">
+    Step 4: Verify Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-configure-custom-domain-optional" class="md-nav__link">
+    Step 5: Configure Custom Domain (Optional)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-enable-analytics-optional" class="md-nav__link">
+    Step 6: Enable Analytics (Optional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-deployment" class="md-nav__link">
+    Continuous Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-deploys" class="md-nav__link">
+    Automatic Deploys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-previews" class="md-nav__link">
+    Deploy Previews
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback" class="md-nav__link">
+    Rollback
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    Environment Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-vs-development" class="md-nav__link">
+    Production vs Development
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    Environment Variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    Performance Optimization
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-optimizations" class="md-nav__link">
+    Current Optimizations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-optimizations-if-needed" class="md-nav__link">
+    Future Optimizations (If Needed)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-maintenance" class="md-nav__link">
+    Monitoring &amp; Maintenance
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring &amp; Maintenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    Health Checks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-updates" class="md-nav__link">
+    Dependency Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-scans" class="md-nav__link">
+    Security Scans
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#site-wont-load" class="md-nav__link">
+    Site Won't Load
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features-dont-work" class="md-nav__link">
+    Features Don't Work
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slow-performance" class="md-nav__link">
+    Slow Performance
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-deployment-checklist" class="md-nav__link">
+    Post-Deployment Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Deployment Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-within-1-hour" class="md-nav__link">
+    Immediate (Within 1 hour)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#within-24-hours" class="md-nav__link">
+    Within 24 hours
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#within-1-week" class="md-nav__link">
+    Within 1 week
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollback-plan" class="md-nav__link">
+    Rollback Plan
+  </a>
+  
+    <nav class="md-nav" aria-label="Rollback Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-critical-issue-found" class="md-nav__link">
+    If Critical Issue Found
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cost-breakdown" class="md-nav__link">
+    Cost Breakdown
+  </a>
+  
+    <nav class="md-nav" aria-label="Cost Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netlify-free-tier" class="md-nav__link">
+    Netlify Free Tier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-costs" class="md-nav__link">
+    Optional Costs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#after-successful-deployment" class="md-nav__link">
+    After Successful Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-resources" class="md-nav__link">
+    Support Resources
+  </a>
+  
+    <nav class="md-nav" aria-label="Support Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netlify-documentation" class="md-nav__link">
+    Netlify Documentation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#community" class="md-nav__link">
+    Community
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-alternative-cicd" class="md-nav__link">
+    GitHub Actions (Alternative CI/CD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-checklist" class="md-nav__link">
+    Deployment Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-deployment" class="md-nav__link">
+    Pre-Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-deployment" class="md-nav__link">
+    Post-Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required" class="md-nav__link">
+    Required
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional" class="md-nav__link">
+    Optional
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-options" class="md-nav__link">
+    Deployment Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-netlify-recommended" class="md-nav__link">
+    Option 1: Netlify (Recommended)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-github-pages" class="md-nav__link">
+    Option 2: GitHub Pages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-vercel" class="md-nav__link">
+    Option 3: Vercel
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-4-cloudflare-pages" class="md-nav__link">
+    Option 4: Cloudflare Pages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#netlify-deployment-steps" class="md-nav__link">
+    Netlify Deployment Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Netlify Deployment Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prepare-repository" class="md-nav__link">
+    Step 1: Prepare Repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-netlify-account" class="md-nav__link">
+    Step 2: Create Netlify Account
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-new-site" class="md-nav__link">
+    Step 3: Create New Site
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-deployment" class="md-nav__link">
+    Step 4: Verify Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-configure-custom-domain-optional" class="md-nav__link">
+    Step 5: Configure Custom Domain (Optional)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-enable-analytics-optional" class="md-nav__link">
+    Step 6: Enable Analytics (Optional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-deployment" class="md-nav__link">
+    Continuous Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-deploys" class="md-nav__link">
+    Automatic Deploys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-previews" class="md-nav__link">
+    Deploy Previews
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rollback" class="md-nav__link">
+    Rollback
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    Environment Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-vs-development" class="md-nav__link">
+    Production vs Development
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    Environment Variables
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    Performance Optimization
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-optimizations" class="md-nav__link">
+    Current Optimizations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-optimizations-if-needed" class="md-nav__link">
+    Future Optimizations (If Needed)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-maintenance" class="md-nav__link">
+    Monitoring &amp; Maintenance
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring &amp; Maintenance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    Health Checks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-updates" class="md-nav__link">
+    Dependency Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-scans" class="md-nav__link">
+    Security Scans
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#site-wont-load" class="md-nav__link">
+    Site Won't Load
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features-dont-work" class="md-nav__link">
+    Features Don't Work
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slow-performance" class="md-nav__link">
+    Slow Performance
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-deployment-checklist" class="md-nav__link">
+    Post-Deployment Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Deployment Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immediate-within-1-hour" class="md-nav__link">
+    Immediate (Within 1 hour)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#within-24-hours" class="md-nav__link">
+    Within 24 hours
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#within-1-week" class="md-nav__link">
+    Within 1 week
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rollback-plan" class="md-nav__link">
+    Rollback Plan
+  </a>
+  
+    <nav class="md-nav" aria-label="Rollback Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-critical-issue-found" class="md-nav__link">
+    If Critical Issue Found
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cost-breakdown" class="md-nav__link">
+    Cost Breakdown
+  </a>
+  
+    <nav class="md-nav" aria-label="Cost Breakdown">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netlify-free-tier" class="md-nav__link">
+    Netlify Free Tier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-costs" class="md-nav__link">
+    Optional Costs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    Next Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#after-successful-deployment" class="md-nav__link">
+    After Successful Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support-resources" class="md-nav__link">
+    Support Resources
+  </a>
+  
+    <nav class="md-nav" aria-label="Support Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#netlify-documentation" class="md-nav__link">
+    Netlify Documentation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#community" class="md-nav__link">
+    Community
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-alternative-cicd" class="md-nav__link">
+    GitHub Actions (Alternative CI/CD)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-checklist" class="md-nav__link">
+    Deployment Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-deployment" class="md-nav__link">
+    Pre-Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    Deployment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-deployment" class="md-nav__link">
+    Post-Deployment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="deployment-guide">Deployment Guide</h1>
+<p><strong>Application:</strong> see_pdfeditor
+<strong>Hosting Platform:</strong> Netlify (Recommended)
+<strong>Deployment Type:</strong> Static Site
+<strong>Last Updated:</strong> October 31, 2025</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>This guide covers deploying see_pdfeditor to production using Netlify. The application is a static site requiring no build process, making deployment straightforward.</p>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="required">Required</h3>
+<ul>
+<li>✅ GitHub account (or GitLab/Bitbucket)</li>
+<li>✅ Netlify account (free tier sufficient)</li>
+<li>✅ Git repository with code pushed</li>
+</ul>
+<h3 id="optional">Optional</h3>
+<ul>
+<li>⚪ Custom domain name</li>
+<li>⚪ DNS management access</li>
+</ul>
+<hr />
+<h2 id="deployment-options">Deployment Options</h2>
+<h3 id="option-1-netlify-recommended">Option 1: Netlify (Recommended)</h3>
+<p><strong>Pros:</strong>
+- ✅ Free tier generous (100 GB bandwidth/month)
+- ✅ Automatic HTTPS
+- ✅ Global CDN
+- ✅ Auto-deploy from Git
+- ✅ Easy rollback
+- ✅ Analytics included</p>
+<p><strong>Cons:</strong>
+- ❌ Build minutes limited (not applicable for static site)
+- ❌ Concurrent builds limited (not applicable)</p>
+<h3 id="option-2-github-pages">Option 2: GitHub Pages</h3>
+<p><strong>Pros:</strong>
+- ✅ Completely free
+- ✅ Simple setup
+- ✅ Integrated with GitHub</p>
+<p><strong>Cons:</strong>
+- ❌ No custom headers (CSP won't work)
+- ❌ Slower CDN
+- ❌ Less control</p>
+<h3 id="option-3-vercel">Option 3: Vercel</h3>
+<p><strong>Pros:</strong>
+- ✅ Excellent performance
+- ✅ Great developer experience</p>
+<p><strong>Cons:</strong>
+- ❌ Similar limitations to Netlify
+- ❌ Less generous free tier</p>
+<h3 id="option-4-cloudflare-pages">Option 4: Cloudflare Pages</h3>
+<p><strong>Pros:</strong>
+- ✅ Unlimited bandwidth
+- ✅ Fastest CDN</p>
+<p><strong>Cons:</strong>
+- ❌ Steeper learning curve
+- ❌ More complex setup</p>
+<p><strong>Recommendation:</strong> Use <strong>Netlify</strong> for best balance of features and simplicity.</p>
+<hr />
+<h2 id="netlify-deployment-steps">Netlify Deployment Steps</h2>
+<h3 id="step-1-prepare-repository">Step 1: Prepare Repository</h3>
+<ol>
+<li>
+<p><strong>Ensure code is pushed to GitHub:</strong>
+   <code>powershell
+   git add .
+   git commit -m "Prepare for production deployment"
+   git push origin main</code></p>
+</li>
+<li>
+<p><strong>Verify repository structure:</strong>
+   <code>see_pdfeditor/
+   ├── prototype/          # This folder will be deployed
+   │   ├── index.html
+   │   ├── styles.css
+   │   ├── app-refactored.js
+   │   ├── vendor-loader.js
+   │   └── src/
+   ├── netlify.toml        # Netlify configuration
+   └── README.md</code></p>
+</li>
+<li>
+<p><strong>Check netlify.toml exists:</strong></p>
+</li>
+<li>File should be in root directory</li>
+<li>Contains security headers and build config</li>
+</ol>
+<h3 id="step-2-create-netlify-account">Step 2: Create Netlify Account</h3>
+<ol>
+<li><strong>Go to:</strong> https://www.netlify.com/</li>
+<li><strong>Click:</strong> "Sign up"</li>
+<li><strong>Choose:</strong> "Sign up with GitHub"</li>
+<li><strong>Authorize:</strong> Netlify to access GitHub</li>
+</ol>
+<h3 id="step-3-create-new-site">Step 3: Create New Site</h3>
+<ol>
+<li><strong>In Netlify dashboard:</strong></li>
+<li>
+<p>Click "Add new site" → "Import an existing project"</p>
+</li>
+<li>
+<p><strong>Connect to Git provider:</strong></p>
+</li>
+<li>Choose "GitHub"</li>
+<li>Authorize Netlify if prompted</li>
+<li>
+<p>Select repository: <code>aeimonitors/see_pdfeditor</code></p>
+</li>
+<li>
+<p><strong>Configure build settings:</strong></p>
+</li>
+<li><strong>Branch to deploy:</strong> <code>main</code></li>
+<li><strong>Build command:</strong> (leave empty or use <code>echo 'Static site'</code>)</li>
+<li><strong>Publish directory:</strong> <code>prototype</code></li>
+<li>
+<p>Click "Deploy site"</p>
+</li>
+<li>
+<p><strong>Wait for deployment:</strong></p>
+</li>
+<li>Initial deploy takes 30-60 seconds</li>
+<li>Status shows "Published" when complete</li>
+</ol>
+<h3 id="step-4-verify-deployment">Step 4: Verify Deployment</h3>
+<ol>
+<li><strong>Get deployment URL:</strong></li>
+<li>Format: <code>https://random-name-12345.netlify.app</code></li>
+<li>
+<p>Shown in Netlify dashboard</p>
+</li>
+<li>
+<p><strong>Test basic functionality:</strong></p>
+</li>
+<li>✅ Site loads</li>
+<li>✅ No console errors (F12)</li>
+<li>✅ Vendor assets load</li>
+<li>✅ Can generate sample PDF</li>
+<li>
+<p>✅ All buttons work</p>
+</li>
+<li>
+<p><strong>Test features:</strong></p>
+</li>
+<li>✅ Upload PDF (drag-drop + browse)</li>
+<li>✅ Page reordering</li>
+<li>✅ Page duplicate/delete</li>
+<li>✅ Annotations</li>
+<li>✅ Undo/redo</li>
+<li>
+<p>✅ Export</p>
+</li>
+<li>
+<p><strong>Verify security headers:</strong></p>
+</li>
+<li>Open browser DevTools (F12)</li>
+<li>Go to Network tab</li>
+<li>Reload page</li>
+<li>Click on main document</li>
+<li>Check Response Headers:<ul>
+<li>✅ Content-Security-Policy present</li>
+<li>✅ X-Frame-Options: DENY</li>
+<li>✅ X-Content-Type-Options: nosniff</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-5-configure-custom-domain-optional">Step 5: Configure Custom Domain (Optional)</h3>
+<p>If you have a custom domain (e.g., <code>seepdfeditor.com</code>):</p>
+<ol>
+<li><strong>In Netlify dashboard:</strong></li>
+<li>Go to "Domain settings"</li>
+<li>Click "Add custom domain"</li>
+<li>
+<p>Enter your domain: <code>seepdfeditor.com</code></p>
+</li>
+<li>
+<p><strong>Configure DNS:</strong></p>
+</li>
+<li>
+<p><strong>Option A: Netlify DNS (Recommended)</strong></p>
+<ul>
+<li>Transfer nameservers to Netlify</li>
+<li>Netlify manages everything</li>
+</ul>
+</li>
+<li>
+<p><strong>Option B: External DNS</strong></p>
+<ul>
+<li>Add A record: <code>75.2.60.5</code></li>
+<li>Add CNAME record: <code>www</code> → <code>your-site.netlify.app</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Wait for DNS propagation:</strong></p>
+</li>
+<li>Can take 1-24 hours</li>
+<li>
+<p>Check status in Netlify dashboard</p>
+</li>
+<li>
+<p><strong>Enable HTTPS:</strong></p>
+</li>
+<li>Automatic with Netlify</li>
+<li>SSL certificate provisioned automatically</li>
+<li>Check "Force HTTPS" in domain settings</li>
+</ol>
+<h3 id="step-6-enable-analytics-optional">Step 6: Enable Analytics (Optional)</h3>
+<p><strong>Netlify Analytics (Paid: $9/month):</strong>
+1. Go to "Analytics" tab
+2. Click "Enable analytics"
+3. Provides server-side analytics (no cookies)</p>
+<p><strong>Google Analytics 4 (Free):</strong>
+1. Create GA4 property
+2. Get measurement ID (G-XXXXXXXXXX)
+3. Add to <code>index.html</code>:
+   ```html
+   <!-- Google Analytics --></p>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+     gtag('config', 'G-XXXXXXXXXX');
+   </script>
+<p><code>4. Update CSP in netlify.toml:</code>toml
+   script-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com 'unsafe-inline' 'unsafe-eval';
+   connect-src 'self' https://www.google-analytics.com;
+   ```</p>
+<hr />
+<h2 id="continuous-deployment">Continuous Deployment</h2>
+<h3 id="automatic-deploys">Automatic Deploys</h3>
+<p>Once connected to GitHub, Netlify automatically deploys on:
+- ✅ Push to main branch
+- ✅ Merged pull requests
+- ✅ Commits to main</p>
+<p><strong>Deploy workflow:</strong>
+1. Make changes locally
+2. Commit and push to GitHub
+3. Netlify automatically builds and deploys
+4. Live site updates in ~1 minute</p>
+<h3 id="deploy-previews">Deploy Previews</h3>
+<p>For pull requests, Netlify creates preview deploys:
+- Each PR gets unique URL
+- Test changes before merging
+- Share with team for review</p>
+<h3 id="rollback">Rollback</h3>
+<p>If deployment has issues:
+1. Go to "Deploys" tab
+2. Find previous working deploy
+3. Click "Publish deploy"
+4. Site reverts instantly</p>
+<hr />
+<h2 id="environment-configuration">Environment Configuration</h2>
+<h3 id="production-vs-development">Production vs Development</h3>
+<p><strong>Development (local):</strong>
+- Uses <code>npm run dev</code> (Vite)
+- Hot reload enabled
+- No CSP restrictions
+- Console logs visible</p>
+<p><strong>Production (Netlify):</strong>
+- Serves static files directly
+- CSP headers enforced
+- Console logs hidden (if configured)
+- HTTPS required</p>
+<h3 id="environment-variables">Environment Variables</h3>
+<p>If needed in future:</p>
+<ol>
+<li><strong>In Netlify dashboard:</strong></li>
+<li>Go to "Site settings" → "Environment variables"</li>
+<li>Click "Add a variable"</li>
+<li>
+<p>Enter key/value pairs</p>
+</li>
+<li>
+<p><strong>Access in code:</strong>
+   <code>javascript
+   const apiUrl = import.meta.env.VITE_API_URL || 'https://default.com';</code></p>
+</li>
+</ol>
+<hr />
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="current-optimizations">Current Optimizations</h3>
+<ol>
+<li><strong>CDN Delivery:</strong></li>
+<li>All files served from global CDN</li>
+<li>
+<p>Fast loading worldwide</p>
+</li>
+<li>
+<p><strong>Cache Headers:</strong></p>
+</li>
+<li>HTML: No cache (always fresh)</li>
+<li>JS/CSS: 1 year cache (immutable)</li>
+<li>
+<p>Assets: 1 hour cache</p>
+</li>
+<li>
+<p><strong>Compression:</strong></p>
+</li>
+<li>Gzip enabled automatically</li>
+<li>Brotli enabled automatically</li>
+</ol>
+<h3 id="future-optimizations-if-needed">Future Optimizations (If Needed)</h3>
+<ol>
+<li><strong>Code Splitting:</strong></li>
+<li>Split large files into chunks</li>
+<li>
+<p>Load on demand</p>
+</li>
+<li>
+<p><strong>Image Optimization:</strong></p>
+</li>
+<li>Compress images</li>
+<li>
+<p>Use WebP format</p>
+</li>
+<li>
+<p><strong>Lazy Loading:</strong></p>
+</li>
+<li>
+<p>Defer non-critical resources</p>
+</li>
+<li>
+<p><strong>Service Worker:</strong></p>
+</li>
+<li>Offline support</li>
+<li>Faster repeat visits</li>
+</ol>
+<hr />
+<h2 id="monitoring-maintenance">Monitoring &amp; Maintenance</h2>
+<h3 id="health-checks">Health Checks</h3>
+<p><strong>Weekly checks:</strong>
+- ✅ Site loads correctly
+- ✅ All features functional
+- ✅ No console errors
+- ✅ Security headers present</p>
+<p><strong>Monthly checks:</strong>
+- ✅ Dependencies up to date
+- ✅ No security vulnerabilities
+- ✅ Analytics review
+- ✅ Error logs review</p>
+<h3 id="dependency-updates">Dependency Updates</h3>
+<ol>
+<li>
+<p><strong>Check for updates:</strong>
+   <code>powershell
+   npm outdated</code></p>
+</li>
+<li>
+<p><strong>Update dependencies:</strong>
+   <code>powershell
+   npm update</code></p>
+</li>
+<li>
+<p><strong>Test thoroughly:</strong></p>
+</li>
+<li>Run locally first</li>
+<li>Verify all features work</li>
+<li>
+<p>Check console for errors</p>
+</li>
+<li>
+<p><strong>Deploy:</strong>
+   <code>powershell
+   git add package.json package-lock.json
+   git commit -m "Update dependencies"
+   git push</code></p>
+</li>
+</ol>
+<h3 id="security-scans">Security Scans</h3>
+<p><strong>Dependabot (GitHub):</strong>
+- Automated weekly scans
+- Pull requests for vulnerabilities
+- Review and merge promptly</p>
+<p><strong>CodeQL (GitHub):</strong>
+- Automated code analysis
+- Scans for security issues
+- Review alerts in Security tab</p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="site-wont-load">Site Won't Load</h3>
+<p><strong>Check 1: Build status</strong>
+- Go to Netlify "Deploys" tab
+- Look for red X (failed deploy)
+- Check build logs for errors</p>
+<p><strong>Check 2: Publish directory</strong>
+- Verify set to <code>prototype</code>
+- Check files exist in repo</p>
+<p><strong>Check 3: DNS (custom domain)</strong>
+- Verify DNS records correct
+- Wait for propagation (24h max)</p>
+<h3 id="features-dont-work">Features Don't Work</h3>
+<p><strong>Check 1: Console errors</strong>
+- Open DevTools (F12)
+- Check Console tab
+- Look for CSP violations</p>
+<p><strong>Check 2: CSP too strict</strong>
+- Temporarily disable in netlify.toml
+- Test if features work
+- Adjust CSP as needed</p>
+<p><strong>Check 3: Missing files</strong>
+- Verify all files in <code>prototype/</code> folder
+- Check file paths in code</p>
+<h3 id="slow-performance">Slow Performance</h3>
+<p><strong>Check 1: File sizes</strong>
+- Large files slow loading
+- Optimize images/assets</p>
+<p><strong>Check 2: CDN location</strong>
+- Test from different locations
+- Should be fast globally</p>
+<p><strong>Check 3: Cache headers</strong>
+- Verify set correctly
+- Clear browser cache</p>
+<hr />
+<h2 id="post-deployment-checklist">Post-Deployment Checklist</h2>
+<h3 id="immediate-within-1-hour">Immediate (Within 1 hour)</h3>
+<ul>
+<li>[ ] Site loads on deployment URL</li>
+<li>[ ] No console errors</li>
+<li>[ ] All features functional</li>
+<li>[ ] Security headers verified</li>
+<li>[ ] Mobile responsive</li>
+<li>[ ] Cross-browser tested (Chrome, Firefox, Edge)</li>
+</ul>
+<h3 id="within-24-hours">Within 24 hours</h3>
+<ul>
+<li>[ ] Custom domain configured (if applicable)</li>
+<li>[ ] HTTPS enabled and forced</li>
+<li>[ ] Analytics configured</li>
+<li>[ ] Error monitoring set up (Sentry)</li>
+<li>[ ] Documentation updated with production URL</li>
+<li>[ ] User guide links updated</li>
+</ul>
+<h3 id="within-1-week">Within 1 week</h3>
+<ul>
+<li>[ ] Beta testers invited</li>
+<li>[ ] Feedback collected</li>
+<li>[ ] Any critical issues fixed</li>
+<li>[ ] Performance metrics reviewed</li>
+<li>[ ] SEO meta tags added (if applicable)</li>
+</ul>
+<hr />
+<h2 id="rollback-plan">Rollback Plan</h2>
+<h3 id="if-critical-issue-found">If Critical Issue Found</h3>
+<p><strong>Option 1: Instant Rollback</strong>
+1. Go to Netlify "Deploys"
+2. Find last working deploy
+3. Click "Publish deploy"
+4. Site reverts in seconds</p>
+<p><strong>Option 2: Git Revert</strong>
+1. Identify problematic commit
+2. Revert locally:
+   <code>powershell
+   git revert &lt;commit-hash&gt;
+   git push</code>
+3. Netlify auto-deploys revert</p>
+<p><strong>Option 3: Emergency Fix</strong>
+1. Fix issue locally
+2. Test thoroughly
+3. Deploy fix:
+   <code>powershell
+   git add .
+   git commit -m "Emergency fix: [description]"
+   git push</code></p>
+<hr />
+<h2 id="cost-breakdown">Cost Breakdown</h2>
+<h3 id="netlify-free-tier">Netlify Free Tier</h3>
+<ul>
+<li><strong>Bandwidth:</strong> 100 GB/month</li>
+<li><strong>Build Minutes:</strong> 300/month (not needed)</li>
+<li><strong>Sites:</strong> Unlimited</li>
+<li><strong>SSL:</strong> Free (Let's Encrypt)</li>
+<li><strong>Cost:</strong> $0/month</li>
+</ul>
+<p><strong>Estimated usage:</strong>
+- Average page load: ~500 KB
+- 100 GB = ~200,000 page loads/month
+- More than sufficient for MVP</p>
+<h3 id="optional-costs">Optional Costs</h3>
+<ul>
+<li><strong>Netlify Analytics:</strong> $9/month (optional)</li>
+<li><strong>Custom domain:</strong> $10-15/year (optional)</li>
+<li><strong>Netlify Pro:</strong> $19/month (higher limits)</li>
+</ul>
+<p><strong>Recommended starting cost:</strong> $0-15/year (domain only)</p>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<h3 id="after-successful-deployment">After Successful Deployment</h3>
+<ol>
+<li><strong>Update documentation:</strong></li>
+<li>Replace [your-app-url] with actual URL</li>
+<li>Update README.md</li>
+<li>
+<p>Update user guide</p>
+</li>
+<li>
+<p><strong>Share with testers:</strong></p>
+</li>
+<li>Send production URL</li>
+<li>Gather feedback</li>
+<li>
+<p>Monitor for issues</p>
+</li>
+<li>
+<p><strong>Marketing launch:</strong></p>
+</li>
+<li>Prepare launch posts</li>
+<li>Submit to communities</li>
+<li>
+<p>Share on social media</p>
+</li>
+<li>
+<p><strong>Monitor:</strong></p>
+</li>
+<li>Check analytics daily</li>
+<li>Review error logs</li>
+<li>Respond to feedback</li>
+</ol>
+<hr />
+<h2 id="support-resources">Support Resources</h2>
+<h3 id="netlify-documentation">Netlify Documentation</h3>
+<ul>
+<li><strong>Deploys:</strong> https://docs.netlify.com/site-deploys/overview/</li>
+<li><strong>Custom Domains:</strong> https://docs.netlify.com/domains-https/custom-domains/</li>
+<li><strong>Headers:</strong> https://docs.netlify.com/routing/headers/</li>
+<li><strong>Redirects:</strong> https://docs.netlify.com/routing/redirects/</li>
+</ul>
+<h3 id="community">Community</h3>
+<ul>
+<li><strong>Netlify Forums:</strong> https://answers.netlify.com/</li>
+<li><strong>Netlify Discord:</strong> Active community support</li>
+</ul>
+<h3 id="github-actions-alternative-cicd">GitHub Actions (Alternative CI/CD)</h3>
+<ul>
+<li>Can deploy to Netlify via GitHub Actions</li>
+<li>More control over build process</li>
+<li>Required for complex workflows</li>
+</ul>
+<hr />
+<h2 id="deployment-checklist">Deployment Checklist</h2>
+<h3 id="pre-deployment">Pre-Deployment</h3>
+<ul>
+<li>[x] Code complete and tested locally</li>
+<li>[x] netlify.toml configured</li>
+<li>[x] Security headers defined</li>
+<li>[x] All files in prototype/ folder</li>
+<li>[x] Git repository pushed to GitHub</li>
+<li>[x] README updated</li>
+</ul>
+<h3 id="deployment">Deployment</h3>
+<ul>
+<li>[ ] Netlify account created</li>
+<li>[ ] Site connected to GitHub</li>
+<li>[ ] Build settings configured</li>
+<li>[ ] Initial deploy successful</li>
+<li>[ ] Production URL tested</li>
+</ul>
+<h3 id="post-deployment">Post-Deployment</h3>
+<ul>
+<li>[ ] All features verified</li>
+<li>[ ] Security headers checked</li>
+<li>[ ] Performance tested</li>
+<li>[ ] Mobile tested</li>
+<li>[ ] Analytics configured</li>
+<li>[ ] Documentation updated</li>
+<li>[ ] Team notified</li>
+</ul>
+<hr />
+<p><strong>Document Version:</strong> 1.0
+<strong>Last Updated:</strong> October 31, 2025
+<strong>Status:</strong> Ready for Deployment</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1653 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the PDF Editor MVP and prototype">
+      
+      
+      
+      
+        <link rel="prev" href="../../planning/security-threat-model/">
+      
+      
+        <link rel="next" href="../sprint-1-progress/">
+      
+      <link rel="icon" href="../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
+    
+    
+      
+        <title>Sprint 1 Tasks - see_pdfeditor Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sprint-1-tasks-security-infrastructure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="see_pdfeditor Docs" class="md-header__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            see_pdfeditor Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sprint 1 Tasks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="see_pdfeditor Docs" class="md-nav__button md-logo" aria-label="see_pdfeditor Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    see_pdfeditor Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Planning
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Planning
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-summary/" class="md-nav__link">
+        Phase 1 Summary
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-exit-checklist/" class="md-nav__link">
+        Phase 1 Exit Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-1-readiness/" class="md-nav__link">
+        Phase 1 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/backlog/" class="md-nav__link">
+        Phase 1 Backlog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-readiness/" class="md-nav__link">
+        Phase 2 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-2-kickoff/" class="md-nav__link">
+        Phase 2 Kickoff
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/phase-3-readiness/" class="md-nav__link">
+        Phase 3 Readiness
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/risk-register/" class="md-nav__link">
+        Risk Register
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/engine-strategy/" class="md-nav__link">
+        Engine Strategy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/vendor-outreach/" class="md-nav__link">
+        Vendor Outreach
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/performance-benchmarks/" class="md-nav__link">
+        Performance Benchmarks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/annotation-fidelity-test/" class="md-nav__link">
+        Annotation Fidelity Test
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security-threat-model/" class="md-nav__link">
+        Security Threat Model
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Implementation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Implementation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Sprint 1 Tasks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Sprint 1 Tasks
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#week-1-tasks-nov-1-7" class="md-nav__link">
+    Week 1 Tasks (Nov 1-7)
+  </a>
+  
+    <nav class="md-nav" aria-label="Week 1 Tasks (Nov 1-7)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-11-implement-content-security-policy" class="md-nav__link">
+    Task 1.1: Implement Content Security Policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-12-set-up-dependabot-for-cve-scanning" class="md-nav__link">
+    Task 1.2: Set Up Dependabot for CVE Scanning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-13-github-actions-security-scan-workflow" class="md-nav__link">
+    Task 1.3: GitHub Actions Security Scan Workflow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-14-generate-sri-hashes-for-vendor-assets" class="md-nav__link">
+    Task 1.4: Generate SRI Hashes for Vendor Assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#week-2-tasks-nov-8-14" class="md-nav__link">
+    Week 2 Tasks (Nov 8-14)
+  </a>
+  
+    <nav class="md-nav" aria-label="Week 2 Tasks (Nov 8-14)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-21-implement-large-file-detection-ux" class="md-nav__link">
+    Task 2.1: Implement Large-File Detection UX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-22-add-memory-monitoring" class="md-nav__link">
+    Task 2.2: Add Memory Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-23-refactor-prototype-code" class="md-nav__link">
+    Task 2.3: Refactor Prototype Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-24-set-up-cicd-pipeline" class="md-nav__link">
+    Task 2.4: Set Up CI/CD Pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-1-checklist" class="md-nav__link">
+    Sprint 1 Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Sprint 1 Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security-controls" class="md-nav__link">
+    Security Controls
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    Code Quality
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    CI/CD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-review-nov-14-2025" class="md-nav__link">
+    Sprint Review (Nov 14, 2025)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-retrospective" class="md-nav__link">
+    Sprint Retrospective
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-1-progress/" class="md-nav__link">
+        Sprint 1 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-tasks/" class="md-nav__link">
+        Sprint 2 Tasks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-progress/" class="md-nav__link">
+        Sprint 2 Progress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-week-1-checklist/" class="md-nav__link">
+        Sprint 2 Week 1 Checklist
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint-2-completion-report/" class="md-nav__link">
+        Sprint 2 Completion Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-audit/" class="md-nav__link">
+        Accessibility Audit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-improvements/" class="md-nav__link">
+        Accessibility Improvements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accessibility-implementation-complete/" class="md-nav__link">
+        Accessibility Implementation Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase-3-progress-report/" class="md-nav__link">
+        Phase 3 Progress Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csp-configuration/" class="md-nav__link">
+        CSP Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cve-scanning/" class="md-nav__link">
+        CVE Scanning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../large-file-detection/" class="md-nav__link">
+        Large File Detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-build-sri/" class="md-nav__link">
+        Secure Build & SRI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../incident-response/" class="md-nav__link">
+        Incident Response
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/keyboard-shortcuts/" class="md-nav__link">
+        Keyboard Shortcuts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/deployment-guide/" class="md-nav__link">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-testing-checklist/" class="md-nav__link">
+        Cross-Browser Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-test-results/" class="md-nav__link">
+        Cross-Browser Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-complete/" class="md-nav__link">
+        Cross-Browser Complete
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/cross-browser-execution/" class="md-nav__link">
+        Cross-Browser Execution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/mobile-testing-checklist/" class="md-nav__link">
+        Mobile Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-report/" class="md-nav__link">
+        Validation Report
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/validation-results/" class="md-nav__link">
+        Validation Results
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../testing/QUICK-TEST-NOW/" class="md-nav__link">
+        Quick Test Guide
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../phases/" class="md-nav__link">
+        Phases
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tasks/" class="md-nav__link">
+        Tasks
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../acceptance-tests/" class="md-nav__link">
+        Acceptance Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checklists/" class="md-nav__link">
+        Checklists
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#week-1-tasks-nov-1-7" class="md-nav__link">
+    Week 1 Tasks (Nov 1-7)
+  </a>
+  
+    <nav class="md-nav" aria-label="Week 1 Tasks (Nov 1-7)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-11-implement-content-security-policy" class="md-nav__link">
+    Task 1.1: Implement Content Security Policy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-12-set-up-dependabot-for-cve-scanning" class="md-nav__link">
+    Task 1.2: Set Up Dependabot for CVE Scanning
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-13-github-actions-security-scan-workflow" class="md-nav__link">
+    Task 1.3: GitHub Actions Security Scan Workflow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-14-generate-sri-hashes-for-vendor-assets" class="md-nav__link">
+    Task 1.4: Generate SRI Hashes for Vendor Assets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#week-2-tasks-nov-8-14" class="md-nav__link">
+    Week 2 Tasks (Nov 8-14)
+  </a>
+  
+    <nav class="md-nav" aria-label="Week 2 Tasks (Nov 8-14)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-21-implement-large-file-detection-ux" class="md-nav__link">
+    Task 2.1: Implement Large-File Detection UX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-22-add-memory-monitoring" class="md-nav__link">
+    Task 2.2: Add Memory Monitoring
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-23-refactor-prototype-code" class="md-nav__link">
+    Task 2.3: Refactor Prototype Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-24-set-up-cicd-pipeline" class="md-nav__link">
+    Task 2.4: Set Up CI/CD Pipeline
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-1-checklist" class="md-nav__link">
+    Sprint 1 Checklist
+  </a>
+  
+    <nav class="md-nav" aria-label="Sprint 1 Checklist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security-controls" class="md-nav__link">
+    Security Controls
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    Code Quality
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd" class="md-nav__link">
+    CI/CD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-review-nov-14-2025" class="md-nav__link">
+    Sprint Review (Nov 14, 2025)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sprint-retrospective" class="md-nav__link">
+    Sprint Retrospective
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="sprint-1-tasks-security-infrastructure">Sprint 1 Tasks — Security Infrastructure</h1>
+<p><strong>Sprint Duration:</strong> November 1-14, 2025 (2 weeks)
+<strong>Sprint Goal:</strong> Implement all P0 security controls and establish CI/CD foundation</p>
+<hr />
+<h2 id="week-1-tasks-nov-1-7">Week 1 Tasks (Nov 1-7)</h2>
+<h3 id="task-11-implement-content-security-policy">Task 1.1: Implement Content Security Policy</h3>
+<p><strong>Owner:</strong> Engineering
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 4 hours
+<strong>Reference:</strong> <code>docs/implementation/csp-configuration.md</code></p>
+<p><strong>Subtasks:</strong>
+- [ ] Add CSP meta tag to <code>prototype/index.html</code> (dev policy)
+- [ ] Create production CSP configuration file
+- [ ] Test CSP with browser DevTools
+- [ ] Verify no violations in console
+- [ ] Document any exceptions/bypasses needed</p>
+<p><strong>Acceptance Criteria:</strong>
+- CSP meta tag present in HTML
+- Zero CSP violations in browser console
+- External scripts (jsDelivr CDN) load successfully
+- Inline styles work where needed (with nonce or hash)</p>
+<p><strong>Testing:</strong></p>
+<pre><code class="language-bash"># Open prototype in browser
+# Check DevTools Console for CSP violations
+# Verify no red errors
+</code></pre>
+<hr />
+<h3 id="task-12-set-up-dependabot-for-cve-scanning">Task 1.2: Set Up Dependabot for CVE Scanning</h3>
+<p><strong>Owner:</strong> DevOps
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 2 hours
+<strong>Reference:</strong> <code>docs/implementation/cve-scanning.md</code></p>
+<p><strong>Subtasks:</strong>
+- [ ] Create <code>.github/dependabot.yml</code> configuration
+- [ ] Enable npm ecosystem scanning
+- [ ] Enable Python ecosystem scanning (if applicable)
+- [ ] Set weekly update schedule
+- [ ] Configure PR auto-labeling</p>
+<p><strong>Acceptance Criteria:</strong>
+- Dependabot config file exists
+- First scan completes successfully
+- Sample PR created for dependency update
+- Alerts visible in Security tab</p>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-yaml"># .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: &quot;npm&quot;
+    directory: &quot;/&quot;
+    schedule:
+      interval: &quot;weekly&quot;
+  - package-ecosystem: &quot;pip&quot;
+    directory: &quot;/&quot;
+    schedule:
+      interval: &quot;weekly&quot;
+</code></pre>
+<hr />
+<h3 id="task-13-github-actions-security-scan-workflow">Task 1.3: GitHub Actions Security Scan Workflow</h3>
+<p><strong>Owner:</strong> DevOps
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 3 hours
+<strong>Reference:</strong> <code>docs/implementation/cve-scanning.md</code></p>
+<p><strong>Subtasks:</strong>
+- [ ] Create <code>.github/workflows/security-scan.yml</code>
+- [ ] Add <code>npm audit</code> step
+- [ ] Add Python <code>safety</code> check (if using pip)
+- [ ] Configure to fail on high/critical vulns
+- [ ] Test workflow execution</p>
+<p><strong>Acceptance Criteria:</strong>
+- Workflow runs on every push to main
+- npm audit executes successfully
+- Build fails if critical vulnerabilities found
+- Workflow status visible in PR checks</p>
+<p><strong>Workflow:</strong></p>
+<pre><code class="language-yaml"># .github/workflows/security-scan.yml
+name: Security Scan
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 1'  # Weekly Monday midnight
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+</code></pre>
+<hr />
+<h3 id="task-14-generate-sri-hashes-for-vendor-assets">Task 1.4: Generate SRI Hashes for Vendor Assets</h3>
+<p><strong>Owner:</strong> Engineering
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 3 hours
+<strong>Reference:</strong> <code>docs/implementation/secure-build-sri.md</code></p>
+<p><strong>Subtasks:</strong>
+- [ ] Create <code>prototype/generate-sri.js</code> script
+- [ ] Generate hashes for pdf.js, pdf-lib, pdf.worker
+- [ ] Save hashes to <code>prototype/vendor-sri.json</code>
+- [ ] Update <code>vendor-loader.js</code> with integrity attributes
+- [ ] Test SRI verification in browser</p>
+<p><strong>Acceptance Criteria:</strong>
+- SRI hashes generated for all vendor assets
+- <code>vendor-loader.js</code> includes integrity attributes
+- Scripts load successfully with SRI
+- Tampered script is rejected by browser</p>
+<p><strong>Script:</strong></p>
+<pre><code class="language-javascript">// prototype/generate-sri.js
+const crypto = require('crypto');
+const https = require('https');
+
+const assets = [
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js',
+  'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js',
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.worker.min.js'
+];
+
+// Fetch, hash, output SRI
+</code></pre>
+<hr />
+<h2 id="week-2-tasks-nov-8-14">Week 2 Tasks (Nov 8-14)</h2>
+<h3 id="task-21-implement-large-file-detection-ux">Task 2.1: Implement Large-File Detection UX</h3>
+<p><strong>Owner:</strong> Engineering
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 6 hours
+<strong>Reference:</strong> <code>docs/implementation/large-file-detection.md</code></p>
+<p><strong>Subtasks:</strong>
+- [ ] Add file size check to file input handler
+- [ ] Create warning dialog component (50-200 MB)
+- [ ] Create error dialog component (&gt; 200 MB)
+- [ ] Add info banner for 10-50 MB files
+- [ ] Implement thumbnail-only rendering mode
+- [ ] Add UI toggle for render mode</p>
+<p><strong>Acceptance Criteria:</strong>
+- Files 10-50 MB show info banner
+- Files 50-200 MB show warning dialog with proceed/cancel
+- Files &gt; 200 MB blocked with error message
+- Thumbnail-only mode renders first 10 thumbnails
+- Toggle button switches between modes</p>
+<p><strong>Testing:</strong></p>
+<pre><code class="language-bash"># Generate test files
+python prototype/generate_test_pdf.py --pages 5000 --output test-huge.pdf
+
+# Load in prototype
+# Verify warning appears
+# Test proceed and cancel actions
+</code></pre>
+<hr />
+<h3 id="task-22-add-memory-monitoring">Task 2.2: Add Memory Monitoring</h3>
+<p><strong>Owner:</strong> Engineering
+<strong>Priority:</strong> P1
+<strong>Estimate:</strong> 4 hours</p>
+<p><strong>Subtasks:</strong>
+- [ ] Create <code>src/utils/performance-monitor.js</code> module
+- [ ] Track <code>performance.memory.usedJSHeapSize</code>
+- [ ] Log memory usage at key milestones
+- [ ] Add warning if approaching 800 MB
+- [ ] Display memory usage in dev mode</p>
+<p><strong>Acceptance Criteria:</strong>
+- Memory tracking active during PDF operations
+- Console logs show memory at load, render, export
+- Warning appears if memory &gt; 800 MB
+- No memory leaks (10 consecutive loads)</p>
+<hr />
+<h3 id="task-23-refactor-prototype-code">Task 2.3: Refactor Prototype Code</h3>
+<p><strong>Owner:</strong> Engineering
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 8 hours</p>
+<p><strong>Subtasks:</strong>
+- [ ] Split <code>app.js</code> into modules (viewer, annotations, export)
+- [ ] Add error handling to all async functions
+- [ ] Create constants file for configuration
+- [ ] Add JSDoc comments to functions
+- [ ] Set up ESLint and Prettier</p>
+<p><strong>Acceptance Criteria:</strong>
+- Code organized into logical modules
+- Try/catch blocks around all async operations
+- All functions have JSDoc comments
+- ESLint passes with zero warnings
+- Code follows consistent style guide</p>
+<hr />
+<h3 id="task-24-set-up-cicd-pipeline">Task 2.4: Set Up CI/CD Pipeline</h3>
+<p><strong>Owner:</strong> DevOps
+<strong>Priority:</strong> P0
+<strong>Estimate:</strong> 6 hours</p>
+<p><strong>Subtasks:</strong>
+- [ ] Create <code>.github/workflows/ci.yml</code>
+- [ ] Add linting step (ESLint)
+- [ ] Add unit test runner (if tests exist)
+- [ ] Configure to run on PR and push
+- [ ] Set up status checks for PR merges</p>
+<p><strong>Acceptance Criteria:</strong>
+- CI workflow runs on every PR
+- Linting passes before merge allowed
+- PR cannot merge if CI fails
+- Workflow status visible in GitHub UI</p>
+<hr />
+<h2 id="sprint-1-checklist">Sprint 1 Checklist</h2>
+<h3 id="security-controls">Security Controls</h3>
+<ul>
+<li>[ ] CSP implemented and tested</li>
+<li>[ ] Dependabot active and scanning</li>
+<li>[ ] Security scan workflow running</li>
+<li>[ ] SRI hashes generated and integrated</li>
+<li>[ ] Large-file detection functional</li>
+</ul>
+<h3 id="code-quality">Code Quality</h3>
+<ul>
+<li>[ ] Prototype refactored into modules</li>
+<li>[ ] Error handling added</li>
+<li>[ ] Code documentation (JSDoc)</li>
+<li>[ ] Linting configured and passing</li>
+</ul>
+<h3 id="cicd">CI/CD</h3>
+<ul>
+<li>[ ] CI workflow running on PRs</li>
+<li>[ ] Security scans automated</li>
+<li>[ ] Status checks enforced</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>[ ] Implementation notes captured</li>
+<li>[ ] Known issues documented</li>
+<li>[ ] Next sprint tasks identified</li>
+</ul>
+<hr />
+<h2 id="sprint-review-nov-14-2025">Sprint Review (Nov 14, 2025)</h2>
+<p><strong>Agenda:</strong>
+1. Demo implemented security controls
+2. Review sprint completion metrics
+3. Discuss blockers and challenges
+4. Plan Sprint 2 tasks</p>
+<p><strong>Demo Checklist:</strong>
+- [ ] Load PDF with CSP active (no violations)
+- [ ] Trigger large-file warning with 100 MB PDF
+- [ ] Show Dependabot PR for dependency update
+- [ ] Display security scan results in GitHub Actions
+- [ ] Demonstrate SRI hash verification</p>
+<hr />
+<h2 id="sprint-retrospective">Sprint Retrospective</h2>
+<p><strong>What went well?</strong>
+- [To be filled after sprint]</p>
+<p><strong>What could be improved?</strong>
+- [To be filled after sprint]</p>
+<p><strong>Action items for next sprint:</strong>
+- [To be filled after sprint]</p>
+<hr />
+<p><strong>Sprint Status:</strong> Ready to start
+<strong>Last Updated:</strong> October 31, 2025
+<strong>Sprint Master:</strong> [To be assigned]</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      
+    
+  </body>
+</html>
