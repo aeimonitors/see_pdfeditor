@@ -15,6 +15,51 @@ plugins:
 nav:
   - Home: index.md
   - Setup: setup.md
+  - Planning:
+      - Phase 1 Summary: planning/phase-1-summary.md
+      - Phase 1 Exit Checklist: planning/phase-1-exit-checklist.md
+      - Phase 1 Readiness: planning/phase-1-readiness.md
+      - Phase 1 Backlog: planning/backlog.md
+      - Phase 2 Readiness: planning/phase-2-readiness.md
+      - Phase 2 Kickoff: planning/phase-2-kickoff.md
+      - Phase 3 Readiness: planning/phase-3-readiness.md
+      - Risk Register: planning/risk-register.md
+      - Engine Strategy: planning/engine-strategy.md
+      - Vendor Outreach: planning/vendor-outreach.md
+      - Performance Benchmarks: planning/performance-benchmarks.md
+      - Annotation Fidelity Test: planning/annotation-fidelity-test.md
+      - Security Threat Model: planning/security-threat-model.md
+  - Implementation:
+      - Sprint 1 Tasks: implementation/sprint-1-tasks.md
+      - Sprint 1 Progress: implementation/sprint-1-progress.md
+      - Sprint 2 Tasks: implementation/sprint-2-tasks.md
+      - Sprint 2 Progress: implementation/sprint-2-progress.md
+      - Sprint 2 Week 1 Checklist: implementation/sprint-2-week-1-checklist.md
+      - Sprint 2 Completion Report: implementation/sprint-2-completion-report.md
+      - Accessibility Audit: implementation/accessibility-audit.md
+      - Accessibility Improvements: implementation/accessibility-improvements.md
+      - Accessibility Implementation Complete: implementation/accessibility-implementation-complete.md
+      - Phase 3 Progress Report: implementation/phase-3-progress-report.md
+      - CSP Configuration: implementation/csp-configuration.md
+      - CVE Scanning: implementation/cve-scanning.md
+      - Large File Detection: implementation/large-file-detection.md
+      - Secure Build & SRI: implementation/secure-build-sri.md
+      - Incident Response: implementation/incident-response.md
+  - User Guide:
+      - Getting Started: user-guide/getting-started.md
+      - Keyboard Shortcuts: user-guide/keyboard-shortcuts.md
+      - FAQ: user-guide/faq.md
+  - Deployment:
+      - Deployment Guide: deployment/deployment-guide.md
+  - Testing:
+      - Cross-Browser Testing: testing/cross-browser-testing-checklist.md
+      - Cross-Browser Results: testing/cross-browser-test-results.md
+      - Cross-Browser Complete: testing/cross-browser-complete.md
+      - Cross-Browser Execution: testing/cross-browser-execution.md
+      - Mobile Testing: testing/mobile-testing-checklist.md
+      - Validation Report: testing/validation-report.md
+      - Validation Results: testing/validation-results.md
+      - Quick Test Guide: testing/QUICK-TEST-NOW.md
   - Phases: phases.md
   - Tasks: tasks.md
   - Acceptance Tests: acceptance-tests.md
