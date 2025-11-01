@@ -474,6 +474,9 @@ class MultiPDFUI {
     // Show modal
     modal.showModal();
 
+    // Wait for modal to render
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     try {
       // Get page directly from pageDesc which already has pdfDoc
       if (!pageDesc.pdfDoc) {
@@ -485,9 +488,11 @@ class MultiPDFUI {
       // Calculate viewport - use higher scale for zoom
       const rotation = pageDesc.rotation || 0;
 
-      // Get container dimensions (accounting for header/footer padding)
-      const maxWidth = canvasContainer.clientWidth - 40;
-      const maxHeight = canvasContainer.clientHeight - 160; // Space for header and footer
+      // Get container dimensions
+      const containerWidth = canvasContainer.clientWidth;
+      const containerHeight = canvasContainer.clientHeight;
+      const maxWidth = containerWidth - 40;
+      const maxHeight = containerHeight - 40;
 
       // Start with base viewport to get dimensions
       let baseViewport = page.getViewport({ scale: 1.0, rotation });
@@ -497,15 +502,15 @@ class MultiPDFUI {
       const scaleY = maxHeight / baseViewport.height;
       const scale = Math.min(scaleX, scaleY);
 
-      // Apply scale (minimum 1.0 to ensure quality)
-      const finalScale = Math.max(scale, 1.0);
+      // Apply scale (minimum 0.5, maximum 3.0 for quality/performance balance)
+      const finalScale = Math.max(0.5, Math.min(scale, 3.0));
       const viewport = page.getViewport({ scale: finalScale, rotation });
 
       // Create canvas
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.className = 'shadow-2xl rounded max-w-full max-h-full';
+      canvas.className = 'shadow-2xl rounded-lg max-w-full max-h-full';
       canvas.style.display = 'block';
 
       const ctx = canvas.getContext('2d');
@@ -514,14 +519,14 @@ class MultiPDFUI {
       // Update UI with wrapper
       canvasContainer.innerHTML = '';
       const wrapper = document.createElement('div');
-      wrapper.className = 'flex items-center justify-center w-full h-full p-4';
+      wrapper.className = 'flex items-center justify-center w-full h-full p-6';
       wrapper.appendChild(canvas);
       canvasContainer.appendChild(wrapper);
 
       infoEl.textContent = `Page ${globalIndex + 1} from ${pageDesc.docName}`;
     } catch (error) {
       console.error('Failed to render zoom preview:', error);
-      canvasContainer.innerHTML = `<div class="text-error">Failed to load preview: ${error.message}</div>`;
+      canvasContainer.innerHTML = `<div class="alert alert-error shadow-lg"><span>Failed to load preview: ${error.message}</span></div>`;
     }
   }
 
