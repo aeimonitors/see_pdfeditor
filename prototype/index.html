@@ -61,6 +61,16 @@
       .loading-ring {
         animation: rotate 1s linear infinite;
       }
+
+      /* Ensure modal backdrop doesn't cover header */
+      #zoomPreviewModal::backdrop {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      /* Adjust modal z-index to be below header */
+      #zoomPreviewModal {
+        z-index: 45;
+      }
     </style>
   </head>
   <body class="bg-base-200 min-h-screen">
@@ -87,7 +97,7 @@
     </div>
 
     <!-- Header -->
-    <header role="banner" class="navbar bg-base-100 shadow-lg sticky top-0 z-30">
+    <header role="banner" class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
       <div class="navbar-start">
         <h1 class="text-2xl font-bold flex items-center gap-2">
           <span>📚</span>
