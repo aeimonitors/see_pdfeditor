@@ -11,17 +11,13 @@
       
       
       
-        <link rel="prev" href="../phases/">
-      
-      
-        <link rel="next" href="../acceptance-tests/">
       
       <link rel="icon" href="../assets/logo.svg">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.7">
     
     
       
-        <title>Tasks - see_pdfeditor Docs</title>
+        <title>Changelog - see_pdfeditor Docs</title>
       
     
     
@@ -62,6 +58,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -92,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tasks
+              Changelog
             
           </span>
         </div>
@@ -959,19 +960,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../tasks/" class="md-nav__link">
         Tasks
       </a>
-      
     </li>
   
 
@@ -1023,6 +1016,84 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased" class="md-nav__link">
+    [Unreleased]
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-2025-11-01" class="md-nav__link">
+    [1.0.1] - 2025-11-01
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.1] - 2025-11-01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    Fixed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    Changed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    Technical Details
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100-2025-10-30" class="md-nav__link">
+    [1.0.0] - 2025-10-30
+  </a>
+  
+    <nav class="md-nav" aria-label="[1.0.0] - 2025-10-30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    Added
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-stack" class="md-nav__link">
+    Technical Stack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1037,38 +1108,68 @@
                   
 
 
-  <h1>Tasks</h1>
-
-<p>Implementation tasks &amp; milestones (developer-facing)</p>
-<p>This file organizes the work into concrete tasks and suggested estimates for the MVP.</p>
-<p>Sprint 0 — Spike (2–3 days)
-- Task: Prototype basic open → view → reorder → export (the <code>prototype/</code> directory is this spike).
-- Deliverable: Verified demo and decision on core engine (pdf.js + pdf-lib for MVP).</p>
-<p>Sprint 1 — Viewer &amp; Page Management (1 week)
-- Task: Integrate renderer into app shell, thumbnail panel, page navigation.
-- Task: Implement drag-and-drop reorder with undo/redo.
-- Tests: Unit tests for reorder logic, E2E smoke (open → reorder → export).</p>
-<p><strong>COMPLETED</strong> ✅ - Drag-and-drop reorder implemented with critical bug fix (Nov 1, 2025)
-- Fixed page state issue where pages would jump back after drag
-- Improved UX with smooth scroll animation
-- Icon alignment and button sizing optimized</p>
-<p>Sprint 2 — Annotations &amp; Markup (2 weeks)
-- Task: Implement highlight/underline/strike and comment pins saved as PDF annotations.
-- Task: Freehand ink tool and basic shapes.
-- Tests: Open exported file in Acrobat to verify annotations.</p>
-<p>Sprint 3 — Basic Text &amp; Image Editing (2–3 weeks)
-- Task: Add text box tool and image insertion.
-- Task: Best-effort existing-text edit (font matching heuristics).</p>
-<p>Sprint 4 — Export, Autosave &amp; UX polish (1 week)
-- Task: Implement robust export, autosave to local browser storage, and confirm cross-reader compatibility.</p>
-<p>Milestones
-- M1: Spike complete + engine decision
-- M2: Viewer + page manipulation (usable MVP)
-- M3: Annotation set complete
-- M4: Basic text/image editing complete</p>
-<p>Notes
-- Break tasks into small PRs; include unit tests where possible.
-- Track performance of WASM assets and lazy-load editing modules to keep initial load fast.</p>
+<h1 id="changelog">Changelog</h1>
+<p>All notable changes to the see_pdfeditor project will be documented in this file.</p>
+<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
+and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="unreleased">[Unreleased]</h2>
+<h2 id="101-2025-11-01">[1.0.1] - 2025-11-01</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><strong>CRITICAL: Page Drag State Bug</strong>: Fixed issue where pages would jump back to wrong positions when dragged and reordered</li>
+<li>Root cause: Wrapper function wasn't forwarding arguments, plus mouse/touch event conflicts</li>
+<li>Fixed argument forwarding in <code>multi-pdf-app.js</code></li>
+<li>Added <code>mouseDragInProgress</code> flag to prevent event interference</li>
+<li>Implemented proper scroll behavior with <code>scrollIntoView</code></li>
+<li>Reference: <code>docs/Error.mp4</code> (before), <code>docs/new-error.mp4</code> (after)</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><strong>UI Enhancements</strong>: Improved icon alignment and button sizing</li>
+<li>Fixed page action button (🔍 ↻ ×) alignment in <code>multi-pdf-styles.css</code></li>
+<li>Set consistent heights across all breakpoints (30px-44px)</li>
+<li>
+<p>Improved accessibility with 44px minimum touch targets on mobile</p>
+</li>
+<li>
+<p><strong>Scroll Performance</strong>: Optimized scroll behavior for page navigation</p>
+</li>
+<li>Changed from <code>block: 'center'</code> to <code>block: 'nearest'</code> for faster scrolling</li>
+<li>Implemented smooth scroll animation with proper timing</li>
+<li>Better user experience when following moved pages</li>
+</ul>
+<h3 id="technical-details">Technical Details</h3>
+<p><strong>Files Modified:</strong>
+- <code>prototype/src/multi-pdf-ui.js</code> (lines 19, 412-460, 236-332)
+- <code>prototype/multi-pdf-app.js</code> (lines 272-278)
+- <code>prototype/multi-pdf-styles.css</code> (lines 381-549)</p>
+<p><strong>Testing:</strong>
+- Cross-browser: Verified in Chrome, Firefox, Safari, Edge
+- Mobile: Tested touch drag on iOS Safari and Android Chrome
+- Large files: Tested with 150+ page PDFs</p>
+<h2 id="100-2025-10-30">[1.0.0] - 2025-10-30</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Initial MVP release</li>
+<li>PDF viewer with thumbnail panel</li>
+<li>Page drag-and-drop reorder</li>
+<li>Page rotation and deletion</li>
+<li>PDF export functionality</li>
+<li>Multi-document support</li>
+<li>Zoom preview modal</li>
+<li>Dark theme support</li>
+<li>Mobile touch drag for page reordering</li>
+<li>Keyboard shortcuts</li>
+<li>Accessibility features (WCAG AA)</li>
+</ul>
+<h3 id="technical-stack">Technical Stack</h3>
+<ul>
+<li>pdf.js for PDF rendering</li>
+<li>pdf-lib for PDF manipulation</li>
+<li>Vanilla JavaScript (no framework)</li>
+<li>Tailwind CSS for styling</li>
+<li>Service Worker for offline capabilities</li>
+</ul>
 
 
 

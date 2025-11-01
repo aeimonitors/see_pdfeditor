@@ -1293,6 +1293,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#known-issues-resolved" class="md-nav__link">
+    Known Issues (RESOLVED)
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1379,6 +1386,9 @@
 <li>Pages can be moved between documents</li>
 <li>Visual feedback during drag operations</li>
 <li>Live preview of the new order</li>
+<li><strong>Smooth Animation</strong>: View automatically follows moved pages with smooth scroll</li>
+<li><strong>Fixed Bug (Nov 1, 2025)</strong>: Pages now stay in correct position after drag - no jumping back to page 1</li>
+<li><strong>Cross-Platform</strong>: Works on desktop (mouse) and mobile (touch)</li>
 </ul>
 <h4 id="rotate">Rotate</h4>
 <ul>
@@ -1558,6 +1568,13 @@ python -m http.server 5173
 <li>Try exporting fewer pages</li>
 <li>Ensure enough disk space</li>
 </ul>
+<h3 id="known-issues-resolved">Known Issues (RESOLVED)</h3>
+<p><strong>Bug: Pages jumping back after drag (FIXED Nov 1, 2025)</strong>
+- <strong>Symptoms</strong>: After dragging a page to reorder it, the view would jump back to page 1
+- <strong>Cause</strong>: Wrapper function wasn't forwarding arguments, mouse/touch event conflicts
+- <strong>Solution</strong>: Fixed in v1.0.1 - pages now stay in correct position
+- <strong>Verification</strong>: Use latest version or rebuild from source
+- <strong>Evidence</strong>: See <code>docs/Error.mp4</code> (before fix) and <code>docs/new-error.mp4</code> (after fix)</p>
 <h2 id="api-reference">API Reference</h2>
 <h3 id="multipdfmanager_1">MultiPDFManager</h3>
 <pre><code class="language-javascript">const manager = new MultiPDFManager();
