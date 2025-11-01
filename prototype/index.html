@@ -64,7 +64,7 @@
 
       /* Ensure modal backdrop doesn't cover header */
       #zoomPreviewModal::backdrop {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.75);
       }
 
       /* Adjust modal to be centered and below header */
@@ -75,6 +75,15 @@
       .modal-box {
         max-height: calc(100vh - 100px);
         margin-top: 80px;
+      }
+
+      /* Ensure modal components work with both themes */
+      [data-theme="dark"] #zoomPreviewModal .modal-box {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      [data-theme="light"] #zoomPreviewModal .modal-box {
+        border: 1px solid rgba(0, 0, 0, 0.05);
       }
     </style>
   </head>
@@ -239,19 +248,19 @@
 
     <!-- Zoom Preview Modal -->
     <dialog id="zoomPreviewModal" class="modal modal-bottom sm:modal-middle" aria-labelledby="zoomPreviewModalTitle">
-      <div class="modal-box max-w-6xl w-[95vw] sm:w-[90vw] h-auto max-h-[85vh] p-0 overflow-hidden">
+      <div class="modal-box max-w-6xl w-[95vw] sm:w-[90vw] h-auto max-h-[85vh] p-0 overflow-hidden bg-base-100">
         <div class="relative flex flex-col h-full">
           <!-- Floating Header -->
           <div class="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-base-100 via-base-100/95 to-transparent px-6 py-4 flex justify-between items-start">
             <div class="flex flex-col">
               <h2 id="zoomPreviewModalTitle" class="text-lg font-bold text-base-content">Page Preview</h2>
-              <div id="zoomPreviewInfo" class="text-xs text-base-content/70 mt-1"></div>
+              <div id="zoomPreviewInfo" class="text-xs text-base-content/70 mt-1 font-medium"></div>
             </div>
-            <button id="closeZoomPreviewBtn" class="btn btn-sm btn-circle btn-ghost hover:btn-error" aria-label="Close preview">✕</button>
+            <button id="closeZoomPreviewBtn" class="btn btn-sm btn-circle btn-ghost hover:btn-error text-base-content" aria-label="Close preview">✕</button>
           </div>
 
           <!-- Canvas Container -->
-          <div id="zoomPreviewCanvas" class="w-full h-[70vh] bg-base-300 flex justify-center items-center overflow-auto"></div>
+          <div id="zoomPreviewCanvas" class="w-full h-[70vh] bg-base-200 flex justify-center items-center overflow-auto"></div>
 
           <!-- Floating Actions -->
           <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-base-100 via-base-100/95 to-transparent px-6 py-4">
@@ -268,7 +277,7 @@
           </div>
         </div>
       </div>
-      <form method="dialog" class="modal-backdrop">
+      <form method="dialog" class="modal-backdrop bg-black/60">
         <button>close</button>
       </form>
     </dialog>
