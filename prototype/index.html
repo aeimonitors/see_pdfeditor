@@ -1,140 +1,334 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';" />
-    <title>see_pdfeditor — Prototype</title>
+      content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; img-src 'self' data: blob: https://www.google-analytics.com; connect-src 'self' https://cdn.jsdelivr.net https://www.google-analytics.com https://analytics.google.com data: blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:;" />
+    <title>See PDF Editor</title>
+
+    <!-- Tailwind CSS + DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom styles (legacy compatibility) -->
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="multi-pdf-styles.css" />
+
+    <style>
+      /* Custom animations */
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .toast-notification {
+        animation: slideInRight 0.3s ease-out;
+      }
+
+      /* Skeleton loading animation */
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      .skeleton-loading {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 1000px 100%;
+        animation: shimmer 2s infinite;
+      }
+
+      /* Progress ring animation */
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-ring {
+        animation: rotate 1s linear infinite;
+      }
+    </style>
   </head>
-  <body>
-    <!-- Skip to main content link for keyboard/screen reader users -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+  <body class="bg-base-200 min-h-screen">
+    <!-- Skip Link -->
+    <a href="#main-content" class="btn btn-primary btn-sm fixed top-4 left-4 z-50 sr-only focus:not-sr-only">
+      Skip to main content
+    </a>
 
-    <header role="banner">
-      <h1>see_pdfeditor — Prototype</h1>
-      <p>Open a PDF, reorder pages by dragging thumbnails, then export a new PDF.</p>
-    </header>
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast toast-end z-50"></div>
 
-    <main role="main" id="main-content">
-      <!-- Screen reader announcements for dynamic content -->
-      <div id="status-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
-
-      <!-- Error message banner -->
-      <div id="error-message" role="alert" class="error-banner" style="display: none;">
-        <span class="error-icon" aria-hidden="true">⚠️</span>
-        <span class="error-text"></span>
-        <button class="error-dismiss" aria-label="Dismiss error">×</button>
-      </div>
-
-      <!-- Drag-and-drop zone -->
-      <div id="dropZone" class="drop-zone" role="button" tabindex="0" aria-label="Drop PDF here or click to browse">
-        <div class="drop-zone-content">
-          <svg class="drop-zone-icon" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="12" y1="18" x2="12" y2="12"></line>
-            <line x1="9" y1="15" x2="15" y2="15"></line>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-base-300/50 backdrop-blur-sm z-40 hidden items-center justify-center">
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body items-center">
+          <svg class="w-16 h-16 text-primary loading-ring" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <h2 class="drop-zone-title">Drop PDF here or click to browse</h2>
-          <p class="drop-zone-subtitle">Supports PDF files up to 200 MB</p>
-        </div>
-        <input id="fileInput" type="file" accept="application/pdf" aria-label="Choose PDF file" style="display: none;" />
-      </div>
-
-      <div class="controls" role="toolbar" aria-label="PDF editing controls">
-        <button id="generatePdfBtn" aria-label="Generate sample 3-page PDF for testing">
-          <span aria-hidden="true">📄</span> Generate sample PDF
-        </button>
-        <button id="addCommentBtn" aria-label="Add annotation pin to PDF page">
-          <span aria-hidden="true">📌</span> Add Comment Pin
-        </button>
-        <button id="undoBtn" disabled aria-label="Undo last action. Keyboard shortcut: Control Z">
-          <span aria-hidden="true">↶</span> Undo
-        </button>
-        <button id="redoBtn" disabled aria-label="Redo last undone action. Keyboard shortcut: Control Y">
-          <span aria-hidden="true">↷</span> Redo
-        </button>
-        <button id="helpBtn" aria-label="Show keyboard shortcuts help. Keyboard shortcut: Question mark">
-          <span aria-hidden="true">❓</span> Help
-        </button>
-        <button id="exportBtn" disabled aria-label="Export PDF with all changes">
-          <span aria-hidden="true">💾</span> Export PDF
-        </button>
-      </div>
-      <div id="vendor-status" role="status" aria-live="polite" style="margin:8px 0;padding:6px;border-radius:4px;background:#f6f6f6;border:1px solid #e0e0e0;font-size:13px;color:#333">Loading vendor assets…</div>
-
-      <section class="layout">
-        <aside id="thumbnails" class="thumbnails" role="navigation" aria-label="Page thumbnails. Use Control plus Arrow Up or Arrow Down to reorder pages with keyboard." ></aside>
-        <section id="viewer" class="viewer" role="region" aria-label="PDF page viewer"></section>
-      </section>
-    </main>
-
-    <!-- Help Modal -->
-    <div id="helpModal" class="modal" role="dialog" aria-labelledby="helpModalTitle" aria-modal="true" style="display: none;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="helpModalTitle">⌨️ Keyboard Shortcuts</h2>
-          <button id="closeHelpBtn" class="modal-close" aria-label="Close help dialog">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="shortcuts-section">
-            <h3>Editing</h3>
-            <div class="shortcut-item">
-              <kbd>Ctrl</kbd> + <kbd>Z</kbd>
-              <span>Undo last action</span>
-            </div>
-            <div class="shortcut-item">
-              <kbd>Ctrl</kbd> + <kbd>Y</kbd>
-              <span>Redo last undone action</span>
-            </div>
-          </div>
-          <div class="shortcuts-section">
-            <h3>Help</h3>
-            <div class="shortcut-item">
-              <kbd>?</kbd>
-              <span>Show this help dialog</span>
-            </div>
-            <div class="shortcut-item">
-              <kbd>Esc</kbd>
-              <span>Close this dialog</span>
-            </div>
-          </div>
-          <div class="shortcuts-section">
-            <h3>Page Operations</h3>
-            <div class="shortcut-item">
-              <span class="mouse-icon">🖱️</span>
-              <span>Drag thumbnails to reorder pages</span>
-            </div>
-            <div class="shortcut-item">
-              <span class="mouse-icon">🖱️</span>
-              <span>Hover thumbnail → Delete (×) or Duplicate (+)</span>
-            </div>
-          </div>
-          <div class="shortcuts-section">
-            <h3>Annotations</h3>
-            <div class="shortcut-item">
-              <span class="mouse-icon">🖱️</span>
-              <span>Click "Add Comment Pin" then click on page</span>
-            </div>
-            <div class="shortcut-item">
-              <span class="mouse-icon">🖱️</span>
-              <span>Hover annotation → Edit (✎), Delete (×), or Color (●)</span>
-            </div>
-            <div class="shortcut-item">
-              <span class="mouse-icon">🖱️</span>
-              <span>Drag annotation pins to reposition</span>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <p>Press <kbd>?</kbd> anytime to show this help</p>
+          <p id="loading-text" class="text-lg font-semibold mt-4">Loading...</p>
+          <progress id="loading-progress" class="progress progress-primary w-56 hidden"></progress>
         </div>
       </div>
     </div>
 
-  <!-- vendor-loader will try to load local vendor/ files first, then fall back to CDN -->
-  <script src="vendor-loader.js"></script>
+    <!-- Header -->
+    <header role="banner" class="navbar bg-base-100 shadow-lg sticky top-0 z-30">
+      <div class="navbar-start">
+        <h1 class="text-2xl font-bold flex items-center gap-2">
+          <span>📚</span>
+          <span>See PDF Editor</span>
+        </h1>
+      </div>
+      <div class="navbar-center">
+        <p class="text-sm text-base-content/70 hidden md:block">
+          Upload multiple PDFs, merge, reorder, rotate, delete pages, and add images
+        </p>
+      </div>
+      <div class="navbar-end gap-2">
+        <!-- Theme Toggle -->
+        <label class="swap swap-rotate btn btn-ghost btn-circle">
+          <input type="checkbox" id="theme-toggle" />
+          <!-- Sun icon -->
+          <svg class="swap-off fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>
+          </svg>
+          <!-- Moon icon -->
+          <svg class="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+          </svg>
+        </label>
+
+        <a href="single-pdf.html" class="btn btn-ghost btn-sm gap-2">
+          <span>📄</span>
+          Single PDF Editor
+        </a>
+      </div>
+    </header>
+
+    <main role="main" id="main-content" class="container mx-auto px-4 py-8 max-w-7xl">
+      <!-- Status announcements for screen readers -->
+      <div id="status-announcements" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+      <!-- Upload Zone -->
+      <section class="mb-8">
+        <div id="multiDropZone" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer border-2 border-dashed border-base-300 hover:border-primary"
+             role="button" tabindex="0" aria-label="Drop multiple PDF files here or click to browse">
+          <div class="card-body items-center text-center py-12">
+            <svg class="w-20 h-20 text-primary mb-4" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <h2 class="card-title text-xl">Drop PDF files here or click to browse</h2>
+            <p class="text-base-content/70">You can upload multiple PDFs at once (up to 50 MB each)</p>
+          </div>
+          <input id="multiFileInput" type="file" accept="application/pdf" multiple
+                 aria-label="Choose PDF files" class="hidden" />
+        </div>
+
+        <!-- Status Bar -->
+        <div id="multiPdfStatus" class="alert mt-4" role="status">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>No documents loaded</span>
+        </div>
+      </section>
+
+      <!-- Image Status (hidden by default) -->
+      <div id="imageStatus" class="alert alert-warning hidden mb-4" role="status">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <span id="imageStatusText">Adding image...</span>
+      </div>
+
+      <!-- Controls -->
+      <section class="mb-8">
+        <div class="flex flex-wrap gap-2 justify-center" role="toolbar" aria-label="Multi-PDF editing controls">
+          <button id="addImageBtn" class="btn btn-secondary gap-2" aria-label="Add image to PDF pages">
+            <span aria-hidden="true">🖼️</span>
+            Add Image
+          </button>
+          <button id="exportMergedBtn" class="btn btn-primary gap-2" disabled aria-label="Export merged PDF">
+            <span aria-hidden="true">💾</span>
+            Export Merged PDF
+          </button>
+          <button id="clearAllBtn" class="btn btn-error gap-2" aria-label="Clear all documents">
+            <span aria-hidden="true">🗑️</span>
+            Clear All
+          </button>
+          <button id="helpMultiBtn" class="btn btn-info gap-2" aria-label="Show help">
+            <span aria-hidden="true">❓</span>
+            Help
+          </button>
+        </div>
+      </section>
+
+      <!-- Hidden file input for images -->
+      <input type="file" id="imageInput" accept="image/*" class="hidden" />
+
+      <!-- Main Layout -->
+      <div class="grid lg:grid-cols-[300px_1fr] gap-6">
+        <!-- Document List Sidebar -->
+        <aside class="card bg-base-100 shadow-xl h-fit">
+          <div class="card-body">
+            <h3 class="card-title text-lg">📄 Documents</h3>
+            <div id="documentList" class="space-y-2"></div>
+          </div>
+        </aside>
+
+        <!-- Page Grid -->
+        <section class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title text-lg">🖼️ Page Preview & Organization</h3>
+            <p class="text-sm text-base-content/70 mb-4">
+              <span class="hidden sm:inline">Drag pages to reorder</span>
+              <span class="inline sm:hidden">Long press to drag</span>
+              <span> • Click rotate (↻) to rotate • Click × to delete</span>
+            </p>
+            <div id="pageGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <p class="col-span-full text-center text-base-content/50 py-12">
+                Add PDF files above to get started
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Help Modal -->
+    <dialog id="helpMultiModal" class="modal" aria-labelledby="helpMultiModalTitle">
+      <div class="modal-box max-w-2xl">
+        <h2 id="helpMultiModalTitle" class="text-2xl font-bold mb-4">📚 See PDF Editor Help</h2>
+        <button id="closeHelpMultiBtn" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close help dialog">✕</button>
+
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Getting Started</h3>
+            <ol class="list-decimal list-inside space-y-1 text-sm">
+              <li>Upload multiple PDF files using the drop zone above</li>
+              <li>All pages from all documents will appear in the preview grid</li>
+              <li>Organize pages by dragging, rotating, or deleting</li>
+              <li>Export a single merged PDF with your changes</li>
+            </ol>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Page Operations</h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-lg">🖱️</span>
+                <span><strong>Desktop:</strong> Click and drag pages to reorder</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-lg">👆</span>
+                <span><strong>Mobile:</strong> Long press (500ms) then drag with your finger</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-lg">↻</span>
+                <span><strong>Rotate button</strong> rotates page 90° clockwise</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-lg">×</span>
+                <span><strong>Delete button</strong> removes page from final document</span>
+              </li>
+            </ul>
+            <div class="alert alert-info mt-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="text-xs"><strong>Touch devices:</strong> You'll feel a vibration when drag starts!</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Document Management</h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-lg">📄</span>
+                <span><strong>Document list</strong> shows all loaded PDFs</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-lg">×</span>
+                <span><strong>Remove button</strong> removes entire document and its pages</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-lg">💾</span>
+                <span><strong>Export</strong> creates a single merged PDF with all changes</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Image Feature</h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-lg">🖼️</span>
+                <span><strong>Add Image</strong> inserts an image as a new page in your PDF</span>
+              </li>
+            </ul>
+            <p class="text-xs text-base-content/60 mt-2">
+              Click Add Image button, select an image file (JPG, PNG, etc.) to insert as a page
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-semibold mb-2">Tips</h3>
+            <ul class="list-disc list-inside space-y-1 text-sm text-base-content/70">
+              <li>Pages retain their source document name in the preview</li>
+              <li>Rotations and deletions are applied during export</li>
+              <li>All processing happens in your browser - no uploads</li>
+              <li>Large files may take time to render previews</li>
+              <li>Images are converted to PDF pages automatically</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="modal-action">
+          <p class="text-sm text-base-content/60 mr-auto">All editing is done locally in your browser. Your files never leave your device.</p>
+          <button class="btn" onclick="document.getElementById('helpMultiModal').close()">Close</button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+
+    <!-- Load vendor assets -->
+    <script src="vendor-loader.js"></script>
+
+    <!-- Load configuration -->
+    <script src="config.js"></script>
+
+    <!-- Load UI enhancements -->
+    <script src="src/utils/ui-enhancements.js"></script>
+
+    <!-- Load Analytics -->
+    <script src="src/utils/analytics.js"></script>
+
+    <!-- Load modules -->
+    <script src="src/multi-pdf-manager.js"></script>
+    <script src="src/multi-pdf-ui.js"></script>
+
+    <!-- Initialize app -->
+    <script src="multi-pdf-app.js"></script>
   </body>
 </html>

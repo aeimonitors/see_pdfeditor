@@ -73,20 +73,65 @@ class PDFExporter {
   }
 
   /**
-   * Download a PDF blob as a file
+   * Generate formatted filename with timestamp
+   * @returns {string} Formatted filename
+   */
+  static generateFilename() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const MM = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const HH = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    return `editedpdf_${yyyy}-${MM}-${dd}_${HH}-${mm}-${ss}.pdf`;
+  }
+
+  /**
+   * Download a PDF blob as a file with save dialog
    * @param {Blob} blob - PDF blob to download
    * @param {string} filename - Filename for download
+   * @returns {Promise<void>}
    */
-  static downloadBlob(blob, filename) {
+  static async downloadBlob(blob, filename) {
     try {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      // Check if File System Access API is available
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: filename,
+            types: [{
+              description: 'PDF Files',
+              accept: { 'application/pdf': ['.pdf'] },
+            }],
+          });
+
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+
+          alert('PDF exported successfully!');
+        } catch (error) {
+          // User cancelled save dialog or error occurred
+          if (error.name === 'AbortError') {
+            console.log('User cancelled save dialog');
+            return;
+          }
+          throw error;
+        }
+      } else {
+        // Fallback to traditional download method
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        alert('PDF exported successfully!');
+      }
     } catch (error) {
       console.error('Failed to download PDF:', error);
       throw new Error(`Download failed: ${error.message}`);
@@ -97,13 +142,14 @@ class PDFExporter {
    * Export and download a PDF
    * @param {Array<number>} pageOrder - Page order
    * @param {AnnotationManager} annotationManager - Annotation manager
-   * @param {string} filename - Output filename
+   * @param {string} filename - Output filename (optional, auto-generated if not provided)
    * @returns {Promise<void>}
    */
-  async exportAndDownload(pageOrder, annotationManager, filename = 'reordered-annotated.pdf') {
+  async exportAndDownload(pageOrder, annotationManager, filename = null) {
     try {
-      const blob = await this.export(pageOrder, annotationManager, filename);
-      PDFExporter.downloadBlob(blob, filename);
+      const outputFilename = filename || PDFExporter.generateFilename();
+      const blob = await this.export(pageOrder, annotationManager, outputFilename);
+      await PDFExporter.downloadBlob(blob, outputFilename);
     } catch (error) {
       console.error('Failed to export and download PDF:', error);
       throw error;

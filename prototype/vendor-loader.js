@@ -73,7 +73,8 @@
 
   // Expose chosen assets for app.js to configure workerSrc etc.
   window.PDF_ASSETS = assets;
-  console.info('PDF assets loaded:', assets);
+
+  console.info('PDF assets loaded:', { pdfjs: assets.pdfjs, pdfLib: assets.pdfLib, pdfWorker: assets.pdfWorker });
   // Update on-page status banner if present
   try {
     const statusEl = document.getElementById('vendor-status');
@@ -82,8 +83,8 @@
       parts.push(`pdf.js: ${assets.pdfjs}`);
       parts.push(`pdf-lib: ${assets.pdfLib}`);
       parts.push(`pdf.worker: ${assets.pdfWorker}`);
-      statusEl.textContent = `Loaded vendor assets — ${parts.join(' | ')}`;
-      statusEl.style.background = '#eef9f1';
+      statusEl.textContent = `Loaded assets — ${parts.join(' | ')}`;
+      statusEl.style.background = '#d1f2eb';
       statusEl.style.borderColor = '#c6efd6';
     }
   } catch (err) {
@@ -91,17 +92,26 @@
   }
   // Finally, load the app modules and main script
   try {
-    // Load utility modules first
-    await loadScript('src/utils/performance-monitor.js');
+    // Check which page we're on - don't load single-PDF modules for multi-PDF page
+    const isMultiPDF = document.getElementById('multiDropZone') !== null;
+    const isSinglePDF = document.getElementById('fileInput') !== null;
 
-    // Load core modules
-    await loadScript('src/viewer.js');
-    await loadScript('src/annotations.js');
-    await loadScript('src/export.js');
+    if (isSinglePDF && !isMultiPDF) {
+      // Load single-PDF modules
+      await loadScript('src/utils/performance-monitor.js');
+      await loadScript('src/viewer.js');
+      await loadScript('src/annotations.js');
+      await loadScript('src/export.js');
 
-    // Load main app (can switch between app.js and app-refactored.js)
-    const appScript = 'app-refactored.js'; // Use refactored version
-    await loadScript(appScript);
+      // Load main app (can switch between app.js and app-refactored.js)
+      const appScript = 'app-refactored.js'; // Use refactored version
+      await loadScript(appScript);
+
+      console.info('✅ Single-PDF modules loaded successfully');
+    } else if (isMultiPDF) {
+      // Multi-PDF page loads its own modules via script tags in HTML
+      console.info('✅ Multi-PDF page detected - modules loaded via HTML');
+    }
 
     console.info('✅ All application modules loaded successfully');
   } catch (e) {

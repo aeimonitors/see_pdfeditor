@@ -321,14 +321,53 @@
 
       const pdfBytes = await newDoc.save();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'reordered-annotated.pdf';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+
+      // Generate filename with timestamp
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const MM = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const HH = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const filename = `editedpdf_${yyyy}-${MM}-${dd}_${HH}-${mm}-${ss}.pdf`;
+
+      // Check if File System Access API is available
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: filename,
+            types: [{
+              description: 'PDF Files',
+              accept: { 'application/pdf': ['.pdf'] },
+            }],
+          });
+
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+
+          alert('PDF exported successfully!');
+        } catch (saveError) {
+          // User cancelled save dialog
+          if (saveError.name === 'AbortError') {
+            return;
+          }
+          throw saveError;
+        }
+      } else {
+        // Fallback to traditional download method
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        alert('PDF exported successfully!');
+      }
     } catch (err) {
       console.error(err);
       alert(`Export failed: ${err && err.message}`);

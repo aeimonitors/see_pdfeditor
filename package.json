@@ -1,13 +1,15 @@
 {
   "name": "see_pdfeditor",
-  "version": "0.1.0",
-  "description": "Secure, client-side PDF editor MVP",
+  "version": "2.1.0",
+  "description": "Multi-PDF editor with image insertion - Secure, client-side PDF editing",
   "private": true,
-  "main": "prototype/app.js",
+  "main": "prototype/index.html",
   "scripts": {
-    "dev": "python -m http.server 5173",
+    "dev": "npm run build:css && python -m http.server 5173",
+    "build:css": "tailwindcss -i ./prototype/input.css -o ./prototype/output.css --minify",
+    "watch:css": "tailwindcss -i ./prototype/input.css -o ./prototype/output.css --watch",
     "test": "echo \"No tests configured yet\" && exit 0",
-    "build": "echo \"No build process configured yet\" && exit 0",
+    "build": "npm run build:css",
     "lint": "eslint . --ext .js --max-warnings 0",
     "lint:fix": "eslint . --ext .js --fix",
     "benchmark": "node prototype/run-benchmarks.js",
@@ -23,6 +25,8 @@
   "keywords": [
     "pdf",
     "editor",
+    "multi-pdf",
+    "image-to-pdf",
     "annotation",
     "client-side",
     "security"
@@ -34,12 +38,15 @@
   },
   "homepage": "https://github.com/aeimonitors/see_pdfeditor#readme",
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "daisyui": "^5.3.10",
     "eslint": "^8.50.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.28.0",
-    "markdown-link-check": "3.10.3"
+    "markdown-link-check": "3.10.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.16"
   },
-  "dependencies": {},
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
