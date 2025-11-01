@@ -464,12 +464,8 @@ class MultiPDFUI {
     modal.showModal();
 
     try {
-      // Get document and page
-      const doc = this.manager.documents.find((d) => d.id === pageDesc.docId);
-      if (!doc) return;
-
-      const pdfDoc = await window.pdfjsLib.getDocument({ data: doc.bytes }).promise;
-      const page = await pdfDoc.getPage(pageDesc.pageIndex + 1);
+      // Get page directly from pageDesc which already has pdfDoc
+      const page = await pageDesc.pdfDoc.getPage(pageDesc.pageNum);
 
       // Calculate viewport for high-quality preview (2x scale)
       let viewport = page.getViewport({ scale: 2.0 });
@@ -503,12 +499,16 @@ class MultiPDFUI {
   handleZoomRotate() {
     if (!this.currentZoomPage) return;
 
-    const { pageDesc } = this.currentZoomPage;
+    const { pageDesc, globalIndex } = this.currentZoomPage;
     this.manager.rotatePage(pageDesc.docId, pageDesc.pageIndex, 90);
     this.renderPageGrid();
 
-    // Refresh zoom preview
-    this.showZoomPreview(pageDesc, this.currentZoomPage.globalIndex);
+    // Refresh zoom preview with updated page
+    const updatedPages = this.manager.getGlobalPageOrder();
+    const updatedPageDesc = updatedPages[globalIndex];
+    if (updatedPageDesc) {
+      this.showZoomPreview(updatedPageDesc, globalIndex);
+    }
   }
 
   /**
