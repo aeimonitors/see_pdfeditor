@@ -172,11 +172,23 @@ class MultiPDFManager {
     try {
       const mergedDoc = await PDFLib.PDFDocument.create();
 
-      for (const pageDesc of this.globalPageOrder) {
-        const doc = this.documents.find((d) => d.id === pageDesc.docId);
-        if (!doc) continue;
+      // Load all source documents in parallel for better performance
+      const srcDocsCache = new Map();
+      const uniqueDocIds = [...new Set(this.globalPageOrder.map(p => p.docId))];
 
-        const srcDoc = await PDFLib.PDFDocument.load(doc.bytes);
+      await Promise.all(uniqueDocIds.map(async (docId) => {
+        const doc = this.documents.find((d) => d.id === docId);
+        if (doc) {
+          const srcDoc = await PDFLib.PDFDocument.load(doc.bytes);
+          srcDocsCache.set(docId, srcDoc);
+        }
+      }));
+
+      // Copy pages in order
+      for (const pageDesc of this.globalPageOrder) {
+        const srcDoc = srcDocsCache.get(pageDesc.docId);
+        if (!srcDoc) continue;
+
         const [copiedPage] = await mergedDoc.copyPages(srcDoc, [pageDesc.pageIndex]);
 
         // Apply rotation
@@ -193,7 +205,13 @@ class MultiPDFManager {
       mergedDoc.setProducer('see_pdfeditor Multi-PDF Manager');
       mergedDoc.setCreationDate(new Date());
 
-      const pdfBytes = await mergedDoc.save();
+      // Save with optimization options for faster export
+      const pdfBytes = await mergedDoc.save({
+        useObjectStreams: false,
+        addDefaultPage: false,
+        objectsPerTick: 50
+      });
+
       return pdfBytes;
     } catch (error) {
       console.error('Failed to merge PDFs:', error);

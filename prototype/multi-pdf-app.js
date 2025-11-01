@@ -268,12 +268,13 @@
         });
       }
 
-      // Monitor page count to enable/disable export button
+      // Monitor page count to enable/disable export buttons
       const originalRenderPageGrid = pdfUI.renderPageGrid.bind(pdfUI);
       pdfUI.renderPageGrid = async function renderPageGrid() {
         await originalRenderPageGrid();
         const pageCount = manager.getTotalPageCount();
-        exportBtn.disabled = pageCount === 0;
+        if (exportBtn) exportBtn.disabled = pageCount === 0;
+        if (exportBtnHeader) exportBtnHeader.disabled = pageCount === 0;
       };
 
       console.log('Multi-PDF Editor initialized successfully');

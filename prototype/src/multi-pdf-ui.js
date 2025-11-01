@@ -73,6 +73,23 @@ class MultiPDFUI {
       });
     }
 
+    // Close zoom modal when clicking anywhere outside the modal box
+    const zoomModal = document.getElementById('zoomPreviewModal');
+    const zoomModalBox = document.getElementById('zoomPreviewModalBox');
+    if (zoomModal && zoomModalBox) {
+      zoomModal.addEventListener('click', (e) => {
+        // Close if clicking outside the modal box
+        if (e.target === zoomModal) {
+          zoomModal.close();
+        }
+      });
+
+      // Prevent clicks inside modal box from closing
+      zoomModalBox.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
     // Close zoom modal when clicking on canvas container (gray area)
     const zoomCanvas = document.getElementById('zoomPreviewCanvas');
     if (zoomCanvas) {
@@ -81,6 +98,15 @@ class MultiPDFUI {
         if (e.target === zoomCanvas) {
           document.getElementById('zoomPreviewModal').close();
         }
+      });
+    }
+
+    // Close zoom modal when clicking backdrop
+    const zoomModalBackdrop = document.getElementById('zoomModalBackdrop');
+    if (zoomModalBackdrop) {
+      zoomModalBackdrop.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('zoomPreviewModal').close();
       });
     }
 
@@ -488,11 +514,11 @@ class MultiPDFUI {
       // Calculate viewport - use higher scale for zoom
       const rotation = pageDesc.rotation || 0;
 
-      // Get container dimensions
+      // Get container dimensions (use full available space)
       const containerWidth = canvasContainer.clientWidth;
       const containerHeight = canvasContainer.clientHeight;
-      const maxWidth = containerWidth - 40;
-      const maxHeight = containerHeight - 40;
+      const maxWidth = containerWidth * 0.98;
+      const maxHeight = containerHeight * 0.92;
 
       // Start with base viewport to get dimensions
       let baseViewport = page.getViewport({ scale: 1.0, rotation });
@@ -502,8 +528,8 @@ class MultiPDFUI {
       const scaleY = maxHeight / baseViewport.height;
       const scale = Math.min(scaleX, scaleY);
 
-      // Apply scale (minimum 0.5, maximum 3.0 for quality/performance balance)
-      const finalScale = Math.max(0.5, Math.min(scale, 3.0));
+      // Apply scale with higher maximum for better quality (minimum 1.0, maximum 4.0)
+      const finalScale = Math.max(1.0, Math.min(scale, 4.0));
       const viewport = page.getViewport({ scale: finalScale, rotation });
 
       // Create canvas
@@ -519,7 +545,7 @@ class MultiPDFUI {
       // Update UI with wrapper
       canvasContainer.innerHTML = '';
       const wrapper = document.createElement('div');
-      wrapper.className = 'flex items-center justify-center w-full h-full p-6';
+      wrapper.className = 'flex items-center justify-center w-full h-full p-4';
       wrapper.appendChild(canvas);
       canvasContainer.appendChild(wrapper);
 
@@ -617,9 +643,16 @@ class MultiPDFUI {
   async exportMergedPDF() {
     try {
       const exportBtn = document.getElementById('exportMergedBtn');
+      const exportBtnHeader = document.getElementById('exportMergedBtnHeader');
+
+      // Disable and update both buttons
       if (exportBtn) {
         exportBtn.disabled = true;
-        exportBtn.textContent = 'Merging...';
+        exportBtn.innerHTML = '<span class="loading loading-spinner loading-xs"></span> <span>Merging...</span>';
+      }
+      if (exportBtnHeader) {
+        exportBtnHeader.disabled = true;
+        exportBtnHeader.innerHTML = '<span class="loading loading-spinner loading-xs"></span> <span class="hidden md:inline">Merging...</span>';
       }
 
       const pdfBytes = await this.manager.mergeToPDF();
@@ -641,16 +674,25 @@ class MultiPDFUI {
           await writable.write(blob);
           await writable.close();
 
+          // Reset buttons
           if (exportBtn) {
             exportBtn.disabled = false;
-            exportBtn.textContent = '💾 Export Merged PDF';
+            exportBtn.innerHTML = '<span aria-hidden="true">💾</span> Export Merged PDF';
+          }
+          if (exportBtnHeader) {
+            exportBtnHeader.disabled = false;
+            exportBtnHeader.innerHTML = '<span aria-hidden="true">💾</span> <span class="hidden md:inline">Export PDF</span>';
           }
         } catch (error) {
           // User cancelled save dialog
           if (error.name === 'AbortError') {
             if (exportBtn) {
               exportBtn.disabled = false;
-              exportBtn.textContent = '💾 Export Merged PDF';
+              exportBtn.innerHTML = '<span aria-hidden="true">💾</span> Export Merged PDF';
+            }
+            if (exportBtnHeader) {
+              exportBtnHeader.disabled = false;
+              exportBtnHeader.innerHTML = '<span aria-hidden="true">💾</span> <span class="hidden md:inline">Export PDF</span>';
             }
             return;
           }
@@ -667,18 +709,30 @@ class MultiPDFUI {
         a.remove();
         URL.revokeObjectURL(url);
 
+        // Reset buttons
         if (exportBtn) {
           exportBtn.disabled = false;
-          exportBtn.textContent = '💾 Export Merged PDF';
+          exportBtn.innerHTML = '<span aria-hidden="true">💾</span> Export Merged PDF';
+        }
+        if (exportBtnHeader) {
+          exportBtnHeader.disabled = false;
+          exportBtnHeader.innerHTML = '<span aria-hidden="true">💾</span> <span class="hidden md:inline">Export PDF</span>';
         }
       }
     } catch (error) {
       console.error('Failed to export merged PDF:', error);
 
+      // Reset buttons on error
       const exportBtn = document.getElementById('exportMergedBtn');
+      const exportBtnHeader = document.getElementById('exportMergedBtnHeader');
+
       if (exportBtn) {
         exportBtn.disabled = false;
-        exportBtn.textContent = '💾 Export Merged PDF';
+        exportBtn.innerHTML = '<span aria-hidden="true">💾</span> Export Merged PDF';
+      }
+      if (exportBtnHeader) {
+        exportBtnHeader.disabled = false;
+        exportBtnHeader.innerHTML = '<span aria-hidden="true">💾</span> <span class="hidden md:inline">Export PDF</span>';
       }
 
       throw error; // Re-throw to be caught by caller
