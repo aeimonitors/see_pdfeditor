@@ -5,7 +5,8 @@
       "Bash(kill -9 23888)",
       "Bash(production-build/vendor-loader.js)",
       "Bash(cat production-build/config.js)",
-      "Bash(curl -s http://localhost:5173/vendor-loader.js)"
+      "Bash(curl -s http://localhost:5173/vendor-loader.js)",
+      "Bash(awk '{print $9, \"\"\"\"(\"\"\"\" $5 \"\"\"\")\"\"\"\"}')"
     ],
     "deny": [],
     "ask": []
