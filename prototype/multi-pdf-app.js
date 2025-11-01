@@ -163,7 +163,13 @@
       const exportBtn = document.getElementById('exportMergedBtn');
       const exportBtnHeader = document.getElementById('exportMergedBtnHeader');
 
+      console.log('Export buttons found:', {
+        exportBtn: !!exportBtn,
+        exportBtnHeader: !!exportBtnHeader
+      });
+
       const handleExport = async () => {
+        console.log('Export triggered, page count:', manager.getTotalPageCount());
         if (manager.getTotalPageCount() > 0) {
           const exportStart = Date.now();
           ui.showLoading('Exporting PDF...', true);
@@ -196,8 +202,14 @@
         }
       };
 
-      exportBtn.addEventListener('click', handleExport);
-      exportBtnHeader.addEventListener('click', handleExport);
+      if (exportBtn) {
+        exportBtn.addEventListener('click', handleExport);
+        console.log('Added click listener to exportBtn');
+      }
+      if (exportBtnHeader) {
+        exportBtnHeader.addEventListener('click', handleExport);
+        console.log('Added click listener to exportBtnHeader');
+      }
 
       // Clear all button
       const clearAllBtn = document.getElementById('clearAllBtn');
