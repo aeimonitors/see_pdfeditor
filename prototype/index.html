@@ -80,10 +80,42 @@
       /* Ensure modal components work with both themes */
       [data-theme="dark"] #zoomPreviewModal .modal-box {
         border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
 
       [data-theme="light"] #zoomPreviewModal .modal-box {
         border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Enhanced text contrast for dark theme */
+      [data-theme="dark"] #zoomPreviewModal #zoomPreviewModalTitle {
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] #zoomPreviewModal #zoomPreviewInfo {
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 600;
+      }
+
+      [data-theme="dark"] #zoomPreviewCanvas {
+        background: #1a1a1a;
+      }
+
+      [data-theme="light"] #zoomPreviewCanvas {
+        background: #f5f5f5;
+      }
+
+      /* Button contrast in dark theme */
+      [data-theme="dark"] #closeZoomPreviewBtn {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      [data-theme="dark"] #closeZoomPreviewBtn:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
       }
     </style>
   </head>
@@ -251,10 +283,10 @@
       <div class="modal-box max-w-6xl w-[95vw] sm:w-[90vw] h-auto max-h-[85vh] p-0 overflow-hidden bg-base-100">
         <div class="relative flex flex-col h-full">
           <!-- Floating Header -->
-          <div class="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-base-100 via-base-100/95 to-transparent px-6 py-4 flex justify-between items-start">
+          <div class="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-base-100 via-base-100/98 to-transparent px-6 py-4 flex justify-between items-start backdrop-blur-sm">
             <div class="flex flex-col">
               <h2 id="zoomPreviewModalTitle" class="text-lg font-bold text-base-content">Page Preview</h2>
-              <div id="zoomPreviewInfo" class="text-xs text-base-content/70 mt-1 font-medium"></div>
+              <div id="zoomPreviewInfo" class="text-xs text-base-content/80 mt-1 font-semibold"></div>
             </div>
             <button id="closeZoomPreviewBtn" class="btn btn-sm btn-circle btn-ghost hover:btn-error text-base-content" aria-label="Close preview">✕</button>
           </div>
@@ -263,13 +295,13 @@
           <div id="zoomPreviewCanvas" class="w-full h-[70vh] bg-base-200 flex justify-center items-center overflow-auto"></div>
 
           <!-- Floating Actions -->
-          <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-base-100 via-base-100/95 to-transparent px-6 py-4">
+          <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-base-100 via-base-100/98 to-transparent px-6 py-4 backdrop-blur-sm">
             <div class="flex justify-center gap-3">
-              <button id="zoomRotateBtn" class="btn btn-primary btn-sm gap-2 shadow-lg">
+              <button id="zoomRotateBtn" class="btn btn-primary btn-sm gap-2 shadow-xl font-semibold">
                 <span>↻</span>
                 <span class="hidden sm:inline">Rotate 90°</span>
               </button>
-              <button id="zoomDeleteBtn" class="btn btn-error btn-sm gap-2 shadow-lg">
+              <button id="zoomDeleteBtn" class="btn btn-error btn-sm gap-2 shadow-xl font-semibold">
                 <span>×</span>
                 <span class="hidden sm:inline">Delete Page</span>
               </button>
@@ -277,7 +309,7 @@
           </div>
         </div>
       </div>
-      <form method="dialog" class="modal-backdrop bg-black/60">
+      <form method="dialog" class="modal-backdrop bg-black/70">
         <button>close</button>
       </form>
     </dialog>
