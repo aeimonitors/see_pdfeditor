@@ -465,6 +465,10 @@ class MultiPDFUI {
 
     try {
       // Get page directly from pageDesc which already has pdfDoc
+      if (!pageDesc.pdfDoc) {
+        throw new Error('PDF document not available');
+      }
+
       const page = await pageDesc.pdfDoc.getPage(pageDesc.pageNum);
 
       // Calculate viewport for high-quality preview (2x scale)
@@ -489,25 +493,33 @@ class MultiPDFUI {
       infoEl.textContent = `Page ${globalIndex + 1} from ${pageDesc.docName}`;
     } catch (error) {
       console.error('Failed to render zoom preview:', error);
-      canvasContainer.innerHTML = '<div class="text-error">Failed to load preview</div>';
+      canvasContainer.innerHTML = `<div class="text-error">Failed to load preview: ${error.message}</div>`;
     }
   }
 
   /**
    * Handle rotate from zoom preview
    */
-  handleZoomRotate() {
+  async handleZoomRotate() {
     if (!this.currentZoomPage) return;
 
     const { pageDesc, globalIndex } = this.currentZoomPage;
     this.manager.rotatePage(pageDesc.docId, pageDesc.pageIndex, 90);
-    this.renderPageGrid();
 
-    // Refresh zoom preview with updated page
+    // Wait for grid to re-render
+    await this.renderPageGrid();
+
+    // Get the updated page descriptor after rotation
     const updatedPages = this.manager.getGlobalPageOrder();
     const updatedPageDesc = updatedPages[globalIndex];
-    if (updatedPageDesc) {
+
+    if (updatedPageDesc && updatedPageDesc.pdfDoc) {
+      // Update current zoom page reference
+      this.currentZoomPage.pageDesc = updatedPageDesc;
+      // Refresh zoom preview with rotated page
       this.showZoomPreview(updatedPageDesc, globalIndex);
+    } else {
+      console.error('Updated page descriptor not found or invalid');
     }
   }
 
