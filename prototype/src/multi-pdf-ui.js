@@ -471,25 +471,38 @@ class MultiPDFUI {
 
       const page = await pageDesc.pdfDoc.getPage(pageDesc.pageNum);
 
-      // Calculate viewport for high-quality preview (2x scale)
-      let viewport = page.getViewport({ scale: 2.0 });
+      // Calculate viewport - start with scale 1.5 for better quality
       const rotation = pageDesc.rotation || 0;
-      if (rotation !== 0) {
-        viewport = page.getViewport({ scale: 2.0, rotation });
+      let viewport = page.getViewport({ scale: 1.5, rotation });
+
+      // Check if we need to scale down to fit container
+      const maxWidth = canvasContainer.clientWidth - 32; // Account for padding
+      const maxHeight = canvasContainer.clientHeight - 32;
+
+      if (viewport.width > maxWidth || viewport.height > maxHeight) {
+        const scaleX = maxWidth / viewport.width;
+        const scaleY = maxHeight / viewport.height;
+        const scale = Math.min(scaleX, scaleY) * 1.5;
+        viewport = page.getViewport({ scale, rotation });
       }
 
       // Create canvas
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.className = 'shadow-lg rounded';
+      canvas.className = 'shadow-lg rounded max-w-full max-h-full';
+      canvas.style.display = 'block';
 
       const ctx = canvas.getContext('2d');
       await page.render({ canvasContext: ctx, viewport }).promise;
 
-      // Update UI
+      // Update UI with wrapper
       canvasContainer.innerHTML = '';
-      canvasContainer.appendChild(canvas);
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex items-center justify-center w-full h-full';
+      wrapper.appendChild(canvas);
+      canvasContainer.appendChild(wrapper);
+
       infoEl.textContent = `Page ${globalIndex + 1} from ${pageDesc.docName}`;
     } catch (error) {
       console.error('Failed to render zoom preview:', error);
