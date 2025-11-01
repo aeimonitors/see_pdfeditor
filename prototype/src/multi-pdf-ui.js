@@ -471,26 +471,30 @@ class MultiPDFUI {
 
       const page = await pageDesc.pdfDoc.getPage(pageDesc.pageNum);
 
-      // Calculate viewport - start with scale 1.5 for better quality
+      // Calculate viewport - use higher scale for zoom
       const rotation = pageDesc.rotation || 0;
-      let viewport = page.getViewport({ scale: 1.5, rotation });
 
-      // Check if we need to scale down to fit container
-      const maxWidth = canvasContainer.clientWidth - 32; // Account for padding
-      const maxHeight = canvasContainer.clientHeight - 32;
+      // Get container dimensions (accounting for header/footer padding)
+      const maxWidth = canvasContainer.clientWidth - 40;
+      const maxHeight = canvasContainer.clientHeight - 160; // Space for header and footer
 
-      if (viewport.width > maxWidth || viewport.height > maxHeight) {
-        const scaleX = maxWidth / viewport.width;
-        const scaleY = maxHeight / viewport.height;
-        const scale = Math.min(scaleX, scaleY) * 1.5;
-        viewport = page.getViewport({ scale, rotation });
-      }
+      // Start with base viewport to get dimensions
+      let baseViewport = page.getViewport({ scale: 1.0, rotation });
+
+      // Calculate scale to fit container while maximizing size
+      const scaleX = maxWidth / baseViewport.width;
+      const scaleY = maxHeight / baseViewport.height;
+      const scale = Math.min(scaleX, scaleY);
+
+      // Apply scale (minimum 1.0 to ensure quality)
+      const finalScale = Math.max(scale, 1.0);
+      const viewport = page.getViewport({ scale: finalScale, rotation });
 
       // Create canvas
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.className = 'shadow-lg rounded max-w-full max-h-full';
+      canvas.className = 'shadow-2xl rounded max-w-full max-h-full';
       canvas.style.display = 'block';
 
       const ctx = canvas.getContext('2d');
@@ -499,7 +503,7 @@ class MultiPDFUI {
       // Update UI with wrapper
       canvasContainer.innerHTML = '';
       const wrapper = document.createElement('div');
-      wrapper.className = 'flex items-center justify-center w-full h-full';
+      wrapper.className = 'flex items-center justify-center w-full h-full p-4';
       wrapper.appendChild(canvas);
       canvasContainer.appendChild(wrapper);
 

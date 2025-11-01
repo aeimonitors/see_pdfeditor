@@ -224,31 +224,31 @@
 
     <!-- Zoom Preview Modal -->
     <dialog id="zoomPreviewModal" class="modal" aria-labelledby="zoomPreviewModalTitle">
-      <div class="modal-box max-w-5xl w-full p-0">
-        <div class="relative">
+      <div class="modal-box max-w-7xl w-full h-[90vh] p-0">
+        <div class="relative h-full">
           <!-- Floating Header -->
           <div class="absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-base-100/95 to-transparent p-4 flex justify-between items-center">
-            <h2 id="zoomPreviewModalTitle" class="text-lg font-bold">Page Preview</h2>
+            <div class="flex flex-col">
+              <h2 id="zoomPreviewModalTitle" class="text-lg font-bold">Page Preview</h2>
+              <div id="zoomPreviewInfo" class="text-xs text-base-content/70 mt-1"></div>
+            </div>
             <button id="closeZoomPreviewBtn" class="btn btn-sm btn-circle btn-ghost" aria-label="Close preview">✕</button>
           </div>
 
           <!-- Canvas Container -->
-          <div id="zoomPreviewCanvas" class="w-full overflow-auto max-h-[80vh] bg-base-200 flex justify-center items-center p-4 pt-16"></div>
+          <div id="zoomPreviewCanvas" class="w-full h-full bg-base-200 flex justify-center items-center"></div>
 
-          <!-- Floating Info & Actions -->
+          <!-- Floating Actions -->
           <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-base-100/95 to-transparent p-4">
-            <div class="flex flex-col items-center gap-3">
-              <div id="zoomPreviewInfo" class="text-sm font-medium text-base-content badge badge-lg"></div>
-              <div class="flex gap-2">
-                <button id="zoomRotateBtn" class="btn btn-primary btn-sm gap-2">
-                  <span>↻</span>
-                  Rotate 90°
-                </button>
-                <button id="zoomDeleteBtn" class="btn btn-error btn-sm gap-2">
-                  <span>×</span>
-                  Delete Page
-                </button>
-              </div>
+            <div class="flex justify-center gap-2">
+              <button id="zoomRotateBtn" class="btn btn-primary btn-sm gap-2">
+                <span>↻</span>
+                Rotate 90°
+              </button>
+              <button id="zoomDeleteBtn" class="btn btn-error btn-sm gap-2">
+                <span>×</span>
+                Delete Page
+              </button>
             </div>
           </div>
         </div>
