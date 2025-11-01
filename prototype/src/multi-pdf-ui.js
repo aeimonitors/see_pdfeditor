@@ -15,6 +15,7 @@ class MultiPDFUI {
     this.containers = containers;
     this.selectedPages = new Set();
     this.draggedPageIndex = null;
+    this.currentZoomPage = null;
 
     this.init();
   }
@@ -62,6 +63,24 @@ class MultiPDFUI {
       dropZone.addEventListener('click', () => {
         multiFileInput?.click();
       });
+    }
+
+    // Zoom preview modal controls
+    const closeZoomBtn = document.getElementById('closeZoomPreviewBtn');
+    if (closeZoomBtn) {
+      closeZoomBtn.addEventListener('click', () => {
+        document.getElementById('zoomPreviewModal').close();
+      });
+    }
+
+    const zoomRotateBtn = document.getElementById('zoomRotateBtn');
+    if (zoomRotateBtn) {
+      zoomRotateBtn.addEventListener('click', () => this.handleZoomRotate());
+    }
+
+    const zoomDeleteBtn = document.getElementById('zoomDeleteBtn');
+    if (zoomDeleteBtn) {
+      zoomDeleteBtn.addEventListener('click', () => this.handleZoomDelete());
     }
   }
 
@@ -209,6 +228,7 @@ class MultiPDFUI {
         </div>
         <div class="page-preview-canvas-wrapper"></div>
         <div class="page-preview-actions">
+          <button class="page-action-btn zoom-btn" title="Zoom preview">🔍</button>
           <button class="page-action-btn rotate-btn" title="Rotate 90° clockwise">↻</button>
           <button class="page-action-btn delete-btn" title="Delete page">×</button>
         </div>
@@ -217,6 +237,12 @@ class MultiPDFUI {
       pageEl.querySelector('.page-preview-canvas-wrapper').appendChild(canvas);
 
       // Action buttons
+      const zoomBtn = pageEl.querySelector('.zoom-btn');
+      zoomBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.showZoomPreview(pageDesc, globalIndex);
+      });
+
       const rotateBtn = pageEl.querySelector('.rotate-btn');
       rotateBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -417,6 +443,88 @@ class MultiPDFUI {
     }
 
     return pageEl;
+  }
+
+  /**
+   * Show zoom preview modal
+   * @param {Object} pageDesc - Page description
+   * @param {number} globalIndex - Global page index
+   */
+  async showZoomPreview(pageDesc, globalIndex) {
+    this.currentZoomPage = { pageDesc, globalIndex };
+
+    const modal = document.getElementById('zoomPreviewModal');
+    const canvasContainer = document.getElementById('zoomPreviewCanvas');
+    const infoEl = document.getElementById('zoomPreviewInfo');
+
+    // Clear previous content
+    canvasContainer.innerHTML = '<span class="loading loading-spinner loading-lg"></span>';
+
+    // Show modal
+    modal.showModal();
+
+    try {
+      // Get document and page
+      const doc = this.manager.documents.find((d) => d.id === pageDesc.docId);
+      if (!doc) return;
+
+      const pdfDoc = await window.pdfjsLib.getDocument({ data: doc.data }).promise;
+      const page = await pdfDoc.getPage(pageDesc.pageIndex + 1);
+
+      // Calculate viewport for high-quality preview (2x scale)
+      let viewport = page.getViewport({ scale: 2.0 });
+      const rotation = pageDesc.rotation || 0;
+      if (rotation !== 0) {
+        viewport = page.getViewport({ scale: 2.0, rotation });
+      }
+
+      // Create canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.className = 'shadow-lg rounded';
+
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+
+      // Update UI
+      canvasContainer.innerHTML = '';
+      canvasContainer.appendChild(canvas);
+      infoEl.textContent = `Page ${globalIndex + 1} from ${pageDesc.docName}`;
+    } catch (error) {
+      console.error('Failed to render zoom preview:', error);
+      canvasContainer.innerHTML = '<div class="text-error">Failed to load preview</div>';
+    }
+  }
+
+  /**
+   * Handle rotate from zoom preview
+   */
+  handleZoomRotate() {
+    if (!this.currentZoomPage) return;
+
+    const { pageDesc } = this.currentZoomPage;
+    this.manager.rotatePage(pageDesc.docId, pageDesc.pageIndex, 90);
+    this.renderPageGrid();
+
+    // Refresh zoom preview
+    this.showZoomPreview(pageDesc, this.currentZoomPage.globalIndex);
+  }
+
+  /**
+   * Handle delete from zoom preview
+   */
+  handleZoomDelete() {
+    if (!this.currentZoomPage) return;
+
+    const { pageDesc } = this.currentZoomPage;
+    this.manager.deletePage(pageDesc.docId, pageDesc.pageIndex);
+    this.renderPageGrid();
+    this.updateStatus();
+
+    // Close modal
+    document.getElementById('zoomPreviewModal').close();
+    this.currentZoomPage = null;
   }
 
   /**
