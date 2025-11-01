@@ -137,7 +137,7 @@
                 });
 
                 // Add to manager as a new document
-                await ui.addFiles([pdfFile]);
+                await pdfUI.addFiles([pdfFile]);
 
                 showImageStatus(`✅ Image "${file.name}" added as PDF page!`);
                 setTimeout(hideImageStatus, 3000);
