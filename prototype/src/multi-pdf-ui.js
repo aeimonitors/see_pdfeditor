@@ -73,6 +73,17 @@ class MultiPDFUI {
       });
     }
 
+    // Close zoom modal when clicking on canvas container (gray area)
+    const zoomCanvas = document.getElementById('zoomPreviewCanvas');
+    if (zoomCanvas) {
+      zoomCanvas.addEventListener('click', (e) => {
+        // Only close if clicking the container itself, not the canvas or wrapper
+        if (e.target === zoomCanvas) {
+          document.getElementById('zoomPreviewModal').close();
+        }
+      });
+    }
+
     const zoomRotateBtn = document.getElementById('zoomRotateBtn');
     if (zoomRotateBtn) {
       zoomRotateBtn.addEventListener('click', () => this.handleZoomRotate());
