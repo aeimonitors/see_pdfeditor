@@ -577,10 +577,22 @@ class MultiPDFUI {
    */
   updateStatus() {
     const statusEl = document.getElementById('multiPdfStatus');
+    const exportBtn = document.getElementById('exportMergedBtn');
+    const exportBtnHeader = document.getElementById('exportMergedBtnHeader');
+
     if (statusEl) {
       const docCount = this.manager.getDocuments().length;
       const pageCount = this.manager.getTotalPageCount();
       statusEl.textContent = `${docCount} document(s), ${pageCount} total pages`;
+    }
+
+    // Enable/disable export buttons based on page count
+    const hasPages = this.manager.getTotalPageCount() > 0;
+    if (exportBtn) {
+      exportBtn.disabled = !hasPages;
+    }
+    if (exportBtnHeader) {
+      exportBtnHeader.disabled = !hasPages;
     }
   }
 

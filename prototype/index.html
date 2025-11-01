@@ -156,6 +156,12 @@
         </p>
       </div>
       <div class="navbar-end gap-2">
+        <!-- Export Button -->
+        <button id="exportMergedBtnHeader" class="btn btn-primary btn-sm gap-2" disabled aria-label="Export merged PDF">
+          <span aria-hidden="true">💾</span>
+          <span class="hidden md:inline">Export PDF</span>
+        </button>
+
         <!-- Theme Toggle -->
         <label class="swap swap-rotate btn btn-ghost btn-circle">
           <input type="checkbox" id="theme-toggle" />
@@ -169,7 +175,7 @@
           </svg>
         </label>
 
-        <a href="single-pdf.html" class="btn btn-ghost btn-sm gap-2">
+        <a href="single-pdf.html" class="btn btn-ghost btn-sm gap-2 hidden lg:flex">
           <span>📄</span>
           Single PDF Editor
         </a>

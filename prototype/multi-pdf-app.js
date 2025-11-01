@@ -159,9 +159,11 @@
         });
       }
 
-      // Export button
+      // Export button (both header and controls section)
       const exportBtn = document.getElementById('exportMergedBtn');
-      exportBtn.addEventListener('click', async () => {
+      const exportBtnHeader = document.getElementById('exportMergedBtnHeader');
+
+      const handleExport = async () => {
         if (manager.getTotalPageCount() > 0) {
           const exportStart = Date.now();
           ui.showLoading('Exporting PDF...', true);
@@ -192,7 +194,10 @@
         } else {
           ui.showToast('No pages to export. Please add PDF files first.', 'warning');
         }
-      });
+      };
+
+      exportBtn.addEventListener('click', handleExport);
+      exportBtnHeader.addEventListener('click', handleExport);
 
       // Clear all button
       const clearAllBtn = document.getElementById('clearAllBtn');
