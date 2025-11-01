@@ -468,7 +468,7 @@ class MultiPDFUI {
       const doc = this.manager.documents.find((d) => d.id === pageDesc.docId);
       if (!doc) return;
 
-      const pdfDoc = await window.pdfjsLib.getDocument({ data: doc.data }).promise;
+      const pdfDoc = await window.pdfjsLib.getDocument({ data: doc.bytes }).promise;
       const page = await pdfDoc.getPage(pageDesc.pageIndex + 1);
 
       // Calculate viewport for high-quality preview (2x scale)
