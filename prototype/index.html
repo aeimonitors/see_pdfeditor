@@ -143,13 +143,6 @@
                  aria-label="Choose PDF files" class="hidden" />
         </div>
 
-        <!-- Status Bar -->
-        <div id="multiPdfStatus" class="alert mt-4" role="status">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <span>No documents loaded</span>
-        </div>
       </section>
 
       <!-- Image Status (hidden by default) -->
@@ -160,25 +153,40 @@
         <span id="imageStatusText">Adding image...</span>
       </div>
 
-      <!-- Controls -->
+      <!-- Controls & Status Bar -->
       <section class="mb-8">
-        <div class="flex flex-wrap gap-2 justify-center" role="toolbar" aria-label="Multi-PDF editing controls">
-          <button id="addImageBtn" class="btn btn-secondary gap-2" aria-label="Add image to PDF pages">
-            <span aria-hidden="true">🖼️</span>
-            Add Image
-          </button>
-          <button id="exportMergedBtn" class="btn btn-primary gap-2" disabled aria-label="Export merged PDF">
-            <span aria-hidden="true">💾</span>
-            Export Merged PDF
-          </button>
-          <button id="clearAllBtn" class="btn btn-error gap-2" aria-label="Clear all documents">
-            <span aria-hidden="true">🗑️</span>
-            Clear All
-          </button>
-          <button id="helpMultiBtn" class="btn btn-info gap-2" aria-label="Show help">
-            <span aria-hidden="true">❓</span>
-            Help
-          </button>
+        <div class="card bg-base-100 shadow-lg">
+          <div class="card-body py-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <!-- Status Info -->
+              <div id="multiPdfStatus" class="flex items-center gap-2" role="status">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-sm font-medium">No documents loaded</span>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-wrap gap-2" role="toolbar" aria-label="Multi-PDF editing controls">
+                <button id="addImageBtn" class="btn btn-secondary btn-sm gap-2" aria-label="Add image to PDF pages">
+                  <span aria-hidden="true">🖼️</span>
+                  Add Image
+                </button>
+                <button id="exportMergedBtn" class="btn btn-primary btn-sm gap-2" disabled aria-label="Export merged PDF">
+                  <span aria-hidden="true">💾</span>
+                  Export Merged PDF
+                </button>
+                <button id="clearAllBtn" class="btn btn-error btn-sm gap-2" aria-label="Clear all documents">
+                  <span aria-hidden="true">🗑️</span>
+                  Clear All
+                </button>
+                <button id="helpMultiBtn" class="btn btn-info btn-sm gap-2" aria-label="Show help">
+                  <span aria-hidden="true">❓</span>
+                  Help
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
