@@ -1,9 +1,19 @@
 see_pdfeditor — Documentation
 
-**Status:** 🎉 **MVP COMPLETE - Ready for Production Testing**
-**Last Updated:** November 22, 2025
+**Status:** 🎉 **MVP COMPLETE - Critical Bug Fixed (v1.0.1)**
+**Last Updated:** November 1, 2025
 
 This folder contains comprehensive developer and project documentation for the **see_pdfeditor** browser-based PDF editor MVP.
+
+---
+
+## 🆕 Latest Updates (Nov 1, 2025)
+
+### v1.0.1 - Critical Bug Fixes
+- **FIXED:** Page drag state issue - pages no longer jump back when reordered
+- **IMPROVED:** Smooth scroll animation for better UX
+- **FIXED:** Icon alignment and button sizing
+- **See:** `CHANGELOG.md` for complete list of changes
 
 ---
 
@@ -68,6 +78,7 @@ This folder contains comprehensive developer and project documentation for the *
 - **`tasks.md`** — Task list
 - **`acceptance-tests.md`** — Test cases
 - **`checklists.md`** — QA checklists
+- **`CHANGELOG.md`** — Version history and change log
 
 ---
 

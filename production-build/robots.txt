@@ -1,0 +1,20 @@
+# Robots.txt - Prevent crawling of sensitive paths
+# https://developers.google.com/search/docs/advanced/robots/intro
+
+User-agent: *
+Disallow: /src/
+Disallow: /vendor/
+Disallow: /.git/
+Disallow: /.htaccess
+Disallow: /netlify.toml
+Disallow: /*.json$
+Disallow: /*.md$
+
+# Allow specific files
+Allow: /index.html
+Allow: /styles.css
+Allow: /*.js
+Allow: /*.css
+
+# Sitemap (if you have one)
+# Sitemap: https://your-domain.com/sitemap.xml

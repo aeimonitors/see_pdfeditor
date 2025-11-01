@@ -11,6 +11,11 @@ Sprint 1 — Viewer & Page Management (1 week)
 - Task: Implement drag-and-drop reorder with undo/redo.
 - Tests: Unit tests for reorder logic, E2E smoke (open → reorder → export).
 
+**COMPLETED** ✅ - Drag-and-drop reorder implemented with critical bug fix (Nov 1, 2025)
+- Fixed page state issue where pages would jump back after drag
+- Improved UX with smooth scroll animation
+- Icon alignment and button sizing optimized
+
 Sprint 2 — Annotations & Markup (2 weeks)
 - Task: Implement highlight/underline/strike and comment pins saved as PDF annotations.
 - Task: Freehand ink tool and basic shapes.

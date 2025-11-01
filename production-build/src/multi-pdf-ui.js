@@ -16,6 +16,7 @@ class MultiPDFUI {
     this.selectedPages = new Set();
     this.draggedPageIndex = null;
     this.currentZoomPage = null;
+    this.mouseDragInProgress = false; // Track if a mouse drag was completed
 
     this.init();
   }
@@ -119,6 +120,30 @@ class MultiPDFUI {
     if (zoomDeleteBtn) {
       zoomDeleteBtn.addEventListener('click', () => this.handleZoomDelete());
     }
+
+    const zoomPrevBtn = document.getElementById('zoomPrevBtn');
+    if (zoomPrevBtn) {
+      zoomPrevBtn.addEventListener('click', () => this.handleZoomPrevious());
+    }
+
+    const zoomNextBtn = document.getElementById('zoomNextBtn');
+    if (zoomNextBtn) {
+      zoomNextBtn.addEventListener('click', () => this.handleZoomNext());
+    }
+
+    // Keyboard navigation in zoom modal
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('zoomPreviewModal');
+      if (modal && modal.open) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.handleZoomPrevious();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.handleZoomNext();
+        }
+      }
+    });
   }
 
   /**
@@ -204,10 +229,37 @@ class MultiPDFUI {
 
   /**
    * Render page grid with previews
+   * @param {Object} options - Rendering options
+   * @param {boolean} options.preserveScroll - Whether to preserve scroll position
+   * @param {number} options.focusIndex - Index of page to keep visible after update
    */
-  async renderPageGrid() {
+  async renderPageGrid(options = {}) {
     const container = this.containers.pageGrid;
     if (!container) return;
+
+    // Clean up ALL drag states before re-rendering to prevent stuck states
+    document.querySelectorAll('.page-preview').forEach(p => {
+      p.classList.remove('dragging');
+      p.classList.remove('drag-over');
+    });
+
+    // Clean up any drag clones that might still exist
+    document.querySelectorAll('.drag-clone').forEach(clone => {
+      clone.remove();
+    });
+
+    // Reset drag index
+    this.draggedPageIndex = null;
+
+    // Save scroll position if requested
+    const scrollElement = window;
+    let savedScrollTop = 0;
+    let savedScrollLeft = 0;
+
+    if (options.preserveScroll) {
+      savedScrollTop = window.scrollY || window.pageYOffset;
+      savedScrollLeft = window.scrollX || window.pageXOffset;
+    }
 
     container.innerHTML = '<div class="loading-pages">Loading previews...</div>';
 
@@ -224,6 +276,30 @@ class MultiPDFUI {
       const pageDesc = pages[i];
       const pageEl = await this.createPagePreview(pageDesc, i);
       container.appendChild(pageEl);
+    }
+
+    // Restore scroll position if requested
+    if (options.preserveScroll || options.focusIndex !== undefined) {
+      if (options.focusIndex !== undefined) {
+        // Find and scroll to the element AFTER it's been rendered
+        // Use 'nearest' for faster, less dramatic scroll
+        requestAnimationFrame(() => {
+          const elementToFocus = container.querySelector(`[data-global-index="${options.focusIndex}"]`);
+          if (elementToFocus) {
+            elementToFocus.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+          }
+        });
+      } else if (options.preserveScroll) {
+        // Use requestAnimationFrame to ensure DOM has updated for preserveScroll
+        requestAnimationFrame(() => {
+          if (scrollElement === window) {
+            window.scrollTo(savedScrollLeft, savedScrollTop);
+          } else {
+            scrollElement.scrollTop = savedScrollTop;
+            scrollElement.scrollLeft = savedScrollLeft;
+          }
+        });
+      }
     }
   }
 
@@ -284,14 +360,16 @@ class MultiPDFUI {
       rotateBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.manager.rotatePage(pageDesc.docId, pageDesc.pageIndex, 90);
-        this.renderPageGrid();
+        this.renderPageGrid({ preserveScroll: true });
       });
 
       const deleteBtn = pageEl.querySelector('.delete-btn');
       deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.manager.deletePage(pageDesc.docId, pageDesc.pageIndex);
-        this.renderPageGrid();
+        // Focus on the next page (or previous if last page deleted)
+        const nextIndex = globalIndex < this.manager.getTotalPageCount() ? globalIndex : globalIndex - 1;
+        this.renderPageGrid({ focusIndex: nextIndex >= 0 ? nextIndex : undefined });
         this.updateStatus();
       });
 
@@ -304,6 +382,7 @@ class MultiPDFUI {
 
       pageEl.addEventListener('dragend', () => {
         pageEl.classList.remove('dragging');
+        document.querySelectorAll('.page-preview').forEach(p => p.classList.remove('drag-over'));
         this.draggedPageIndex = null;
       });
 
@@ -323,14 +402,51 @@ class MultiPDFUI {
 
       pageEl.addEventListener('drop', (e) => {
         e.preventDefault();
-        pageEl.classList.remove('drag-over');
 
         if (this.draggedPageIndex === null) return;
 
         const targetIndex = parseInt(pageEl.dataset.globalIndex, 10);
+
         if (targetIndex !== this.draggedPageIndex) {
-          this.manager.reorderPages(this.draggedPageIndex, targetIndex);
-          this.renderPageGrid();
+          // Store the from index before state changes
+          const fromIndex = this.draggedPageIndex;
+
+          // Clean up all drag states immediately
+          document.querySelectorAll('.page-preview').forEach(p => {
+            p.classList.remove('drag-over');
+            p.classList.remove('dragging');
+          });
+
+          // Calculate where the moved page will appear after reorder
+          // When dropping at index X, reorderPages puts it at adjustedTo
+          const finalIndex = targetIndex > fromIndex ? targetIndex - 1 : targetIndex;
+
+          // Set flag to prevent touch handler from also running
+          this.mouseDragInProgress = true;
+
+          // Clear dragged page index before re-render
+          this.draggedPageIndex = null;
+
+          // Clear selected pages since indices will change
+          this.selectedPages.clear();
+
+          // Reorder in the manager
+          this.manager.reorderPages(fromIndex, targetIndex);
+
+          // Keep the moved page visible at its final position
+          this.renderPageGrid({ focusIndex: finalIndex });
+
+          // Reset the flag after a short delay to allow any queued touch events to be skipped
+          setTimeout(() => {
+            this.mouseDragInProgress = false;
+          }, 100);
+        } else {
+          // Clean up drag states if dropped on itself
+          document.querySelectorAll('.page-preview').forEach(p => {
+            p.classList.remove('drag-over');
+            p.classList.remove('dragging');
+          });
+          this.draggedPageIndex = null;
         }
       });
 
@@ -419,32 +535,71 @@ class MultiPDFUI {
         if (dragClone) {
           const touch = e.changedTouches[0];
 
+          // Check if a mouse drag already handled this
+          if (this.mouseDragInProgress) {
+            // Cleanup without re-rendering
+            if (dragClone) {
+              dragClone.remove();
+              dragClone = null;
+            }
+            return;
+          }
+
           // Find drop target
           const elementsBelow = document.elementsFromPoint(touch.clientX, touch.clientY);
           const targetPage = elementsBelow.find(el => el.classList.contains('page-preview') && el !== pageEl);
 
-          if (targetPage) {
+          if (targetPage && this.draggedPageIndex !== null) {
             const targetIndex = parseInt(targetPage.dataset.globalIndex, 10);
             if (targetIndex !== this.draggedPageIndex) {
-              this.manager.reorderPages(this.draggedPageIndex, targetIndex);
-              this.renderPageGrid();
+              // Store from index before state changes
+              const fromIndex = this.draggedPageIndex;
+
+              // Calculate where the moved page will appear after reorder
+              const finalIndex = targetIndex > fromIndex ? targetIndex - 1 : targetIndex;
+
+              // Clean up drag states
+              document.querySelectorAll('.page-preview').forEach(p => {
+                p.classList.remove('drag-over');
+                p.classList.remove('dragging');
+              });
+
+              // Reset dragged page index
+              this.draggedPageIndex = null;
+
+              // Clear selected pages since indices will change
+              this.selectedPages.clear();
+
+              // Reorder in the manager
+              this.manager.reorderPages(fromIndex, targetIndex);
 
               // Haptic feedback on drop
               if (navigator.vibrate) {
                 navigator.vibrate(30);
               }
+
+              // Keep the moved page visible at its final position
+              this.renderPageGrid({ focusIndex: finalIndex });
+            } else {
+              // Dropped on itself
+              this.draggedPageIndex = null;
             }
           }
 
-          // Cleanup
+          // Cleanup drag clone
           dragClone.remove();
           dragClone = null;
         }
 
-        // Reset state
+        // Reset all drag states
         pageEl.classList.remove('dragging');
-        document.querySelectorAll('.page-preview').forEach(p => p.classList.remove('drag-over'));
-        this.draggedPageIndex = null;
+        document.querySelectorAll('.page-preview').forEach(p => {
+          p.classList.remove('drag-over');
+          p.classList.remove('dragging');
+        });
+        if (this.draggedPageIndex !== null) {
+          this.draggedPageIndex = null;
+        }
       });
 
       pageEl.addEventListener('touchcancel', () => {
@@ -456,7 +611,13 @@ class MultiPDFUI {
         }
 
         pageEl.classList.remove('dragging');
-        document.querySelectorAll('.page-preview').forEach(p => p.classList.remove('drag-over'));
+        document.querySelectorAll('.page-preview').forEach(p => {
+          p.classList.remove('drag-over');
+          p.classList.remove('dragging');
+        });
+
+        // Also reset the flag if a touch drag was cancelled
+        this.mouseDragInProgress = false;
         this.draggedPageIndex = null;
       });
 
@@ -549,10 +710,70 @@ class MultiPDFUI {
       wrapper.appendChild(canvas);
       canvasContainer.appendChild(wrapper);
 
-      infoEl.textContent = `Page ${globalIndex + 1} from ${pageDesc.docName}`;
+      infoEl.textContent = `Page ${globalIndex + 1} of ${this.manager.getTotalPageCount()} from ${pageDesc.docName}`;
+
+      // Update navigation button states
+      this.updateZoomNavigationButtons();
     } catch (error) {
       console.error('Failed to render zoom preview:', error);
       canvasContainer.innerHTML = `<div class="alert alert-error shadow-lg"><span>Failed to load preview: ${error.message}</span></div>`;
+    }
+  }
+
+  /**
+   * Update zoom navigation button states
+   */
+  updateZoomNavigationButtons() {
+    if (!this.currentZoomPage) return;
+
+    const { globalIndex } = this.currentZoomPage;
+    const totalPages = this.manager.getTotalPageCount();
+
+    const prevBtn = document.getElementById('zoomPrevBtn');
+    const nextBtn = document.getElementById('zoomNextBtn');
+
+    if (prevBtn) {
+      prevBtn.disabled = globalIndex <= 0;
+    }
+    if (nextBtn) {
+      nextBtn.disabled = globalIndex >= totalPages - 1;
+    }
+  }
+
+  /**
+   * Handle previous page in zoom preview
+   */
+  async handleZoomPrevious() {
+    if (!this.currentZoomPage) return;
+
+    const { globalIndex } = this.currentZoomPage;
+    if (globalIndex <= 0) return;
+
+    const pages = this.manager.getGlobalPageOrder();
+    const prevIndex = globalIndex - 1;
+    const prevPageDesc = pages[prevIndex];
+
+    if (prevPageDesc) {
+      await this.showZoomPreview(prevPageDesc, prevIndex);
+    }
+  }
+
+  /**
+   * Handle next page in zoom preview
+   */
+  async handleZoomNext() {
+    if (!this.currentZoomPage) return;
+
+    const { globalIndex } = this.currentZoomPage;
+    const totalPages = this.manager.getTotalPageCount();
+    if (globalIndex >= totalPages - 1) return;
+
+    const pages = this.manager.getGlobalPageOrder();
+    const nextIndex = globalIndex + 1;
+    const nextPageDesc = pages[nextIndex];
+
+    if (nextPageDesc) {
+      await this.showZoomPreview(nextPageDesc, nextIndex);
     }
   }
 
@@ -565,8 +786,8 @@ class MultiPDFUI {
     const { pageDesc, globalIndex } = this.currentZoomPage;
     this.manager.rotatePage(pageDesc.docId, pageDesc.pageIndex, 90);
 
-    // Wait for grid to re-render
-    await this.renderPageGrid();
+    // Wait for grid to re-render with scroll preservation
+    await this.renderPageGrid({ preserveScroll: true });
 
     // Get the updated page descriptor after rotation
     const updatedPages = this.manager.getGlobalPageOrder();
@@ -576,7 +797,7 @@ class MultiPDFUI {
       // Update current zoom page reference
       this.currentZoomPage.pageDesc = updatedPageDesc;
       // Refresh zoom preview with rotated page
-      this.showZoomPreview(updatedPageDesc, globalIndex);
+      await this.showZoomPreview(updatedPageDesc, globalIndex);
     } else {
       console.error('Updated page descriptor not found or invalid');
     }
@@ -585,17 +806,35 @@ class MultiPDFUI {
   /**
    * Handle delete from zoom preview
    */
-  handleZoomDelete() {
+  async handleZoomDelete() {
     if (!this.currentZoomPage) return;
 
-    const { pageDesc } = this.currentZoomPage;
+    const { pageDesc, globalIndex } = this.currentZoomPage;
+    const totalPages = this.manager.getTotalPageCount();
+
+    // Delete the page
     this.manager.deletePage(pageDesc.docId, pageDesc.pageIndex);
-    this.renderPageGrid();
+
+    // Update grid with focus on next page
+    const nextIndex = globalIndex < this.manager.getTotalPageCount() ? globalIndex : globalIndex - 1;
+    await this.renderPageGrid({ focusIndex: nextIndex >= 0 ? nextIndex : undefined });
     this.updateStatus();
 
-    // Close modal
-    document.getElementById('zoomPreviewModal').close();
-    this.currentZoomPage = null;
+    // If there are more pages, show the next/previous page in zoom
+    const remainingPages = this.manager.getTotalPageCount();
+    if (remainingPages > 0) {
+      const pages = this.manager.getGlobalPageOrder();
+      // Show the page at the same index (which is now the next page) or the last page if we deleted the last one
+      const indexToShow = globalIndex < remainingPages ? globalIndex : remainingPages - 1;
+      const pageToShow = pages[indexToShow];
+      if (pageToShow) {
+        await this.showZoomPreview(pageToShow, indexToShow);
+      }
+    } else {
+      // Close modal if no pages left
+      document.getElementById('zoomPreviewModal').close();
+      this.currentZoomPage = null;
+    }
   }
 
   /**

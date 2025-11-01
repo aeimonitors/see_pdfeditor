@@ -1,0 +1,39 @@
+# Security Headers for Apache Configuration
+# This file should be placed in the prototype/ directory
+
+# Prevent clickjacking attacks
+Header always append X-Frame-Options SAMEORIGIN
+
+# Prevent MIME type sniffing
+Header always set X-Content-Type-Options nosniff
+
+# Enable XSS protection
+Header always set X-XSS-Protection "1; mode=block"
+
+# Referrer policy for privacy
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Permissions Policy to restrict browser features
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+# Content Security Policy - Enhanced
+# Use this if you can't set CSP via meta tags
+<IfModule mod_headers.c>
+    # Only allow resources from same origin and trusted CDNs
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://cdn.jsdelivr.net https://www.google-analytics.com https://analytics.google.com data: blob:; font-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; frame-ancestors 'self';"
+</IfModule>
+
+# Disable server signature
+ServerSignature Off
+
+# Prevent access to sensitive files
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Deny access to configuration files
+<FilesMatch "\.(env|ini|log|sh|conf)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

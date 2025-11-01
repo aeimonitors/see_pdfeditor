@@ -24,6 +24,9 @@ The Multi-PDF Editor allows users to upload multiple PDF files, preview all page
 - Pages can be moved between documents
 - Visual feedback during drag operations
 - Live preview of the new order
+- **Smooth Animation**: View automatically follows moved pages with smooth scroll
+- **Fixed Bug (Nov 1, 2025)**: Pages now stay in correct position after drag - no jumping back to page 1
+- **Cross-Platform**: Works on desktop (mouse) and mobile (touch)
 
 #### Rotate
 - Rotate individual pages by 90° clockwise
@@ -194,6 +197,14 @@ python -m http.server 5173
 - Verify all pages loaded
 - Try exporting fewer pages
 - Ensure enough disk space
+
+### Known Issues (RESOLVED)
+**Bug: Pages jumping back after drag (FIXED Nov 1, 2025)**
+- **Symptoms**: After dragging a page to reorder it, the view would jump back to page 1
+- **Cause**: Wrapper function wasn't forwarding arguments, mouse/touch event conflicts
+- **Solution**: Fixed in v1.0.1 - pages now stay in correct position
+- **Verification**: Use latest version or rebuild from source
+- **Evidence**: See `docs/Error.mp4` (before fix) and `docs/new-error.mp4` (after fix)
 
 ## API Reference
 

@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -l \"testing doc.zip\")",
+      "Bash(unzip -o \"testing doc.zip\" -d extracted/)",
+      "Bash(node --version)",
+      "Bash(find . -type f -size +1M -exec ls -lh {})",
+      "Bash(sort -k5 -hr)",
+      "Bash(chmod +x scripts/security-check.sh)",
+      "Bash(./scripts/security-check.sh)",
+      "Bash(awk '{print $9, \"\"\"\"(\"\"\"\"$5\"\"\"\" bytes)\"\"\"\"}')",
+      "Bash(git add .)",
+      "Bash(test -d production-build)",
+      "Bash(test -f production-build/index.html)",
+      "Bash(test -f production-build/.htaccess)",
+      "Bash(test -f production-build/robots.txt)",
+      "Bash(git commit -m \"Deploy production build: move files to production-build/ and remove prototype/\n\n- Create clean production-build/ directory (217KB)\n- Move all production files from prototype/ to production-build/\n- Include: index.html, single-pdf.html, app.js, multi-pdf-app.js, styles, 6 source modules\n- Add security files: .htaccess, robots.txt\n- Update netlify.toml: publish = ''production-build''\n- Remove prototype/ directory and all development utilities\n- Clean git staging with all changes ready for deployment\")",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"Deploy production build: move files to production-build/ and remove prototype/\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

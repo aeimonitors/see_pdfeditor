@@ -235,17 +235,18 @@
 
 .page-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  padding: 4px;
 }
 
 /* Page Preview */
 .page-preview {
   position: relative;
   background: #fff;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 6px;
   cursor: grab;
   transition: all 0.2s ease;
 }
@@ -292,13 +293,16 @@
   .page-action-btn {
     min-width: 44px;
     min-height: 44px;
-    font-size: 24px;
+    height: 44px;
+    font-size: 20px;
+    padding: 0;
   }
 
   /* Increase touch target size */
   .page-preview-actions {
-    gap: 12px;
-    padding: 12px;
+    gap: 10px;
+    padding: 10px 6px 6px;
+    margin-top: 8px;
   }
 
   /* Visual feedback for long press */
@@ -337,25 +341,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  padding: 4px 8px;
+  margin-bottom: 4px;
+  padding: 3px 6px;
   background: #f5f5f5;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .page-number {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 11px;
   color: #333;
 }
 
 .page-doc-name {
-  font-size: 11px;
+  font-size: 9px;
   color: #666;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100px;
+  max-width: 80px;
 }
 
 .page-preview-canvas-wrapper {
@@ -363,9 +367,10 @@
   justify-content: center;
   align-items: center;
   background: #f9f9f9;
-  border-radius: 4px;
-  padding: 8px;
-  min-height: 200px;
+  border-radius: 3px;
+  padding: 4px;
+  min-height: 150px;
+  aspect-ratio: 0.707; /* A4 ratio for consistent sizing */
 }
 
 .page-preview-canvas {
@@ -378,22 +383,30 @@
 .page-preview-actions {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-  padding-top: 8px;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 6px 4px 4px;
   border-top: 1px solid #e0e0e0;
 }
 
 .page-action-btn {
   flex: 1;
-  padding: 6px 12px;
+  min-height: 36px;
+  height: 36px;
+  padding: 0;
   border: 1px solid #ddd;
   border-radius: 4px;
   background: #fff;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 500;
   transition: all 0.2s ease;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .page-action-btn:hover {
@@ -403,6 +416,15 @@
 .page-action-btn:focus {
   outline: 2px solid #4a90e2;
   outline-offset: 2px;
+}
+
+.zoom-btn {
+  color: #666;
+}
+
+.zoom-btn:hover {
+  background: #f5f5f5;
+  border-color: #999;
 }
 
 .rotate-btn {
@@ -466,14 +488,25 @@
   }
 
   .page-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .page-action-btn {
+    font-size: 17px;
+    min-height: 34px;
+    height: 34px;
+  }
+
+  .page-preview-actions {
+    gap: 5px;
+    padding: 5px 4px 4px;
   }
 }
 
 @media (max-width: 768px) {
   .page-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
+    gap: 10px;
   }
 
   .page-preview-header {
@@ -485,6 +518,17 @@
   .page-doc-name {
     max-width: 100%;
   }
+
+  .page-action-btn {
+    font-size: 16px;
+    min-height: 32px;
+    height: 32px;
+  }
+
+  .page-preview-actions {
+    gap: 5px;
+    padding: 5px 3px 3px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -494,5 +538,19 @@
 
   .page-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .page-action-btn {
+    font-size: 15px;
+    min-height: 30px;
+    height: 30px;
+    padding: 0;
+  }
+
+  .page-preview-actions {
+    gap: 4px;
+    padding: 4px 2px 2px;
+    margin-top: 5px;
   }
 }

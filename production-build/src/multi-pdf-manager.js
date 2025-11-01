@@ -142,8 +142,12 @@ class MultiPDFManager {
   reorderPages(fromIndex, toIndex) {
     if (fromIndex === toIndex) return;
 
+    const len = this.globalPageOrder.length;
+    if (fromIndex < 0 || fromIndex >= len || toIndex < 0 || toIndex >= len) return;
+
     const [movedPage] = this.globalPageOrder.splice(fromIndex, 1);
-    this.globalPageOrder.splice(toIndex, 0, movedPage);
+    const adjustedTo = toIndex > fromIndex ? toIndex - 1 : toIndex; // account for index shift when moving forward
+    this.globalPageOrder.splice(adjustedTo, 0, movedPage);
   }
 
   /**

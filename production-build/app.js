@@ -9,6 +9,22 @@
   const addCommentBtn = document.getElementById('addCommentBtn');
   const generatePdfBtn = document.getElementById('generatePdfBtn');
 
+  // Placeholder used during thumbnail dragging to show insertion point
+  const thumbPlaceholder = document.createElement('div');
+  thumbPlaceholder.className = 'thumb-placeholder';
+
+  // ARIA live region for reorder announcements (screen readers)
+  let reorderAnnounce = document.getElementById('reorder-announce');
+  if (!reorderAnnounce) {
+    reorderAnnounce = document.createElement('div');
+    reorderAnnounce.id = 'reorder-announce';
+    reorderAnnounce.setAttribute('aria-live', 'polite');
+    reorderAnnounce.setAttribute('role', 'status');
+    reorderAnnounce.className = 'sr-only';
+    document.body.appendChild(reorderAnnounce);
+  }
+  let lastAnnouncedPos = null;
+
   // pdf.js setup (worker)
   if (window.pdfjsLib) {
     // Configure workerSrc from loader if available, otherwise fall back to known CDN
@@ -149,6 +165,114 @@
     perfMetrics.pagesComplete = performance.now();
   }
 
+  // Insertion indicator helpers: compute insertion point and manage placeholder
+  function getDragAfterElement(container, x, y) {
+    const style = window.getComputedStyle(container);
+    const isHorizontal = style.flexDirection && style.flexDirection.startsWith('row');
+    const draggableElements = [...container.querySelectorAll('.thumb')].filter((el) => !el.classList.contains('dragging') && !el.classList.contains('thumb-placeholder'));
+
+    let closest = null;
+    let closestOffset = Number.NEGATIVE_INFINITY;
+
+    for (const child of draggableElements) {
+      const rect = child.getBoundingClientRect();
+      const offset = isHorizontal ? (x - (rect.left + rect.width / 2)) : (y - (rect.top + rect.height / 2));
+      if (offset < 0 && offset > closestOffset) {
+        closestOffset = offset;
+        closest = child;
+      }
+    }
+
+    return closest;
+  }
+
+  // Thumbnails container-level handlers to show placeholder and accept drops
+  if (thumbnails) {
+    thumbnails.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const x = e.clientX;
+      const y = e.clientY;
+      const afterElement = getDragAfterElement(thumbnails, x, y);
+      if (!afterElement) {
+        if (thumbnails.lastElementChild !== thumbPlaceholder) thumbnails.appendChild(thumbPlaceholder);
+      } else {
+        if (afterElement !== thumbPlaceholder) thumbnails.insertBefore(thumbPlaceholder, afterElement);
+      }
+
+      // Announce insertion position for screen readers (avoid spamming)
+      const toIdx = Array.from(thumbnails.children).indexOf(thumbPlaceholder);
+      if (toIdx !== -1 && toIdx !== lastAnnouncedPos) {
+        reorderAnnounce.textContent = `Insertion point: position ${toIdx + 1}`;
+        lastAnnouncedPos = toIdx;
+      }
+    });
+
+    thumbnails.addEventListener('dragleave', (e) => {
+      const rect = thumbnails.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+        if (thumbPlaceholder.parentElement) thumbPlaceholder.remove();
+        // Clear announcement
+        reorderAnnounce.textContent = '';
+        lastAnnouncedPos = null;
+      }
+    });
+
+    thumbnails.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      let toIdx = -1;
+      if (thumbPlaceholder.parentElement) {
+        toIdx = Array.from(thumbnails.children).indexOf(thumbPlaceholder);
+      } else {
+        toIdx = thumbnails.children.length - 1;
+      }
+      if (thumbPlaceholder.parentElement) thumbPlaceholder.remove();
+      if (isNaN(fromIdx) || toIdx === -1) return;
+      const clampedFrom = Math.max(0, Math.min(fromIdx, pageOrder.length - 1));
+      const clampedTo = Math.max(0, Math.min(toIdx, pageOrder.length));
+      if (clampedFrom === clampedTo) return;
+      // Remember which page is moving so we can restore scroll/focus
+      const movedPageNumber = pageOrder[clampedFrom];
+      moveInArray(pageOrder, clampedFrom, clampedTo);
+      await renderAll();
+      // After re-render, scroll the moved page into view in both panes and focus the thumbnail
+      const newThumb = thumbnails.querySelector(`.thumb[data-page="${movedPageNumber}"]`);
+      if (newThumb) {
+        try {
+          newThumb.scrollIntoView({ block: 'center', behavior: 'instant' });
+        } catch (_) {
+          newThumb.scrollIntoView({ block: 'center' });
+        }
+        if (typeof newThumb.focus === 'function') {
+          try {
+            newThumb.focus({ preventScroll: true });
+          } catch (_) {
+            newThumb.focus();
+          }
+        }
+      }
+      const viewerPage = viewer.querySelector(`[data-page="${movedPageNumber}"]`);
+      if (viewerPage) {
+        try {
+          viewerPage.scrollIntoView({ block: 'center', behavior: 'instant' });
+        } catch (_) {
+          viewerPage.scrollIntoView({ block: 'center' });
+        }
+      }
+      const draggingEl = thumbnails.querySelector('.dragging');
+      if (draggingEl) draggingEl.classList.remove('dragging');
+
+      // Announce completion briefly
+      reorderAnnounce.textContent = `Moved to position ${clampedTo + 1}`;
+      lastAnnouncedPos = clampedTo;
+      setTimeout(() => {
+        // Clear after short delay so screen readers can read it
+        reorderAnnounce.textContent = '';
+        lastAnnouncedPos = null;
+      }, 1500);
+    });
+  }
+
   function logPerformanceMetrics(fileSize) {
     const fileSizeMB = (fileSize / (1024 * 1024)).toFixed(2);
     const loadTime = (perfMetrics.fileLoadEnd - perfMetrics.fileLoadStart).toFixed(0);
@@ -186,9 +310,10 @@
     const ctx = canvas.getContext('2d');
     await page.render({ canvasContext: ctx, viewport }).promise;
 
-    const container = document.createElement('div');
+  const container = document.createElement('div');
     container.className = 'thumb';
     container.draggable = true;
+  container.tabIndex = 0; // focusable for accessibility and refocus after reorder
     container.dataset.index = idx;
     container.dataset.page = pageNumber;
     container.appendChild(canvas);
@@ -198,19 +323,15 @@
     container.addEventListener('dragstart', (e) => {
       container.classList.add('dragging');
       e.dataTransfer.setData('text/plain', idx.toString());
+      e.dataTransfer.effectAllowed = 'move';
     });
-    container.addEventListener('dragend', () => container.classList.remove('dragging'));
+    container.addEventListener('dragend', () => {
+      container.classList.remove('dragging');
+      if (thumbPlaceholder.parentElement) thumbPlaceholder.remove();
+    });
 
-    // Allow dropping between thumbnails
+    // Keep per-item dragover to allow pointer capture; main insertion logic handled at thumbnails container
     container.addEventListener('dragover', (e) => e.preventDefault());
-    container.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const fromIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
-      const toIdx = parseInt(container.dataset.index, 10);
-      if (isNaN(fromIdx) || isNaN(toIdx)) return;
-      moveInArray(pageOrder, fromIdx, toIdx);
-      renderAll();
-    });
 
     thumbnails.appendChild(container);
   }

@@ -270,8 +270,8 @@
 
       // Monitor page count to enable/disable export buttons
       const originalRenderPageGrid = pdfUI.renderPageGrid.bind(pdfUI);
-      pdfUI.renderPageGrid = async function renderPageGrid() {
-        await originalRenderPageGrid();
+      pdfUI.renderPageGrid = async function renderPageGrid(options = {}) {
+        await originalRenderPageGrid(options);
         const pageCount = manager.getTotalPageCount();
         if (exportBtn) exportBtn.disabled = pageCount === 0;
         if (exportBtnHeader) exportBtnHeader.disabled = pageCount === 0;
