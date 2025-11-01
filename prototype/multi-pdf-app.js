@@ -165,11 +165,15 @@
 
       console.log('Export buttons found:', {
         exportBtn: !!exportBtn,
-        exportBtnHeader: !!exportBtnHeader
+        exportBtnHeader: !!exportBtnHeader,
+        exportBtnDisabled: exportBtn ? exportBtn.disabled : 'N/A',
+        exportBtnHeaderDisabled: exportBtnHeader ? exportBtnHeader.disabled : 'N/A'
       });
 
-      const handleExport = async () => {
+      const handleExport = async (event) => {
+        console.log('Export clicked! Event:', event);
         console.log('Export triggered, page count:', manager.getTotalPageCount());
+
         if (manager.getTotalPageCount() > 0) {
           const exportStart = Date.now();
           ui.showLoading('Exporting PDF...', true);
@@ -190,6 +194,7 @@
 
             ui.showToast('PDF exported successfully!', 'success');
           } catch (error) {
+            console.error('Export error:', error);
             ui.hideLoading();
 
             // Track error
@@ -205,10 +210,15 @@
       if (exportBtn) {
         exportBtn.addEventListener('click', handleExport);
         console.log('Added click listener to exportBtn');
+      } else {
+        console.error('exportBtn not found in DOM!');
       }
+
       if (exportBtnHeader) {
         exportBtnHeader.addEventListener('click', handleExport);
         console.log('Added click listener to exportBtnHeader');
+      } else {
+        console.error('exportBtnHeader not found in DOM!');
       }
 
       // Clear all button
